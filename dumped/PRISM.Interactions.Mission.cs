@@ -165,6 +165,7 @@ public class MissionListViewCell : PRISM.Interactions.ListViewCell<PRISM.Adapter
     private PRISM.Interactions.ViewStateChanger stateChanger;
     private UnityEngine.GameObject jumpButton;
     private PRISM.Interactions.RewardItemIcon[] rewardItemIcons;
+    private PRISM.Interactions.ViewStateChanger[] rewardItemExpiredStateChangers;
     private UnityEngine.GameObject termRootObject;
     private ENTERPRISE.UI.UITextMeshProUGUI endAtText;
     private PRISM.AutoCancellationTokenSource canceller;
@@ -172,7 +173,7 @@ public class MissionListViewCell : PRISM.Interactions.ListViewCell<PRISM.Adapter
     public void UpdateContent(PRISM.Adapters.MissionViewModel data);
     private void OnDestroy();
 
-    private class <>c__DisplayClass12_0
+    private class <>c__DisplayClass13_0
     {
         public PRISM.Adapters.MissionViewModel data;
         public PRISM.Interactions.Mission.MissionListViewCell <>4__this;

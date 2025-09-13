@@ -28,14 +28,13 @@ public class ExchangeGoodsGridView : PRISM.Interactions.GridView<PRISM.Exchange.
     private PRISM.Interactions.FilterOnlyView filterView;
     private ENTERPRISE.UI.UITextMeshProUGUI emptyResultText;
     private FancyScrollView.Scroller scroller;
-    private PRISM.UITabGroupEx horizontalTabGroup;
+    private PRISM.Interactions.ToggleGroupView horizontalTabGroup;
     private System.Collections.Generic.IList<PRISM.Adapters.ExchangeProductGridListCellData> appliedFilterItems;
     private UniRx.Subject<System.ValueTuple<PRISM.Adapters.ExchangeProductListItemViewModel, PRISM.Module.Networking.IPurchaseExchangeProductReply>> onExchangeCompletedSubject;
     private UniRx.Subject<System.ValueTuple<ButtonGoToType, PRISM.Adapters.ExchangeProductListItemViewModel, PRISM.Module.Networking.IPurchaseExchangeProductReply>> onGoToOtherViewSubject;
     public System.IObservable<System.ValueTuple<PRISM.Adapters.ExchangeProductListItemViewModel, PRISM.Module.Networking.IPurchaseExchangeProductReply>> OnExchangeCompletedObservable { get; set; }
     public System.IObservable<System.ValueTuple<ButtonGoToType, PRISM.Adapters.ExchangeProductListItemViewModel, PRISM.Module.Networking.IPurchaseExchangeProductReply>> OnGoToOtherViewObservable { get; set; }
     public System.IObservable<int> OnSelectGoods { get; set; }
-    public PRISM.UITabGroupEx HorizontalTabGroup { get; set; }
     public PRISM.Adapters.ISortFilterView FilterOnlyView { get; set; }
     public float ScrollPosition { get; set; }
     public System.IObservable<int> OnAchievementDetail { get; set; }
@@ -48,6 +47,7 @@ public class ExchangeGoodsGridView : PRISM.Interactions.GridView<PRISM.Exchange.
     public void UpdateViewOnly();
     protected void SetupCellTemplate();
     private void Awake();
+    public void SetUp(UniRx.IReactiveProperty<int> horizontalTabIndex);
     private Cysharp.Threading.Tasks.UniTask _updateUseExchangeUIAsync(PRISM.Module.Networking.IProductStatus purchaseProduct);
     private void _updatePurchaseProductUI(PRISM.Module.Networking.IHavingProductStatus havingPurchaseProduct, PRISM.Module.Networking.IProductStatus purchaseProduct);
     private void PRISM.Adapters.IExchangeGridView.SetResourceLoader(PRISM.ResourceManagement.IResourceLoader resourceLoader);
@@ -59,11 +59,11 @@ public class ExchangeGoodsGridView : PRISM.Interactions.GridView<PRISM.Exchange.
     private class <>c
     {
         public static <>c <>9;
-        public static System.Func<PRISM.Adapters.ExchangeProductListItemViewModel, PRISM.Adapters.ExchangeProductGridListCellData> <>9__32_0;
-        private PRISM.Adapters.ExchangeProductGridListCellData <UpdateContents>b__32_0(PRISM.Adapters.ExchangeProductListItemViewModel item);
+        public static System.Func<PRISM.Adapters.ExchangeProductListItemViewModel, PRISM.Adapters.ExchangeProductGridListCellData> <>9__30_0;
+        private PRISM.Adapters.ExchangeProductGridListCellData <UpdateContents>b__30_0(PRISM.Adapters.ExchangeProductListItemViewModel item);
     }
 
-    private struct <_updateUseExchangeUIAsync>d__37 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_updateUseExchangeUIAsync>d__36 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -375,6 +375,13 @@ public class ExchangeProductDetailPopupView : UnityEngine.MonoBehaviour, PRISM.I
     public void Setup(PRISM.Adapters.ExchangeProductTicketListViewModel vm);
     private void <CreateFrameParameter>b__5_0();
     private void <CreateFrameParameter>b__5_1();
+
+    private class <>c
+    {
+        public static <>c <>9;
+        public static System.Func<PRISM.Domain.ProductKeyWithAmount, System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount>> <>9__14_0;
+        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <Setup>b__14_0(PRISM.Domain.ProductKeyWithAmount product);
+    }
 }
 
 // Namespace: PRISM.Interactions
@@ -839,7 +846,7 @@ public class ExchangeGoodsSetItem : UnityEngine.MonoBehaviour
     private UnityEngine.GameObject spaceLine;
     private PRISM.Interactions.Shop.GoodsInformationButton goodsInformationButton;
     public System.IObservable<PRISM.Domain.ProductKey> OnGoodsInformation { get; set; }
-    public void Setup(PRISM.Module.Networking.IProductStatus product, int amount, PRISM.ResourceManagement.IResourceLoader resourceLoader, bool displaySpaceLine, bool isShowDetail);
+    public void Setup(PRISM.Domain.ProductKeyWithAmount product, int amount, PRISM.ResourceManagement.IResourceLoader resourceLoader, bool displaySpaceLine, bool isShowDetail);
 }
 
 // Namespace: PRISM.Interactions.Exchange
@@ -852,7 +859,7 @@ public class ExchangeHistoryDetailItemContainerView : UnityEngine.MonoBehaviour
     private UniRx.Subject<PRISM.Domain.ProductKey> onGoodsInformationSubject;
     public System.IObservable<PRISM.Domain.ProductKey> OnGoodsInformation { get; set; }
     private void Awake();
-    public void Setup(string title, System.Collections.Generic.IReadOnlyList<PRISM.Module.Networking.IProductWithAmountStatus> itemList, PRISM.ResourceManagement.IResourceLoader resourceLoader);
+    public void Setup(string title, System.Collections.Generic.IReadOnlyList<PRISM.Domain.ProductKeyWithAmount> itemList, PRISM.ResourceManagement.IResourceLoader resourceLoader);
     private void <Setup>b__8_0(PRISM.Domain.ProductKey product);
 }
 

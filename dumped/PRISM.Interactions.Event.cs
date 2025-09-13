@@ -301,7 +301,7 @@ public class LiveEventRankingCell : PRISM.EnhancedListViewCell<PRISM.Adapters.Li
     private PRISM.Interactions.SimpleAchievementIconGroup achievementIconGroup;
     private UnityEngine.GameObject myselfCellBase;
     private PRISM.Interactions.ViewStateChanger myselfCellStateChanger;
-    private UnityEngine.GameObject[] rankingTypeObjects;
+    private PRISM.Interactions.ViewStateChanger rankingTypeStateChanger;
     private ENTERPRISE.UI.UITextMeshProUGUI point;
     private ENTERPRISE.UI.UITextMeshProUGUI score;
     private ENTERPRISE.UI.UITextMeshProUGUI idolPoint;

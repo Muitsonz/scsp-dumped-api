@@ -165,9 +165,11 @@ public class ShopPurchaseHistoryDetailPopupView : UnityEngine.MonoBehaviour, PRI
         public PRISM.Definitions.MasterData masterData;
         public PRISM.Interactions.ShopPurchaseHistoryDetailPopupView <>4__this;
         private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <SetupAsync>b__0(PRISM.Module.Networking.IProductWithAmountStatus x);
-        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <SetupAsync>b__1(PRISM.Module.Networking.IProductWithAmountStatus x);
-        private void <SetupAsync>b__2(UniRx.Unit _);
-        private void <SetupAsync>b__3(UniRx.Unit _);
+        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <SetupAsync>b__1(PRISM.Domain.ProductKeyWithAmount x);
+        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <SetupAsync>b__2(PRISM.Module.Networking.IProductWithAmountStatus x);
+        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <SetupAsync>b__3(PRISM.Domain.ProductKeyWithAmount x);
+        private void <SetupAsync>b__4(UniRx.Unit _);
+        private void <SetupAsync>b__5(UniRx.Unit _);
     }
 
     private struct <SetupAsync>d__19 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine

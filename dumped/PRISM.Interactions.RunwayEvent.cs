@@ -207,6 +207,7 @@ public class RunwayUnitConfirmationView : UnityEngine.MonoBehaviour, PRISM.Adapt
     public PRISM.Adapters.ILiveMvUnitListWindow UnitListWindow { get; set; }
     public Cysharp.Threading.Tasks.UniTask InitializeAsync(PRISM.Adapters.RunwayUnitConfirmationModel model, string backgroundImagePath, PRISM.ResourceManagement.IResourceLoader resourceLoader, System.Threading.CancellationToken ct);
     public void PlayMemberChangeEffect();
+    public void UpdateUnitName(string unitName);
     public void Terminate();
     private void <InitializeAsync>b__29_0(PRISM.Adapters.RunwayUnit unit);
     private void <InitializeAsync>b__29_1(PRISM.Adapters.RunwayUnitConfirmationUnitEditTabType type);

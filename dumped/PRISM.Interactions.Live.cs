@@ -155,6 +155,8 @@ public class LiveAutoLoopSettingUsageView : UnityEngine.MonoBehaviour
     private UniRx.CompositeDisposable disposables;
     public void Initialize(PRISM.Adapters.ILiveAutoLoopSettingUsageViewModel viewModel);
     public void UpdateFluctuateButtons(UniRx.IReactiveProperty<int> loopCount, PRISM.Module.Networking.ILimitedValueStatus autoLiveCount);
+    public void DisableFluctuateButtons();
+    public void SetInteractableSlider(bool isActive);
 
     private class <>c__DisplayClass7_0
     {
@@ -587,39 +589,39 @@ public class UnitRankingCategorySelectListView : PRISM.CommonListView<PRISM.Inte
 }
 
 // Namespace: PRISM.Interactions
-public class MusicRateDetailView : PRISM.OneTimeSetUpDisplay<PRISM.Adapters.MusicRateDetailViewModel>
+public class MusicRateDetailView : UnityEngine.MonoBehaviour
 {
     private PRISM.Interactions.MusicRateOverlayUserInfoView userInfoView;
-    private PRISM.UITabGroupEx tabGroup;
+    private PRISM.Interactions.ToggleGroupView tabGroup;
     private PRISM.Interactions.MusicRateRewardListView rewardListView;
     private PRISM.Interactions.MusicRateTargetMusicListView targetMusicListView;
-    private bool isRewardListInitialized;
-    private bool isTargetMusicListInitialized;
     private UniRx.Subject<System.ValueTuple<int, SongDifficultyLevel>> playMusicSubject;
     public System.IObservable<System.ValueTuple<int, SongDifficultyLevel>> OnPlayMusic { get; set; }
-    protected void _setUp(PRISM.Adapters.MusicRateDetailViewModel model);
+    public void Initialize(PRISM.Adapters.MusicRateDetailViewModel viewModel);
+    private void _initializeRewardList(PRISM.Adapters.MusicRateDetailViewModel viewModel);
+    private void _initializeMusicList(PRISM.Adapters.MusicRateDetailViewModel viewModel);
 
     private class <>c
     {
         public static <>c <>9;
-        public static System.Func<PRISM.Adapters.MusicRateRewardListCellData, float> <>9__9_1;
-        public static System.Func<PRISM.Adapters.MusicRateRewardListCellData, PRISM.Interactions.MusicRateRewardListCellType> <>9__9_2;
-        private float <_setUp>b__9_1(PRISM.Adapters.MusicRateRewardListCellData x);
-        private PRISM.Interactions.MusicRateRewardListCellType <_setUp>b__9_2(PRISM.Adapters.MusicRateRewardListCellData x);
+        public static System.Func<PRISM.Adapters.MusicRateRewardListCellData, float> <>9__8_1;
+        public static System.Func<PRISM.Adapters.MusicRateRewardListCellData, PRISM.Interactions.MusicRateRewardListCellType> <>9__8_2;
+        private float <_initializeRewardList>b__8_1(PRISM.Adapters.MusicRateRewardListCellData x);
+        private PRISM.Interactions.MusicRateRewardListCellType <_initializeRewardList>b__8_2(PRISM.Adapters.MusicRateRewardListCellData x);
+    }
+
+    private class <>c__DisplayClass8_0
+    {
+        public PRISM.Interactions.MusicRateDetailView <>4__this;
+        public PRISM.Adapters.MusicRateDetailViewModel viewModel;
+        private void <_initializeRewardList>b__0(UniRx.Unit _);
     }
 
     private class <>c__DisplayClass9_0
     {
+        public System.Collections.Generic.List<PRISM.Adapters.MusicRateTargetMusicListCellData> dataList;
         public PRISM.Interactions.MusicRateDetailView <>4__this;
-        public PRISM.Adapters.MusicRateDetailViewModel model;
-        private void <_setUp>b__0(int index, ENTERPRISE.UI.UITabGroup _);
-    }
-
-    private class <>c__DisplayClass9_1
-    {
-        public System.Collections.Generic.List<PRISM.Adapters.MusicRateTargetMusicListCellData> datList;
-        public <>c__DisplayClass9_0 CS$<>8__locals1;
-        private void <_setUp>b__3(int i);
+        private void <_initializeMusicList>b__0(int i);
     }
 }
 
@@ -635,20 +637,15 @@ public class MusicRateOverlayUserInfoView : UnityEngine.MonoBehaviour
 // Namespace: PRISM.Interactions
 public class MusicRateOverlayView : PRISM.Interactions.OverlayViewBase, PRISM.Adapters.IMusicRateOverlayView, PRISM.Adapters.IClosableOverlayView<System.ValueTuple<int, SongDifficultyLevel>>, PRISM.Adapters.IOverlayView, PRISM.Adapters.IClosable<System.ValueTuple<int, SongDifficultyLevel>>
 {
-    private PRISM.UITabGroupEx rateTabGroup;
+    private PRISM.Interactions.ToggleGroupView rateToggleGroup;
     private PRISM.Interactions.MusicRateDetailView highScoreRateView;
     private PRISM.Interactions.MusicRateDetailView technicalRateView;
     private PRISM.Interactions.ButtonView backButton;
-    private PRISM.Live.MusicRateType initialDisplayType;
     private Cysharp.Threading.Tasks.UniTaskCompletionSource<System.ValueTuple<int, SongDifficultyLevel>> onClose;
-    private PRISM.Adapters.MusicRateDetailViewModel highScoreRateData;
-    private PRISM.Adapters.MusicRateDetailViewModel technicalRateData;
     public Cysharp.Threading.Tasks.UniTask<System.ValueTuple<int, SongDifficultyLevel>> OnCloseRequested { get; set; }
     public void Assign(PRISM.Live.MusicRateType initialDisplayType, PRISM.Adapters.MusicRateDetailViewModel highScoreRateData, PRISM.Adapters.MusicRateDetailViewModel technicalRateData);
-    public Cysharp.Threading.Tasks.UniTask ShowAsync(System.Threading.CancellationToken ct);
-    private void <Assign>b__10_0(System.ValueTuple<int, SongDifficultyLevel> x);
-    private void <ShowAsync>b__11_0(int index, ENTERPRISE.UI.UITabGroup tabGroup);
-    private void <ShowAsync>b__11_1(UniRx.Unit _);
+    private void <Assign>b__7_0(System.ValueTuple<int, SongDifficultyLevel> x);
+    private void <Assign>b__7_1(UniRx.Unit _);
 }
 
 // Namespace: PRISM.Interactions
@@ -1333,6 +1330,7 @@ public class SkipLiveConfirmationPopupView : UnityEngine.MonoBehaviour, PRISM.In
     protected PRISM.HowToPlayPopupOpener howToPlayPopupOpener;
     private PRISM.Interactions.LiveAutoLoopSettingUsageView loopSettingUsageView;
     private PRISM.Live.LiveBoostUsageRewardView rewardView;
+    private PRISM.Interactions.ToggleButtonView alwaysMaxToggle;
     private static int SkipButtonIndex;
     private Cysharp.Threading.Tasks.UniTaskCompletionSource<bool> onClick;
     private PRISM.Adapters.SkipLiveConfirmationPopupViewModel viewModel;
@@ -1348,13 +1346,14 @@ public class SkipLiveConfirmationPopupView : UnityEngine.MonoBehaviour, PRISM.In
     public Cysharp.Threading.Tasks.UniTask HideAsync();
     public Cysharp.Threading.Tasks.UniTask<bool> LoadAsync(System.Threading.CancellationToken ct);
     public Cysharp.Threading.Tasks.UniTask TerminateAsync();
-    private void <CreateFrameParameter>b__15_0();
-    private void <CreateFrameParameter>b__15_1();
-    private void <CreateFrameParameter>b__15_2();
-    private void <CreateFrameParameter>b__15_3();
-    private void <ShowAsync>b__16_0(int value);
+    private void <CreateFrameParameter>b__16_0();
+    private void <CreateFrameParameter>b__16_1();
+    private void <CreateFrameParameter>b__16_2();
+    private void <CreateFrameParameter>b__16_3();
+    private void <ShowAsync>b__17_0(int value);
+    private void <ShowAsync>g__UpdateUsageViewInAlwaysStatus|17_1(bool isOn);
 
-    private struct <ShowAsync>d__16 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <ShowAsync>d__17 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -4905,6 +4904,7 @@ public class LiveUnitConfirmationUnitCommonView : UnityEngine.MonoBehaviour, PRI
     public System.IObservable<UniRx.Unit> OnReset { get; set; }
     public System.IObservable<UniRx.Unit> OnEasyCostumeChange { get; set; }
     public void Initialize(UniRx.IReadOnlyReactiveProperty<PRISM.Live.ILiveUnit> currentUnit);
+    public void UpdateUnitName(string text);
     private void <Initialize>b__17_0(PRISM.Live.ILiveUnit unit);
 }
 

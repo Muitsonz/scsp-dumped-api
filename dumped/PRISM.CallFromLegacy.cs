@@ -314,6 +314,7 @@ public class SystemSettingsCaller : PRISM.Legacy.ISystemSettingsCaller, PRISM.Le
     public float CalculateCategoryVolume(PRISM.SoundCategory category);
     public void ApplySMAA();
     private static PRISM.Service.SystemSettingsSaveData _getSaveData();
+    public void ApplyGraphicProperty(GraphicProperty graphicProperty, bool isIngame, bool isRhythmGame);
 }
 
 private class <PrivateImplementationDetails>

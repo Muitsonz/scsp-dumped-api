@@ -23,15 +23,9 @@ public class AnnounceModel
     private static int PageLimit;
     private System.Collections.Generic.Dictionary<AnnounceCategory, CategoryInfo> categoryInfos;
     private PRISM.Domain.IAnnounceService announceService;
-    private System.Collections.Generic.IReadOnlyList<AnnounceCategory> <VisibleCategories>k__BackingField;
-    public System.Collections.Generic.IReadOnlyList<AnnounceCategory> VisibleCategories { get; set; }
-    public static Cysharp.Threading.Tasks.UniTask<PRISM.Service.AnnounceModel> CreateAsync(PRISM.Domain.IAnnounceService announceService, System.Threading.CancellationToken ct);
     public CategoryInfo GetCategoryInfo(AnnounceCategory category);
-    public Cysharp.Threading.Tasks.UniTask ReloadCategoryInfoAsync(AnnounceCategory category, System.Threading.CancellationToken ct);
+    public Cysharp.Threading.Tasks.UniTask LoadCategoryInfoAsync(AnnounceCategory category, System.Threading.CancellationToken ct);
     public Cysharp.Threading.Tasks.UniTask RequestMoreDataAsync(AnnounceCategory category, System.Threading.CancellationToken ct);
-    public Cysharp.Threading.Tasks.UniTask<PRISM.Module.Networking.IAnnounceDetailStatus> GetAnnounceDetailReplyAsync(string articleId, System.Threading.CancellationToken ct);
-    public Cysharp.Threading.Tasks.UniTask<PRISM.Module.Networking.IGetAnnouncePopUpReply> GetAnnouncePopUpReplyAsync(System.Threading.CancellationToken ct);
-    public Cysharp.Threading.Tasks.UniTask<PRISM.Module.Networking.IConfirmedAnnounceReply> ConfirmedAnnounceReplyAsync(string articleId, System.Threading.CancellationToken ct);
 
     public class CategoryInfo
     {
@@ -41,66 +35,19 @@ public class AnnounceModel
         public System.Collections.Generic.List<PRISM.Module.Networking.IAnnounceStatus> announceStatusList { get; set; }
     }
 
-    private class <>c__DisplayClass10_0
+    private class <>c__DisplayClass7_0
     {
         public CategoryInfo info;
         private bool <RequestMoreDataAsync>b__0(PRISM.Module.Networking.IAnnounceStatus x);
     }
 
-    private class <>c__DisplayClass10_1
+    private class <>c__DisplayClass7_1
     {
         public PRISM.Module.Networking.IAnnounceStatus x;
         private bool <RequestMoreDataAsync>b__1(PRISM.Module.Networking.IAnnounceStatus y);
     }
 
-    private struct <ConfirmedAnnounceReplyAsync>d__13 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
-    {
-        public int <>1__state;
-        public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<PRISM.Module.Networking.IConfirmedAnnounceReply> <>t__builder;
-        public PRISM.Service.AnnounceModel <>4__this;
-        public string articleId;
-        public System.Threading.CancellationToken ct;
-        private Awaiter<PRISM.Module.Networking.IConfirmedAnnounceReply> <>u__1;
-        private void MoveNext();
-        private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
-    }
-
-    private struct <CreateAsync>d__7 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
-    {
-        public int <>1__state;
-        public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<PRISM.Service.AnnounceModel> <>t__builder;
-        public PRISM.Domain.IAnnounceService announceService;
-        public System.Threading.CancellationToken ct;
-        private PRISM.Service.AnnounceModel <model>5__2;
-        private Awaiter <>u__1;
-        private void MoveNext();
-        private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
-    }
-
-    private struct <GetAnnounceDetailReplyAsync>d__11 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
-    {
-        public int <>1__state;
-        public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<PRISM.Module.Networking.IAnnounceDetailStatus> <>t__builder;
-        public PRISM.Service.AnnounceModel <>4__this;
-        public string articleId;
-        public System.Threading.CancellationToken ct;
-        private Awaiter<PRISM.Module.Networking.IGetAnnounceDetailReply> <>u__1;
-        private void MoveNext();
-        private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
-    }
-
-    private struct <GetAnnouncePopUpReplyAsync>d__12 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
-    {
-        public int <>1__state;
-        public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<PRISM.Module.Networking.IGetAnnouncePopUpReply> <>t__builder;
-        public PRISM.Service.AnnounceModel <>4__this;
-        public System.Threading.CancellationToken ct;
-        private Awaiter<PRISM.Module.Networking.IGetAnnouncePopUpReply> <>u__1;
-        private void MoveNext();
-        private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
-    }
-
-    private struct <ReloadCategoryInfoAsync>d__9 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <LoadCategoryInfoAsync>d__6 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -113,14 +60,14 @@ public class AnnounceModel
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <RequestMoreDataAsync>d__10 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <RequestMoreDataAsync>d__7 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
         public PRISM.Service.AnnounceModel <>4__this;
         public AnnounceCategory category;
         public System.Threading.CancellationToken ct;
-        private <>c__DisplayClass10_0 <>8__1;
+        private <>c__DisplayClass7_0 <>8__1;
         private Awaiter<PRISM.Module.Networking.IGetAnnounceListReply> <>u__1;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
@@ -2849,12 +2796,18 @@ public class LiveMvUnitConfirmationModel : PRISM.Service.Live.ILiveUnitConfirmat
         public static System.Func<PRISM.Live.IIdol, bool> <>9__33_5;
         public static System.Func<PRISM.Live.LiveMVIdol, bool> <>9__37_4;
         public static System.Func<PRISM.Live.LiveMVIdol, bool> <>9__37_5;
+        public static System.Func<PRISM.Live.LiveMVIdol, bool> <>9__37_7;
+        public static System.Func<PRISM.Live.LiveMVIdol, bool> <>9__37_8;
+        public static System.Func<PRISM.Live.LiveMVIdol, bool> <>9__37_9;
         public static System.Func<PRISM.Live.LiveMVIdol, int, PRISM.Module.Networking.IMvUnitSlotStatus> <>9__37_0;
         public static System.Func<PRISM.Live.LiveMVIdol, int, PRISM.Module.Networking.IMvUnitSlotStatus> <>9__44_0;
         private int <.ctor>b__33_0(PRISM.Module.Networking.IMvUnitStatus unit);
         private bool <.ctor>b__33_5(PRISM.Live.IIdol idol);
         private bool <UpdateRecommendedUnitAsync>b__37_4(PRISM.Live.LiveMVIdol x);
         private bool <UpdateRecommendedUnitAsync>b__37_5(PRISM.Live.LiveMVIdol _);
+        private bool <UpdateRecommendedUnitAsync>b__37_7(PRISM.Live.LiveMVIdol _);
+        private bool <UpdateRecommendedUnitAsync>b__37_8(PRISM.Live.LiveMVIdol idol);
+        private bool <UpdateRecommendedUnitAsync>b__37_9(PRISM.Live.LiveMVIdol _);
         private PRISM.Module.Networking.IMvUnitSlotStatus <UpdateRecommendedUnitAsync>b__37_0(PRISM.Live.LiveMVIdol idol, int index);
         private PRISM.Module.Networking.IMvUnitSlotStatus <LiveUnitEasyCostumeChangeAsync>b__44_0(PRISM.Live.LiveMVIdol x, int i);
     }
@@ -2884,15 +2837,22 @@ public class LiveMvUnitConfirmationModel : PRISM.Service.Live.ILiveUnitConfirmat
 
     private class <>c__DisplayClass37_1
     {
-        public int id;
-        private bool <UpdateRecommendedUnitAsync>b__7(PRISM.Live.LiveMVIdol x);
+        public System.Collections.Generic.HashSet<int> candidateMembers;
+        private bool <UpdateRecommendedUnitAsync>b__10(PRISM.Live.LiveMVIdol x);
+        private bool <UpdateRecommendedUnitAsync>b__11(PRISM.Live.LiveMVIdol x);
     }
 
     private class <>c__DisplayClass37_2
     {
+        public int id;
+        private bool <UpdateRecommendedUnitAsync>b__12(PRISM.Live.LiveMVIdol x);
+    }
+
+    private class <>c__DisplayClass37_3
+    {
         public int unitId;
-        private bool <UpdateRecommendedUnitAsync>b__8(PRISM.Live.LiveMVIdol idol);
-        private bool <UpdateRecommendedUnitAsync>b__9(PRISM.Live.LiveMVIdol idol);
+        private bool <UpdateRecommendedUnitAsync>b__13(PRISM.Live.LiveMVIdol idol);
+        private bool <UpdateRecommendedUnitAsync>b__14(PRISM.Live.LiveMVIdol idol);
     }
 
     private class <>c__DisplayClass40_0
@@ -3913,12 +3873,7 @@ private class <PrivateImplementationDetails>
     private static __StaticArrayInitTypeSize=7038 7D7FD16C312297A4A3FA024753135078C40A5885CC832B108730D42F14ABD139;
     private static __StaticArrayInitTypeSize=44 7DE3C63E518818BDEC6F3540E0A98247CF98D12FF04D4895754EAB71148610E7;
     private static __StaticArrayInitTypeSize=44 A7256E3A46EBC55CC6BC9E036E6C6FFE404C94068462DFF90BFF2EFAEADB959B;
-    private static __StaticArrayInitTypeSize=12 B6599D21CE74F24FA42D57991D6B0D0C5770322C90AF734EEB36A37F74090137;
     private static __StaticArrayInitTypeSize=44 F47362215AD061FD681C0EA9D3A9E2C1FFDB94395F10477DFE1B6D84D9D6E226;
-
-    private struct __StaticArrayInitTypeSize=12 : System.ValueType
-    {
-    }
 
     private struct __StaticArrayInitTypeSize=16 : System.ValueType
     {

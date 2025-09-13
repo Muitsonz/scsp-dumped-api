@@ -1568,21 +1568,38 @@ public class GashaEffectSceneControlView : UnityEngine.MonoBehaviour
 }
 
 // Namespace: PRISM.Interactions.Gasha
+public class IdleAnimationPair
+{
+    public int characterId;
+    public UnityEngine.AnimationClip clip;
+}
+
+// Namespace: PRISM.Interactions.Gasha
 public class GashaEffectSpotLightSceneControlView : PRISM.Interactions.Gasha.GashaEffectSceneControlView
 {
     private PRISM.Interactions.Drama.DramaSceneCharacter character;
     private PRISM.Interactions.Gasha.GashaEffectMonitorCard monitorCard;
     private UnityEngine.GameObject[] rarityUpObjects;
+    private PRISM.Interactions.Gasha.IdleAnimationPair[] idleAnimationPairs;
+    private UnityEngine.AnimationClip defaultAnimationClip;
     public Cysharp.Threading.Tasks.UniTask PlayAsync(int initialRarity, PRISM.Adapters.GashaEffectDrawViewModel viewModel, PRISM.ResourceManagement.IResourceLoader resourceLoader, System.Threading.CancellationToken ct);
+    private void _changeIdleAnimation(int targetCharacterId, PRISM.Adapters.CharacterAcquisitionModel model, int rarity);
+    private void _changeAnimationClip(string trackPath, UnityEngine.AnimationClip clip);
 
-    private class <>c__DisplayClass3_0
+    private class <>c__DisplayClass5_0
     {
         public UnityEngine.Playables.PlayableDirector director;
         public double duration;
         private bool <PlayAsync>b__0();
     }
 
-    private struct <PlayAsync>d__3 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private class <>c__DisplayClass6_0
+    {
+        public int targetCharacterId;
+        private bool <_changeIdleAnimation>b__0(PRISM.Interactions.Gasha.IdleAnimationPair pair);
+    }
+
+    private struct <PlayAsync>d__5 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -1591,7 +1608,7 @@ public class GashaEffectSpotLightSceneControlView : PRISM.Interactions.Gasha.Gas
         public int initialRarity;
         public PRISM.ResourceManagement.IResourceLoader resourceLoader;
         public System.Threading.CancellationToken ct;
-        private <>c__DisplayClass3_0 <>8__1;
+        private <>c__DisplayClass5_0 <>8__1;
         private Awaiter <>u__1;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
@@ -1602,6 +1619,7 @@ public class GashaEffectSpotLightSceneControlView : PRISM.Interactions.Gasha.Gas
 public class GashaEffectTimelineSwitcher
 {
     public static void Switch(PRISM.Interactions.TimelineScene timelineScene, PRISM.UnitIdol unitIdol, PRISM.Adapters.CharacterAcquisitionModel model, int initialRarity);
+    public static string GetRarityTrackName(PRISM.Adapters.CharacterAcquisitionModel model, int initialRarity);
     private static void <Switch>g__SwitchProduceIdolOrSupportCharacter|1_0(UnityEngine.Timeline.TrackAsset track, bool muted, <>c__DisplayClass1_0& );
     private static void <Switch>g__SwitchEffect|1_1(UnityEngine.Timeline.TrackAsset effectGroupTrack, <>c__DisplayClass1_0& );
     private static void <Switch>g__SwitchCharacter|1_2(UnityEngine.Timeline.TrackAsset characterGroupTrack, <>c__DisplayClass1_0& );
@@ -1623,8 +1641,8 @@ public class GashaEffectTimelineSwitcher
 
     private struct <>c__DisplayClass1_0 : System.ValueType
     {
-        public int initialRarity;
         public PRISM.Adapters.CharacterAcquisitionModel model;
+        public int initialRarity;
         public PRISM.UnitIdol unitIdol;
     }
 }
@@ -2102,7 +2120,6 @@ public class GashaResultShare : UnityEngine.MonoBehaviour
     private Cysharp.Threading.Tasks.UniTask _onClickShareButtonAsync(System.Threading.CancellationToken ct);
     private string _getProductName(PRISM.Module.Networking.IProductStatus selectedProduct);
     private string _getShareText();
-    private string _getShareTextLastLine();
     public void OnDestroy();
     private void <Setup>b__34_2(System.ValueTuple<PRISM.Module.Networking.IProductWithAmountStatus, int> obj);
     private void <Setup>b__35_0(System.ValueTuple<bool, PRISM.Interactions.Gasha.GashaResultItem> obj);
@@ -2381,6 +2398,7 @@ public class GashaBannerCarousel : PRISM.Carousel<PRISM.Domain.Gasha, PRISM.Inte
     public void Jump(int index);
     public void Update();
     public void StartCarouselEvent();
+    public void Dispose();
 
     private class <>c__DisplayClass23_0
     {
@@ -2746,10 +2764,10 @@ public class SwipeButton : UnityEngine.MonoBehaviour, UnityEngine.EventSystems.I
 
 private class <PrivateImplementationDetails>
 {
-    private static __StaticArrayInitTypeSize=3698 50AA2B99D58D98EAF4B235535A76CF6A690535AA5A9BA543B0094754EA7BE0E8;
-    private static __StaticArrayInitTypeSize=5930 B0D1F6406EC16430A887919B61FF2484B57C180289E51D86AB10E503A144C6DD;
+    private static __StaticArrayInitTypeSize=5930 5A77AFC7DAE371911FBC098F20D158B2C11558FF4AFB2FD311F087694F6513DE;
+    private static __StaticArrayInitTypeSize=3745 D455B5FCF5EB0B8E4C1B024F12D51578C891FBB2B33455F3184E8B974A9F4FE0;
 
-    private struct __StaticArrayInitTypeSize=3698 : System.ValueType
+    private struct __StaticArrayInitTypeSize=3745 : System.ValueType
     {
     }
 

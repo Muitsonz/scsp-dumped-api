@@ -88,6 +88,25 @@ public class GlobalMenuButtonViewBase : UnityEngine.MonoBehaviour, PRISM.Adapter
 }
 
 // Namespace: PRISM.Interactions.GlobalMenu
+public class GlobalMenuSubFooterView : UnityEngine.MonoBehaviour, PRISM.Adapters.IGlobalMenuSubFooterView
+{
+    private PRISM.Interactions.ButtonWithBadgeView missionButton;
+    private PRISM.Interactions.ButtonWithBadgeView presentButton;
+    private PRISM.Interactions.ButtonWithBadgeView exchangeButton;
+    public System.IObservable<UniRx.Unit> OnClickMissionButton { get; set; }
+    public System.IObservable<UniRx.Unit> OnClickPresentButton { get; set; }
+    public System.IObservable<UniRx.Unit> OnClickExchangeButton { get; set; }
+    public void Initialize(PRISM.Adapters.IHomeNotificationModelContainer notificationModelContainer);
+    private static void _initializeButton(PRISM.Interactions.ButtonWithBadgeView buttonView, PRISM.Adapters.IHomeNotificationModelContainer notificationModelContainer, NotificationPlace notificationPlace, System.Threading.CancellationToken ct);
+
+    private class <>c__DisplayClass10_0
+    {
+        public PRISM.Interactions.ButtonWithBadgeView buttonView;
+        private void <_initializeButton>b__0(PRISM.Adapters.IBadgeModel x);
+    }
+}
+
+// Namespace: PRISM.Interactions.GlobalMenu
 public class GlobalMenuOverlayView : PRISM.Interactions.OverlayViewWithCloseButton, PRISM.Adapters.GlobalMenu.IGlobalMenuOverlayView, PRISM.Adapters.IClosableOverlayView<UniRx.Unit>, PRISM.Adapters.IOverlayView, PRISM.Adapters.IClosable<UniRx.Unit>
 {
     private PRISM.Interactions.GlobalMenu.GlobalMenuSeasonMissionBannerView seasonMissionBannerView;
@@ -98,6 +117,7 @@ public class GlobalMenuOverlayView : PRISM.Interactions.OverlayViewWithCloseButt
     private PRISM.Interactions.ButtonView backgroundButton;
     private UnityEngine.CanvasGroup canvasGroup;
     private PRISM.Interactions.ButtonView applicationQuitButton;
+    private PRISM.Interactions.GlobalMenu.GlobalMenuSubFooterView subFooterView;
     protected PRISM.Definitions.SoundKey closeSoundKey { get; set; }
     public System.IObservable<UniRx.Unit> OnClickHomeButton { get; set; }
     public System.IObservable<UniRx.Unit> OnClickApplicationQuitButton { get; set; }
@@ -105,10 +125,11 @@ public class GlobalMenuOverlayView : PRISM.Interactions.OverlayViewWithCloseButt
     public PRISM.Adapters.IGlobalMenuBannerGroupView BannerGroupView { get; set; }
     public PRISM.Adapters.GlobalMenu.IGlobalMenuButtonGroupView MenuButtonGroupView { get; set; }
     public PRISM.Adapters.IMainFooterButtonGroupView FooterButtonGroupView { get; set; }
+    public PRISM.Adapters.IGlobalMenuSubFooterView SubFooterView { get; set; }
     public void CloseOverlay();
     public Cysharp.Threading.Tasks.UniTask ShowAsync(System.Threading.CancellationToken ct);
     private void Awake();
-    private void <Awake>b__24_0(UniRx.Unit _);
+    private void <Awake>b__27_0(UniRx.Unit _);
 }
 
 // Namespace: PRISM.Interactions.GlobalMenu
@@ -127,14 +148,14 @@ public class GlobalMenuSeasonMissionBannerView : UnityEngine.MonoBehaviour, PRIS
 
 private class <PrivateImplementationDetails>
 {
-    private static __StaticArrayInitTypeSize=884 20D7F05AD531FC7D06885F41B216F995ED94F2C6379CE8F2BE83A7D912D57758;
-    private static __StaticArrayInitTypeSize=558 7019232F9872E727484E983297EB7CE42A641BF1505CE27028E4AEADE738283C;
+    private static __StaticArrayInitTypeSize=616 1EEDAE317C23F0AB5F89366C83377A9273EB70AC2C54311B7C13525BEB71728D;
+    private static __StaticArrayInitTypeSize=980 3E520ABAF073B67EE4BE279E805E99253149BCDEE82F1BA89AD65C26A152E6AC;
 
-    private struct __StaticArrayInitTypeSize=558 : System.ValueType
+    private struct __StaticArrayInitTypeSize=616 : System.ValueType
     {
     }
 
-    private struct __StaticArrayInitTypeSize=884 : System.ValueType
+    private struct __StaticArrayInitTypeSize=980 : System.ValueType
     {
     }
 }

@@ -528,6 +528,8 @@ public class DramaSceneOperationHandler : UnityEngine.MonoBehaviour, PRISM.Adapt
     private UniRx.ReactiveProperty<bool> isPaused;
     private PRISM.Interactions.Drama.DramaSubtitleOperateData[] dramaSubtitleOperateDataArray;
     private System.Collections.Generic.IReadOnlyList<PRISM.Interactions.Drama.DramaFinishMarker> finishMarkers;
+    private bool isDraggingSeekBar;
+    private double lastDirectorTime;
     private bool <IsEnd>k__BackingField;
     private PRISM.Definitions.Drama.UI.DramaPlaySpeedType <PlaySpeedType>k__BackingField;
     public UniRx.IReadOnlyReactiveProperty<bool> IsPaused { get; set; }
@@ -550,36 +552,36 @@ public class DramaSceneOperationHandler : UnityEngine.MonoBehaviour, PRISM.Adapt
     public void JumpByTimelineTime(double time, bool clearCrossFade);
     public void SetPlaySpeed(PRISM.Definitions.Drama.UI.DramaPlaySpeedType speedType);
     public System.Collections.Generic.IEnumerable<PRISM.Adapters.Drama.UI.DramaLogCellViewModel> CreateDramaLogCellViewModels();
+    public void OnSeekBarDrag(bool beginDrag);
     private void OnDestroy();
     private void _setPlaySpeed(float playSpeed);
     private static void _clearAllCrossfadeBuffer(UnityEngine.Playables.PlayableDirector director);
     private void _updateCinemachineCamera(float deltaTime);
-    private void <ManualUpdate>g___finish|20_0(double currentTime, <>c__DisplayClass20_0& );
-    private void <JumpByNormalizedTime>b__32_0();
-    private static void <_clearAllCrossfadeBuffer>g__ProcessPlayableGraphRecursively|38_0<TPlayableType>(UnityEngine.Playables.Playable playable, System.Action<TPlayableType> action);
+    private void <ManualUpdate>g___finish|22_0(double currentTime, <>c__DisplayClass22_0& );
+    private static void <_clearAllCrossfadeBuffer>g__ProcessPlayableGraphRecursively|41_0<TPlayableType>(UnityEngine.Playables.Playable playable, System.Action<TPlayableType> action);
 
     private class <>c
     {
         public static <>c <>9;
-        public static System.Func<PRISM.Interactions.Drama.DramaSubtitleOperateData, PRISM.Adapters.Drama.UI.DramaLogCellViewModel> <>9__35_1;
-        public static System.Action<PRISM.FadeMixerBehaviour> <>9__38_1;
-        private PRISM.Adapters.Drama.UI.DramaLogCellViewModel <CreateDramaLogCellViewModels>b__35_1(PRISM.Interactions.Drama.DramaSubtitleOperateData data);
-        private void <_clearAllCrossfadeBuffer>b__38_1(PRISM.FadeMixerBehaviour fadeMixerBehaviour);
+        public static System.Func<PRISM.Interactions.Drama.DramaSubtitleOperateData, PRISM.Adapters.Drama.UI.DramaLogCellViewModel> <>9__37_1;
+        public static System.Action<PRISM.FadeMixerBehaviour> <>9__41_1;
+        private PRISM.Adapters.Drama.UI.DramaLogCellViewModel <CreateDramaLogCellViewModels>b__37_1(PRISM.Interactions.Drama.DramaSubtitleOperateData data);
+        private void <_clearAllCrossfadeBuffer>b__41_1(PRISM.FadeMixerBehaviour fadeMixerBehaviour);
     }
 
-    private struct <>c__DisplayClass20_0 : System.ValueType
+    private struct <>c__DisplayClass22_0 : System.ValueType
     {
         public double duration;
         public PRISM.Interactions.Drama.DramaSceneOperationHandler <>4__this;
     }
 
-    private class <>c__DisplayClass20_1
+    private class <>c__DisplayClass22_1
     {
         public string chosenLabel;
         private bool <ManualUpdate>b__1(PRISM.Interactions.Drama.DramaFinishMarker x);
     }
 
-    private class <>c__DisplayClass25_0
+    private class <>c__DisplayClass27_0
     {
         public PRISM.Interactions.Drama.DramaSceneOperationHandler <>4__this;
         public bool isPausedPrev;
@@ -587,14 +589,14 @@ public class DramaSceneOperationHandler : UnityEngine.MonoBehaviour, PRISM.Adapt
         private void <CreateTemporalPauseScope>b__0();
     }
 
-    private class <>c__DisplayClass35_0
+    private class <>c__DisplayClass37_0
     {
         public double currentStartTime;
         public PRISM.Interactions.Drama.DramaSceneOperationHandler <>4__this;
         private bool <CreateDramaLogCellViewModels>b__0(PRISM.Interactions.Drama.DramaSubtitleOperateData data);
     }
 
-    private struct <_moveTimeAsync>d__30 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_moveTimeAsync>d__32 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -744,13 +746,19 @@ public class DramaSceneTimeHandler : UnityEngine.MonoBehaviour, PRISM.Adapters.D
     public double GetDuration();
     public double GetCurrentTime(bool needNormalize);
     private double <GetEndTime>g___getEndTime|6_0();
-    private bool <GetEndTime>b__6_1(PRISM.Interactions.Drama.DramaFinishMarker x);
 
     private class <>c
     {
         public static <>c <>9;
         public static System.Func<double, UnityEngine.Timeline.TimelineClip, bool> <>9__5_0;
         private bool <GetStartTime>b__5_0(double time, UnityEngine.Timeline.TimelineClip clip);
+    }
+
+    private class <>c__DisplayClass6_0
+    {
+        public UnityEngine.Playables.PlayableDirector director;
+        public PRISM.Interactions.Drama.DramaSceneTimeHandler <>4__this;
+        private bool <GetEndTime>b__1(PRISM.Interactions.Drama.DramaFinishMarker x);
     }
 }
 
@@ -904,8 +912,10 @@ public interface ITimingPlayableAsset
 public class DramaFinishMarker : PRISM.Interactions.Drama.DramaMarkerBase
 {
     private string label;
+    private string confluenceStartLabel;
     private double timeOffset;
     public string Label { get; set; }
+    public string ConfluenceStartLabel { get; set; }
     public double TimeWithOffset { get; set; }
     public void SetTimeOffset(double offset);
     public void Invoke(UnityEngine.Playables.Playable origin, object context, PRISM.Interactions.Drama.DramaScene scene);
@@ -1093,6 +1103,7 @@ public class DramaMenuView : UnityEngine.MonoBehaviour, PRISM.Adapters.Drama.UI.
     public System.IObservable<UniRx.Unit> OnClickTogglePauseButton { get; set; }
     public System.IObservable<UniRx.Unit> OnClickHideMenuButton { get; set; }
     public System.IObservable<float> OnSeekBarValueChanged { get; set; }
+    public UniRx.IReactiveProperty<bool> OnSeekBarDragging { get; set; }
     public System.IObservable<UniRx.Unit> OnClickTurnPageButtonForward { get; set; }
     public System.IObservable<UniRx.Unit> OnClickTurnPageButtonBackward { get; set; }
     public System.IObservable<UniRx.Unit> OnClickShareButton { get; set; }
@@ -1109,9 +1120,9 @@ public class DramaMenuView : UnityEngine.MonoBehaviour, PRISM.Adapters.Drama.UI.
     public void SetCurrentText(System.TimeSpan timeSpan);
     public void SetTimeDurationText(System.TimeSpan timeSpan);
     private void Awake();
-    private void <CreateHideMenuScope>b__53_0();
+    private void <CreateHideMenuScope>b__55_0();
 
-    private class <>c__DisplayClass50_0
+    private class <>c__DisplayClass52_0
     {
         public PRISM.Interactions.Drama.UI.DramaMenuView <>4__this;
         public UniRx.IReactiveProperty<PRISM.Definitions.Drama.UI.DramaPlaySpeedType> playSpeedType;

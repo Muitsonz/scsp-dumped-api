@@ -33,7 +33,7 @@ public class ADVLogTalkNode : UnityEngine.MonoBehaviour
     private UnityEngine.GameObject speakerCharaBackGround;
     private UnityEngine.GameObject speakerProducerBackGround;
     private ENTERPRISE.UI.UITextMeshProUGUI talkContent;
-    private ENTERPRISE.UI.ButtonBase voiceButton;
+    private PRISM.Interactions.ButtonView voiceButton;
     private UnityEngine.UI.Image voiceButtonOn;
     private UnityEngine.UI.Image voiceButtonOff;
     private UnityEngine.GameObject iconRoot;
@@ -49,17 +49,7 @@ public class ADVLogTalkNode : UnityEngine.MonoBehaviour
     private void _setSpeaker();
     private Cysharp.Threading.Tasks.UniTask _onClickVoiceButtonAsync();
     private Cysharp.Threading.Tasks.UniTask _loadCharaIconAsync(PRISM.ResourceManagement.IResourceLoader resourceLoader);
-    private Cysharp.Threading.Tasks.UniTask <InitializeAsync>b__16_0();
-
-    private struct <<InitializeAsync>b__16_0>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
-    {
-        public int <>1__state;
-        public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
-        public PRISM.Interactions.ADV.ADVLogTalkNode <>4__this;
-        private Awaiter <>u__1;
-        private void MoveNext();
-        private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
-    }
+    private void <InitializeAsync>b__16_0(UniRx.Unit _);
 
     private class <>c__DisplayClass19_0
     {
@@ -154,7 +144,7 @@ public class AdvLauncherView : UnityEngine.MonoBehaviour, PRISM.Adapters.Adv.IAd
 // Namespace: PRISM.Interactions.Adv
 public class AdvChoiceButton : UnityEngine.MonoBehaviour
 {
-    private ENTERPRISE.UI.ButtonBase button;
+    private PRISM.Interactions.ButtonView button;
     private ENTERPRISE.UI.UITextMeshProUGUI uiText;
     private UnityEngine.GameObject voIcon;
     private UnityEngine.GameObject daIcon;
@@ -261,7 +251,7 @@ public class AdvChoiceButtonGroup : UnityEngine.MonoBehaviour, PRISM.Adapters.Ad
 // Namespace: PRISM.Interactions.Adv
 public class AdvForceSkipButton : UnityEngine.MonoBehaviour
 {
-    private ENTERPRISE.UI.UIButton button;
+    private PRISM.Interactions.ButtonView button;
     private UnityEngine.UI.Image defaultTextImage;
     private UnityEngine.UI.Image skipBeforeChoiceTextImage;
     public System.IObservable<UniRx.Unit> OnClick { get; set; }
@@ -305,17 +295,20 @@ public class AdvMenuFader : UnityEngine.MonoBehaviour, PRISM.Adapters.Adv.IAdvMe
 // Namespace: PRISM.Interactions.Adv
 public class AdvMenuFavoriteOptionButton : UnityEngine.MonoBehaviour
 {
-    private ENTERPRISE.UI.ToggleButton button;
+    private PRISM.Interactions.ButtonView button;
+    private PRISM.Interactions.ViewStateChanger isFavoriteStateChanger;
     private ENTERPRISE.UI.UITextMeshProUGUI buttonText;
-    public System.IObservable<bool> OnClick { get; set; }
+    private bool isFavorite;
+    public System.IObservable<UniRx.Unit> OnClick { get; set; }
     public void SetButtonText(string text);
     public void InitializeToggle(bool isFavorite);
+    private void <get_OnClick>b__5_0(UniRx.Unit _);
 }
 
 // Namespace: PRISM.Interactions.Adv
 public class AdvMenuHideOptionButton : UnityEngine.MonoBehaviour
 {
-    private ENTERPRISE.UI.UIButton button;
+    private PRISM.Interactions.ButtonView button;
     private ENTERPRISE.UI.UITextMeshProUGUI buttonText;
     public System.IObservable<UniRx.Unit> OnClick { get; set; }
     public void SetButtonText(string text);
@@ -328,7 +321,7 @@ public class AdvMenuOptionButtonContainer : UnityEngine.MonoBehaviour, PRISM.Ada
     private int closeIdleAnimationName;
     private int openAnimationName;
     private int openIdleAnimationName;
-    private ENTERPRISE.UI.UIButton advMenuOptionButton;
+    private PRISM.Interactions.ButtonView advMenuOptionButton;
     private PRISM.Interactions.Adv.AdvMenuHideOptionButton hideOptionButton;
     private PRISM.Interactions.Adv.AdvMenuShowLogOptionButton showLogOptionButton;
     private PRISM.Interactions.Adv.AdvMenuSkipOptionButton skipOptionButton;
@@ -341,7 +334,7 @@ public class AdvMenuOptionButtonContainer : UnityEngine.MonoBehaviour, PRISM.Ada
     public System.IObservable<UniRx.Unit> OnClickHideButton { get; set; }
     public System.IObservable<UniRx.Unit> OnClickShowLogButton { get; set; }
     public System.IObservable<UniRx.Unit> OnClickSkipButton { get; set; }
-    public System.IObservable<bool> OnClickFavoriteButton { get; set; }
+    public System.IObservable<UniRx.Unit> OnClickFavoriteButton { get; set; }
     public void Inject(PRISM.Scenario.ScenarioManager scenarioManager);
     public void Initialize(PRISM.Adapters.Adv.AdvMenuOptionButtonContainerViewModel viewModel);
     public Cysharp.Threading.Tasks.UniTask ShowAdvLogAsync(PRISM.Adv.IAdvScenarioInfo advScenarioInfo, System.Threading.CancellationToken ct);
@@ -362,7 +355,7 @@ public class AdvMenuOptionButtonContainer : UnityEngine.MonoBehaviour, PRISM.Ada
 // Namespace: PRISM.Interactions.Adv
 public class AdvMenuShowLogOptionButton : UnityEngine.MonoBehaviour
 {
-    private ENTERPRISE.UI.UIButton button;
+    private PRISM.Interactions.ButtonView button;
     private ENTERPRISE.UI.UITextMeshProUGUI buttonText;
     public System.IObservable<UniRx.Unit> OnClick { get; set; }
     public void SetButtonText(string text);
@@ -371,7 +364,7 @@ public class AdvMenuShowLogOptionButton : UnityEngine.MonoBehaviour
 // Namespace: PRISM.Interactions.Adv
 public class AdvMenuSkipOptionButton : UnityEngine.MonoBehaviour
 {
-    private ENTERPRISE.UI.UIButton button;
+    private PRISM.Interactions.ButtonView button;
     private ENTERPRISE.UI.UITextMeshProUGUI buttonText;
     public System.IObservable<UniRx.Unit> OnClick { get; set; }
     public void SetButtonText(string value);
@@ -496,12 +489,13 @@ public class AdvSkipConfirmationPopupView : UnityEngine.MonoBehaviour, PRISM.Int
     private ENTERPRISE.UI.UITextMeshProUGUI topText;
     private ENTERPRISE.UI.UITextMeshProUGUI skipPopupFromNextTimeText;
     private ENTERPRISE.UI.UITextMeshProUGUI notionText;
-    private ENTERPRISE.UI.ToggleButton toggle;
+    private PRISM.Interactions.ToggleButtonView toggle;
     private UnityEngine.GameObject advInformationField;
     private ENTERPRISE.UI.UITextMeshProUGUI mainHeadline;
     private ENTERPRISE.UI.UITextMeshProUGUI subHeadline;
     private ENTERPRISE.UI.UITextMeshProUGUI summary;
     private PopupSizeType sizeType;
+    private UniRx.ReactiveProperty<bool> shouldSkipPopupFromNextTime;
     private Cysharp.Threading.Tasks.UniTaskCompletionSource<System.ValueTuple<bool, bool>> onClosed;
     private PRISM.Interactions.IPopupFrameView parent;
     public Cysharp.Threading.Tasks.UniTask<System.ValueTuple<bool, bool>> OnCloseRequested { get; set; }
@@ -513,9 +507,9 @@ public class AdvSkipConfirmationPopupView : UnityEngine.MonoBehaviour, PRISM.Int
     public Cysharp.Threading.Tasks.UniTask HideAsync();
     public Cysharp.Threading.Tasks.UniTask<bool> LoadAsync(System.Threading.CancellationToken ct);
     public Cysharp.Threading.Tasks.UniTask TerminateAsync();
-    private void <CreateFrameParameter>b__13_0();
-    private void <CreateFrameParameter>b__13_1();
-    private void <CreateFrameParameter>b__13_2();
+    private void <CreateFrameParameter>b__14_0();
+    private void <CreateFrameParameter>b__14_1();
+    private void <CreateFrameParameter>b__14_2();
 }
 
 // Namespace: PRISM.Interactions.Adv
@@ -551,7 +545,7 @@ public class AdvTextLogTalkCell : UnityEngine.MonoBehaviour
     private UnityEngine.GameObject speakerCharaBackGround;
     private UnityEngine.GameObject speakerProducerBackGround;
     private ENTERPRISE.UI.UITextMeshProUGUI talkContent;
-    private ENTERPRISE.UI.ButtonBase voiceButton;
+    private PRISM.Interactions.ButtonView voiceButton;
     private UnityEngine.UI.Image voiceButtonOn;
     private UnityEngine.UI.Image voiceButtonOff;
     private UnityEngine.UI.RawImage charaIcon;

@@ -318,19 +318,17 @@ public class AnnounceListItemViewModel
 public class AnnounceOverlayViewModel
 {
     private PRISM.Service.AnnounceModel model;
-    public System.Collections.Generic.IReadOnlyList<AnnounceCategory> VisibleCategories { get; set; }
-    public string GetCategoryName(AnnounceCategory category);
     private System.Collections.Generic.IReadOnlyList<PRISM.Adapters.AnnounceListItemViewModel> GetCategoryItems(AnnounceCategory category);
     public Cysharp.Threading.Tasks.UniTask<System.Collections.Generic.IReadOnlyList<PRISM.Adapters.AnnounceListItemViewModel>> GetCategoryItemsAsync(AnnounceCategory category, System.Threading.CancellationToken ct);
     private Cysharp.Threading.Tasks.UniTask<System.Collections.Generic.IReadOnlyList<PRISM.Adapters.AnnounceListItemViewModel>> RequestMoreDataAsync(AnnounceCategory category, System.Threading.CancellationToken ct);
 
-    private class <>c__DisplayClass5_0
+    private class <>c__DisplayClass2_0
     {
         public AnnounceCategory category;
         private PRISM.Adapters.AnnounceListItemViewModel <GetCategoryItems>b__0(PRISM.Module.Networking.IAnnounceStatus x);
     }
 
-    private struct <GetCategoryItemsAsync>d__6 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <GetCategoryItemsAsync>d__3 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<System.Collections.Generic.IReadOnlyList<PRISM.Adapters.AnnounceListItemViewModel>> <>t__builder;
@@ -342,7 +340,7 @@ public class AnnounceOverlayViewModel
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <RequestMoreDataAsync>d__7 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <RequestMoreDataAsync>d__4 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<System.Collections.Generic.IReadOnlyList<PRISM.Adapters.AnnounceListItemViewModel>> <>t__builder;
@@ -378,20 +376,7 @@ public class AnnounceSequencer : PRISM.Adapters.IAnnounceSequencer
     {
         public PRISM.Adapters.AnnounceOverlayViewModel viewModel;
         public <>c__DisplayClass1_0 CS$<>8__locals1;
-        private Cysharp.Threading.Tasks.UniTask<System.IDisposable> <OpenListAsync>b__0(PRISM.Adapters.IAnnounceOverlayView view, PRISM.ResourceManagement.IResourceLoader loader);
-
-        private struct <<OpenListAsync>b__0>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
-        {
-            public int <>1__state;
-            public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<System.IDisposable> <>t__builder;
-            public <>c__DisplayClass1_1 <>4__this;
-            public PRISM.Adapters.IAnnounceOverlayView view;
-            public PRISM.ResourceManagement.IResourceLoader loader;
-            private <>c__DisplayClass1_2 <>8__1;
-            private Awaiter <>u__1;
-            private void MoveNext();
-            private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
-        }
+        private System.IDisposable <OpenListAsync>b__0(PRISM.Adapters.IAnnounceOverlayView view, PRISM.ResourceManagement.IResourceLoader loader);
     }
 
     private class <>c__DisplayClass1_2
@@ -412,12 +397,11 @@ public class AnnounceSequencer : PRISM.Adapters.IAnnounceSequencer
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
         public bool isFromTitle;
-        public System.Threading.CancellationToken ct;
         public string articleId;
+        public System.Threading.CancellationToken ct;
         public PRISM.Adapters.AnnounceSequencer <>4__this;
-        private Awaiter<PRISM.Service.AnnounceModel> <>u__1;
-        private Awaiter<PRISM.Module.Networking.IAnnounceDetailStatus> <>u__2;
-        private Awaiter <>u__3;
+        private Awaiter<PRISM.Module.Networking.IGetAnnounceDetailReply> <>u__1;
+        private Awaiter <>u__2;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
@@ -428,12 +412,11 @@ public class AnnounceSequencer : PRISM.Adapters.IAnnounceSequencer
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
         public System.Threading.CancellationToken ct;
         public PRISM.Adapters.AnnounceSequencer <>4__this;
-        private PRISM.Service.AnnounceModel <announceModel>5__2;
-        private PRISM.Module.Networking.IGetAnnouncePopUpReply <result>5__3;
-        private Awaiter<PRISM.Service.AnnounceModel> <>u__1;
-        private Awaiter<PRISM.Module.Networking.IGetAnnouncePopUpReply> <>u__2;
-        private Awaiter <>u__3;
-        private Awaiter<PRISM.Module.Networking.IConfirmedAnnounceReply> <>u__4;
+        private PRISM.Domain.IAnnounceService <announceService>5__2;
+        private PRISM.Module.Networking.IGetAnnouncePopUpReply <reply>5__3;
+        private Awaiter<PRISM.Module.Networking.IGetAnnouncePopUpReply> <>u__1;
+        private Awaiter <>u__2;
+        private Awaiter<PRISM.Module.Networking.IConfirmedAnnounceReply> <>u__3;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
@@ -446,7 +429,8 @@ public class AnnounceSequencer : PRISM.Adapters.IAnnounceSequencer
         public PRISM.Adapters.AnnounceSequencer <>4__this;
         public bool isFromTitle;
         private <>c__DisplayClass1_1 <>8__1;
-        private Awaiter<PRISM.Service.AnnounceModel> <>u__1;
+        private PRISM.Service.AnnounceModel <announceModel>5__2;
+        private Awaiter <>u__1;
         private Awaiter<UniRx.Unit> <>u__2;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
@@ -490,7 +474,7 @@ public interface IAnnounceOverlayView : PRISM.Adapters.IClosableOverlayView<UniR
 {
     public System.IObservable<string> OnItemClicked { get; set; }
     public System.IObservable<AnnounceCategory> OnMoreRequested { get; set; }
-    public Cysharp.Threading.Tasks.UniTask SetupAsync(PRISM.Adapters.AnnounceOverlayViewModel viewModel, PRISM.ResourceManagement.IResourceLoader resourceLoader, System.Threading.CancellationToken token);
+    public void Initialize(PRISM.Adapters.AnnounceOverlayViewModel viewModel, PRISM.ResourceManagement.IResourceLoader resourceLoader, System.Threading.CancellationToken token);
     public void UpdateList(System.Collections.Generic.IReadOnlyList<PRISM.Adapters.AnnounceListItemViewModel> viewModelList);
     public void JumpToDataIndex(int index);
 }
@@ -3434,7 +3418,7 @@ public class PieceArchivePresenter
             public int <>1__state;
             public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder <>t__builder;
             public <>c__DisplayClass6_0 <>4__this;
-            private Awaiter<UniRx.Unit> <>u__1;
+            private Awaiter <>u__1;
             private void MoveNext();
             private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
         }
@@ -12048,12 +12032,11 @@ public class ExchangeOverlaySequencer
 {
     private PRISM.Adapters.IExchangeTopOverlayView view;
     private PRISM.Adapters.ExchangeTopViewModel viewModel;
-    private PRISM.ResourceManagement.IResourceLoader resourceLoader;
     private System.Threading.CancellationTokenSource tokenSource;
     private UniRx.CompositeDisposable disposable;
     private System.IDisposable filterDisposable;
     private PRISM.Adapters.ExchangeTicketListPresenter exchangeTicketListPresenter;
-    public Cysharp.Threading.Tasks.UniTask<UniRx.Unit> ShowAsync(PRISM.Adapters.ExchangeTopViewModel viewModel, System.Threading.CancellationToken cancellationToken);
+    public Cysharp.Threading.Tasks.UniTask ShowAsync(PRISM.Adapters.ExchangeTopViewModel viewModel, System.Threading.CancellationToken cancellationToken);
     private void _setupFilter();
     public Cysharp.Threading.Tasks.UniTask _setupAsync(System.Threading.CancellationToken ct);
     public Cysharp.Threading.Tasks.UniTask ShowConfirmPopupAsync(PRISM.Domain.ProductKey productKey, ExchangeTabType tabType, System.Threading.CancellationToken ct);
@@ -12063,7 +12046,6 @@ public class ExchangeOverlaySequencer
     private Cysharp.Threading.Tasks.UniTask _createTicketListViewModelAsync(System.Threading.CancellationToken ct);
     private Cysharp.Threading.Tasks.UniTask _createEventGridViewModelAsync(System.Threading.CancellationToken ct);
     private void _onTabSelected(int index, ENTERPRISE.UI.UITabGroup tabGroup);
-    private void _onHorizontalTabSelected(int index);
     private Cysharp.Threading.Tasks.UniTask _showAchievementDetailPopupAsync(int achievementId, System.Threading.CancellationToken ct);
     private Cysharp.Threading.Tasks.UniTask _onSelectGridViewGoodsAsync(PRISM.Adapters.IExchangeGoodsListItemViewModel exchangeGoodsClientModel, System.Threading.CancellationToken ct);
     private Cysharp.Threading.Tasks.UniTask _openCompletePUAsync(PRISM.Adapters.ExchangeResultPopupViewModel resultPopupViewModel, System.Threading.CancellationToken ct);
@@ -12080,21 +12062,7 @@ public class ExchangeOverlaySequencer
     private Cysharp.Threading.Tasks.UniTask<PRISM.Adapters.ExchangeProductListPopupViewModel> _getExchangeGoodsListAsync(PRISM.Module.Networking.IProductWithAmountStatus tokenProduct, System.Threading.CancellationToken ct);
     private Cysharp.Threading.Tasks.UniTask _viewUpdateAsync(System.Threading.CancellationToken ct);
 
-    private class <>c__DisplayClass10_0
-    {
-        public ExchangeTabType tabType;
-        public PRISM.Domain.ProductKey productKey;
-        private bool <ShowConfirmPopupAsync>b__0(PRISM.Module.Networking.IExchangeGroupStatus group);
-        private bool <ShowConfirmPopupAsync>b__1(PRISM.Module.Networking.IExchangeProductStatus product);
-    }
-
-    private class <>c__DisplayClass10_1
-    {
-        public PRISM.Adapters.ExchangeResultPopupViewModel resultViewModel;
-        private void <ShowConfirmPopupAsync>b__2(PRISM.Adapters.IExchangeResultPopupView v, PRISM.ResourceManagement.IResourceLoader loader);
-    }
-
-    private class <>c__DisplayClass19_0
+    private class <>c__DisplayClass17_0
     {
         public PRISM.Adapters.ExchangeOverlaySequencer <>4__this;
         public System.Threading.CancellationTokenSource exchangeConfirmTokenSource;
@@ -12104,7 +12072,7 @@ public class ExchangeOverlaySequencer
         private void <_onSelectGridViewGoodsAsync>b__1(int id);
     }
 
-    private class <>c__DisplayClass20_0
+    private class <>c__DisplayClass18_0
     {
         public PRISM.Adapters.ExchangeOverlaySequencer <>4__this;
         public System.Threading.CancellationTokenSource exchangeResultTokenSource;
@@ -12114,7 +12082,7 @@ public class ExchangeOverlaySequencer
         private void <_openCompletePUAsync>b__1(int id);
     }
 
-    private class <>c__DisplayClass7_0
+    private class <>c__DisplayClass6_0
     {
         public PRISM.Adapters.ExchangeOverlaySequencer <>4__this;
         public System.Threading.CancellationToken cancellationToken;
@@ -12122,14 +12090,14 @@ public class ExchangeOverlaySequencer
         public System.Func<UniRx.Unit, Cysharp.Threading.Tasks.UniTaskVoid> <>9__1;
         public System.Action<UniRx.Unit> <>9__2;
         public System.Action<PRISM.Adapters.IExchangeGoodsListItemViewModel> <>9__3;
-        public System.Action<int, ENTERPRISE.UI.UITabGroup> <>9__4;
+        public System.Action<int> <>9__4;
         public System.Action<int> <>9__5;
         public System.Action<PRISM.Adapters.ExchangeEventGridViewModel> <>9__6;
         private Cysharp.Threading.Tasks.UniTask <ShowAsync>b__0(PRISM.Adapters.IExchangeTopOverlayView view, PRISM.ResourceManagement.IResourceLoader loader);
         private Cysharp.Threading.Tasks.UniTaskVoid <ShowAsync>b__1(UniRx.Unit _);
         private void <ShowAsync>b__2(UniRx.Unit _);
         private void <ShowAsync>b__3(PRISM.Adapters.IExchangeGoodsListItemViewModel data);
-        private void <ShowAsync>b__4(int index, ENTERPRISE.UI.UITabGroup tabGroup);
+        private void <ShowAsync>b__4(int _);
         private void <ShowAsync>b__5(int id);
         private void <ShowAsync>b__6(PRISM.Adapters.ExchangeEventGridViewModel model);
 
@@ -12137,7 +12105,7 @@ public class ExchangeOverlaySequencer
         {
             public int <>1__state;
             public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
-            public <>c__DisplayClass7_0 <>4__this;
+            public <>c__DisplayClass6_0 <>4__this;
             public PRISM.Adapters.IExchangeTopOverlayView view;
             public PRISM.ResourceManagement.IResourceLoader loader;
             private Awaiter <>u__1;
@@ -12149,14 +12117,14 @@ public class ExchangeOverlaySequencer
         {
             public int <>1__state;
             public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder <>t__builder;
-            public <>c__DisplayClass7_0 <>4__this;
+            public <>c__DisplayClass6_0 <>4__this;
             private Awaiter <>u__1;
             private void MoveNext();
             private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
         }
     }
 
-    private class <>c__DisplayClass8_0
+    private class <>c__DisplayClass7_0
     {
         public System.Collections.Generic.Dictionary<int, PRISM.Definitions.SortFilterSettings> filterSession;
         public PRISM.Adapters.ExchangeOverlaySequencer <>4__this;
@@ -12164,28 +12132,42 @@ public class ExchangeOverlaySequencer
         private void <_setupFilter>b__1(System.Collections.Generic.IReadOnlyList<PRISM.Adapters.ExchangeProductListItemViewModel> _);
     }
 
-    private struct <ShowAsync>d__7 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private class <>c__DisplayClass9_0
+    {
+        public ExchangeTabType tabType;
+        public PRISM.Domain.ProductKey productKey;
+        private bool <ShowConfirmPopupAsync>b__0(PRISM.Module.Networking.IExchangeGroupStatus group);
+        private bool <ShowConfirmPopupAsync>b__1(PRISM.Module.Networking.IExchangeProductStatus product);
+    }
+
+    private class <>c__DisplayClass9_1
+    {
+        public PRISM.Adapters.ExchangeResultPopupViewModel resultViewModel;
+        private void <ShowConfirmPopupAsync>b__2(PRISM.Adapters.IExchangeResultPopupView v, PRISM.ResourceManagement.IResourceLoader loader);
+    }
+
+    private struct <ShowAsync>d__6 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
-        public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<UniRx.Unit> <>t__builder;
+        public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
         public PRISM.Adapters.ExchangeOverlaySequencer <>4__this;
         public System.Threading.CancellationToken cancellationToken;
         public PRISM.Adapters.ExchangeTopViewModel viewModel;
-        private <>c__DisplayClass7_0 <>8__1;
+        private <>c__DisplayClass6_0 <>8__1;
         private Awaiter<UniRx.Unit> <>u__1;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <ShowConfirmPopupAsync>d__10 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <ShowConfirmPopupAsync>d__9 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
         public ExchangeTabType tabType;
         public PRISM.Domain.ProductKey productKey;
         public System.Threading.CancellationToken ct;
-        private <>c__DisplayClass10_0 <>8__1;
-        private <>c__DisplayClass10_1 <>8__2;
+        private <>c__DisplayClass9_0 <>8__1;
+        private <>c__DisplayClass9_1 <>8__2;
         private PRISM.Adapters.ExchangeProductListItemViewModel <clientModel>5__2;
         private PRISM.Adapters.ExchangeConfirmationPopupViewModel <confirmViewModel>5__3;
         private Awaiter<PRISM.Module.Networking.IGetExchangeGroupListReply> <>u__1;
@@ -12197,7 +12179,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <ShowCostumeLineupPopupAsync>d__11 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <ShowCostumeLineupPopupAsync>d__10 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -12210,7 +12192,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <ShowSelectionTicketLineupPopupAsync>d__12 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <ShowSelectionTicketLineupPopupAsync>d__11 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -12223,7 +12205,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_createEventGridViewModelAsync>d__15 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_createEventGridViewModelAsync>d__14 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -12234,7 +12216,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_createExchangeSimpleConfirmPopupViewModel>d__27 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_createExchangeSimpleConfirmPopupViewModel>d__25 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<PRISM.Adapters.ExchangeSimpleConfirmPopupViewModel> <>t__builder;
@@ -12245,7 +12227,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_createSelectionListPopupViewModelAsync>d__13 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_createSelectionListPopupViewModelAsync>d__12 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<PRISM.Adapters.ExchangeSelectionListPopupViewModel> <>t__builder;
@@ -12261,7 +12243,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_createTicketListViewModelAsync>d__14 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_createTicketListViewModelAsync>d__13 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -12272,7 +12254,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_exchangeHistoryAsync>d__30 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_exchangeHistoryAsync>d__28 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<PRISM.Adapters.ExchangeHistoryViewModel> <>t__builder;
@@ -12282,7 +12264,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_executeExchangeAsync>d__29 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_executeExchangeAsync>d__27 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<PRISM.Adapters.ExchangeResultPopupViewModel> <>t__builder;
@@ -12298,7 +12280,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_executeSimpleExchangeAsync>d__28 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_executeSimpleExchangeAsync>d__26 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<PRISM.Adapters.ExchangeResultPopupViewModel> <>t__builder;
@@ -12315,7 +12297,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_getExchangeGoodsListAsync>d__31 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_getExchangeGoodsListAsync>d__29 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<PRISM.Adapters.ExchangeProductListPopupViewModel> <>t__builder;
@@ -12331,7 +12313,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_goToOtherViewAsync>d__24 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_goToOtherViewAsync>d__22 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -12343,7 +12325,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_onClickHistoryButtonAsync>d__21 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_onClickHistoryButtonAsync>d__19 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -12354,7 +12336,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_onEventGoodsListAsync>d__25 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_onEventGoodsListAsync>d__23 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -12366,14 +12348,14 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_onSelectGridViewGoodsAsync>d__19 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_onSelectGridViewGoodsAsync>d__17 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
         public PRISM.Adapters.ExchangeOverlaySequencer <>4__this;
         public PRISM.Adapters.IExchangeGoodsListItemViewModel exchangeGoodsClientModel;
         public System.Threading.CancellationToken ct;
-        private <>c__DisplayClass19_0 <>8__1;
+        private <>c__DisplayClass17_0 <>8__1;
         private Awaiter<PRISM.Adapters.ExchangeSimpleConfirmPopupViewModel> <>u__1;
         private Awaiter<bool> <>u__2;
         private Awaiter<PRISM.Adapters.ExchangeResultPopupViewModel> <>u__3;
@@ -12384,21 +12366,21 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_openCompletePUAsync>d__20 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_openCompletePUAsync>d__18 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
         public PRISM.Adapters.ExchangeOverlaySequencer <>4__this;
         public PRISM.Adapters.ExchangeResultPopupViewModel resultPopupViewModel;
         public System.Threading.CancellationToken ct;
-        private <>c__DisplayClass20_0 <>8__1;
+        private <>c__DisplayClass18_0 <>8__1;
         private Awaiter<bool> <>u__1;
         private Awaiter <>u__2;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_openEventGoodsListAsync>d__26 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_openEventGoodsListAsync>d__24 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -12412,7 +12394,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_openExchangePeriodPopupAsync>d__23 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_openExchangePeriodPopupAsync>d__21 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -12423,7 +12405,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_setupAsync>d__9 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_setupAsync>d__8 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -12436,7 +12418,7 @@ public class ExchangeOverlaySequencer
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_viewUpdateAsync>d__32 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_viewUpdateAsync>d__30 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -12469,7 +12451,6 @@ public class ExchangeOverlayService
 // Namespace: PRISM.Adapters
 public interface IExchangeGoodsGridView : PRISM.Adapters.IExchangeGridView
 {
-    public PRISM.UITabGroupEx HorizontalTabGroup { get; set; }
     public PRISM.Adapters.ISortFilterView FilterOnlyView { get; set; }
     public float ScrollPosition { get; set; }
     public System.IObservable<int> OnAchievementDetail { get; set; }
@@ -13394,7 +13375,7 @@ public class ExchangeHistoryItemViewModel
     private int <MstExchangeProductId>k__BackingField;
     private string <ItemName>k__BackingField;
     private PRISM.Module.Networking.IProductWithAmountStatus <ExchangeProduct>k__BackingField;
-    private System.Collections.Generic.IReadOnlyList<PRISM.Module.Networking.IProductWithAmountStatus> <ContentDetailProductList>k__BackingField;
+    private System.Collections.Generic.IReadOnlyList<PRISM.Domain.ProductKeyWithAmount> <ContentDetailProductList>k__BackingField;
     private PRISM.Module.Networking.IProductWithAmountStatus <UseProduct>k__BackingField;
     private System.DateTime <PurchaseDate>k__BackingField;
     private int <SelectionTicketProductId>k__BackingField;
@@ -13402,7 +13383,7 @@ public class ExchangeHistoryItemViewModel
     public int MstExchangeProductId { get; set; }
     public string ItemName { get; set; }
     public PRISM.Module.Networking.IProductWithAmountStatus ExchangeProduct { get; set; }
-    public System.Collections.Generic.IReadOnlyList<PRISM.Module.Networking.IProductWithAmountStatus> ContentDetailProductList { get; set; }
+    public System.Collections.Generic.IReadOnlyList<PRISM.Domain.ProductKeyWithAmount> ContentDetailProductList { get; set; }
     public PRISM.Module.Networking.IProductWithAmountStatus UseProduct { get; set; }
     public System.DateTime PurchaseDate { get; set; }
     public int SelectionTicketProductId { get; set; }
@@ -13417,6 +13398,15 @@ public class ExchangeHistoryViewModel
     public System.Collections.Generic.List<PRISM.Adapters.ExchangeHistoryItemViewModel> HistoryListItems { get; set; }
     public ExchangeTabType CurrentTabType { get; set; }
     private void _createHistoryListItems(PRISM.Module.Networking.IGetExchangePurchaseHistoryListReply reply);
+
+    private class <>c
+    {
+        public static <>c <>9;
+        public static System.Func<PRISM.Domain.ProductKeyWithAmount, System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount>> <>9__7_1;
+        public static System.Func<PRISM.Module.Networking.IProductWithAmountStatus, System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount>> <>9__7_0;
+        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <_createHistoryListItems>b__7_0(PRISM.Module.Networking.IProductWithAmountStatus productWithAmountStatus);
+        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <_createHistoryListItems>b__7_1(PRISM.Domain.ProductKeyWithAmount product);
+    }
 }
 
 // Namespace: PRISM.Adapters
@@ -13872,7 +13862,7 @@ public class ExchangeTicketListViewModel
 }
 
 // Namespace: PRISM.Adapters
-public class ExchangeTopViewModel
+public class ExchangeTopViewModel : System.IDisposable
 {
     private PRISM.Exchange.ExchangeSaveData saveData;
     private System.Collections.Generic.List<TabData> tabDatas;
@@ -13883,10 +13873,9 @@ public class ExchangeTopViewModel
     private PRISM.Service.SortFilterModel<PRISM.Adapters.ExchangeProductListItemViewModel> sortFilterModel;
     private PRISM.Adapters.ExchangeSelectionListPopupViewModel exchangeSelectionListPopupViewModel;
     private PRISM.Adapters.CharacterAcquisitionModel characterEffectViewModel;
-    private int horizontalTabIndex;
     private int mstProductId;
+    public UniRx.ReactiveProperty<int> HorizontalTabIndex;
     private ExchangeTabType <CurrentTab>k__BackingField;
-    public int HorizontalTabIndex { get; set; }
     public int TargetMstProductId { get; set; }
     public ExchangeTabType CurrentTab { get; set; }
     public System.Collections.Generic.List<PRISM.Adapters.ExchangeLargeSpaceGoodsGridViewModel> SelectionTicketViewModels { get; set; }
@@ -13902,8 +13891,6 @@ public class ExchangeTopViewModel
     public void ClearEventGridViewModels();
     public void ClearSelectionTicketViewModels();
     public void SetSortFilterModel(PRISM.Service.SortFilterModel<PRISM.Adapters.ExchangeProductListItemViewModel> model);
-    public void SetSelectedTab(ExchangeTabType type);
-    public void SetHorizontalTabIndex(int index);
     public void AddCurrentTabDataToLocalSave();
     public void SetTabSelectData(int index);
     public void AddToExchangeGridViewModels(PRISM.Adapters.ExchangeEventGridViewModel vm);
@@ -13919,9 +13906,10 @@ public class ExchangeTopViewModel
     private Cysharp.Threading.Tasks.UniTask<bool> _isHavingPieceProductAsync(int groupId, PRISM.Module.Networking.IExchangeProductStatus status, System.Threading.CancellationToken ct);
     private Cysharp.Threading.Tasks.UniTask<bool> _isHavingProduceIdolAsync(PRISM.Module.Networking.IProductStatus pieceProduct, System.Threading.CancellationToken ct);
     private Cysharp.Threading.Tasks.UniTask<bool> _isHavingSupportCharacterAsync(PRISM.Module.Networking.IProductStatus pieceProduct, System.Threading.CancellationToken ct);
-    private bool <get_LargeSpaceGoodsGridViewModels>b__37_0(PRISM.Adapters.ExchangeLargeSpaceGoodsGridViewModel model);
-    private bool <GetSelectedIndex>b__51_0(TabData data);
-    private bool <GetSelectedIndex>b__51_1(TabData tabData);
+    public void Dispose();
+    private bool <get_LargeSpaceGoodsGridViewModels>b__35_0(PRISM.Adapters.ExchangeLargeSpaceGoodsGridViewModel model);
+    private bool <GetSelectedIndex>b__47_0(TabData data);
+    private bool <GetSelectedIndex>b__47_1(TabData tabData);
 
     public class TabData
     {
@@ -13936,31 +13924,31 @@ public class ExchangeTopViewModel
     private class <>c
     {
         public static <>c <>9;
-        public static System.Func<PRISM.Adapters.ExchangeProductListItemViewModel, int> <>9__49_2;
-        public static System.Func<PRISM.Adapters.ExchangeProductListItemViewModel, int> <>9__49_0;
-        public static System.Func<PRISM.Adapters.ExchangeProductListItemViewModel, int> <>9__52_0;
-        public static System.Func<PRISM.Adapters.ExchangeEventGridViewModel, System.Nullable<System.DateTime>> <>9__54_0;
-        public static System.Func<PRISM.Adapters.ExchangeEventGridViewModel, System.Nullable<System.DateTime>> <>9__54_1;
-        private int <GetExchangeGoodsClientModels>b__49_2(PRISM.Adapters.ExchangeProductListItemViewModel model);
-        private int <GetExchangeGoodsClientModels>b__49_0(PRISM.Adapters.ExchangeProductListItemViewModel model);
-        private int <CreateTabDataAsync>b__52_0(PRISM.Adapters.ExchangeProductListItemViewModel x);
-        private System.Nullable<System.DateTime> <UpdateOrderExchangeGridViewModels>b__54_0(PRISM.Adapters.ExchangeEventGridViewModel model);
-        private System.Nullable<System.DateTime> <UpdateOrderExchangeGridViewModels>b__54_1(PRISM.Adapters.ExchangeEventGridViewModel model);
+        public static System.Func<PRISM.Adapters.ExchangeProductListItemViewModel, int> <>9__45_2;
+        public static System.Func<PRISM.Adapters.ExchangeProductListItemViewModel, int> <>9__45_0;
+        public static System.Func<PRISM.Adapters.ExchangeProductListItemViewModel, int> <>9__48_0;
+        public static System.Func<PRISM.Adapters.ExchangeEventGridViewModel, System.Nullable<System.DateTime>> <>9__50_0;
+        public static System.Func<PRISM.Adapters.ExchangeEventGridViewModel, System.Nullable<System.DateTime>> <>9__50_1;
+        private int <GetExchangeGoodsClientModels>b__45_2(PRISM.Adapters.ExchangeProductListItemViewModel model);
+        private int <GetExchangeGoodsClientModels>b__45_0(PRISM.Adapters.ExchangeProductListItemViewModel model);
+        private int <CreateTabDataAsync>b__48_0(PRISM.Adapters.ExchangeProductListItemViewModel x);
+        private System.Nullable<System.DateTime> <UpdateOrderExchangeGridViewModels>b__50_0(PRISM.Adapters.ExchangeEventGridViewModel model);
+        private System.Nullable<System.DateTime> <UpdateOrderExchangeGridViewModels>b__50_1(PRISM.Adapters.ExchangeEventGridViewModel model);
     }
 
-    private class <>c__DisplayClass49_0
+    private class <>c__DisplayClass45_0
     {
         public ProductType type;
         private bool <GetExchangeGoodsClientModels>b__1(PRISM.Adapters.ExchangeProductListItemViewModel model);
     }
 
-    private class <>c__DisplayClass56_0
+    private class <>c__DisplayClass52_0
     {
         public ExchangeTabType exchangeTabType;
         private bool <ExsistTabType>b__0(TabData data);
     }
 
-    private struct <CreateTabDataAsync>d__52 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <CreateTabDataAsync>d__48 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<System.ValueTuple<TabData, bool>> <>t__builder;
@@ -13977,7 +13965,7 @@ public class ExchangeTopViewModel
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_isHavingProduceIdolAsync>d__58 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_isHavingProduceIdolAsync>d__54 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<bool> <>t__builder;
@@ -13988,7 +13976,7 @@ public class ExchangeTopViewModel
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_isHavingSupportCharacterAsync>d__59 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_isHavingSupportCharacterAsync>d__55 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<bool> <>t__builder;
@@ -16106,6 +16094,15 @@ public interface IGlobalMenuBannerGroupView
 {
     public System.IObservable<PRISM.Module.Networking.IBannerStatus> OnClickBanner { get; set; }
     public void Initialize(System.Collections.Generic.IReadOnlyList<PRISM.Adapters.GlobalMenu.GlobalMenuBannerCellViewModel> banners, PRISM.ResourceManagement.IResourceLoader resourceLoader);
+}
+
+// Namespace: PRISM.Adapters
+public interface IGlobalMenuSubFooterView
+{
+    public System.IObservable<UniRx.Unit> OnClickMissionButton { get; set; }
+    public System.IObservable<UniRx.Unit> OnClickPresentButton { get; set; }
+    public System.IObservable<UniRx.Unit> OnClickExchangeButton { get; set; }
+    public void Initialize(PRISM.Adapters.IHomeNotificationModelContainer notificationModelContainer);
 }
 
 // Namespace: PRISM.Adapters
@@ -19802,29 +19799,32 @@ public class SkipLiveConfirmationPopupViewModel : PRISM.Adapters.ILiveAutoLoopSe
     private UniRx.ReactiveProperty<int> <LoopCount>k__BackingField;
     private PRISM.Module.Networking.ILimitedValueStatus <RemainLoopCountStatus>k__BackingField;
     private int <MaxAvailableLiveBoost>k__BackingField;
-    private PRISM.Stamina.StaminaModel <liveBoost>k__BackingField;
+    private PRISM.Stamina.StaminaModel liveBoost;
     private PRISM.Live.SkipLiveLiveBoostUsageSettingStatus <LiveBoostUsageSettingStatus>k__BackingField;
+    private System.IDisposable disposable;
     public UniRx.ReactiveProperty<int> LiveBoostUsageCount { get; set; }
     public UniRx.ReactiveProperty<int> LoopCount { get; set; }
     public PRISM.Module.Networking.ILimitedValueStatus RemainLoopCountStatus { get; set; }
     public int MaxAvailableLiveBoost { get; set; }
-    private PRISM.Stamina.StaminaModel liveBoost { get; set; }
     public PRISM.Live.SkipLiveLiveBoostUsageSettingStatus LiveBoostUsageSettingStatus { get; set; }
     public int RemainCount { get; set; }
     public System.IObservable<int> OnTotalLiveBoostUsageCountChanged { get; set; }
     public System.IObservable<bool> OnIsEnoughLiveBoostChanged { get; set; }
+    public void UpdateAlwaysMaxStatus(bool alwaysMax);
+    private void _setMaxLiveBoostAndUsageCount();
     public void UpdateLoopCountStatus(PRISM.Module.Networking.ILimitedValueStatus loopCountStatus);
     private void _updateLoopCount(int value);
     public void Save();
     public void Dispose();
+    private void <.ctor>b__25_0(int _);
 
     private class <>c
     {
         public static <>c <>9;
-        public static System.Func<int, int, int> <>9__23_0;
-        public static System.Func<int, int, bool> <>9__25_0;
-        private int <get_OnTotalLiveBoostUsageCountChanged>b__23_0(int a, int b);
-        private bool <get_OnIsEnoughLiveBoostChanged>b__25_0(int totalUsageCount, int currentValue);
+        public static System.Func<int, int, int> <>9__22_0;
+        public static System.Func<int, int, bool> <>9__24_0;
+        private int <get_OnTotalLiveBoostUsageCountChanged>b__22_0(int a, int b);
+        private bool <get_OnIsEnoughLiveBoostChanged>b__24_0(int totalUsageCount, int currentValue);
     }
 }
 
@@ -21081,6 +21081,7 @@ public interface ILiveUnitConfirmationUnitCommonView
     public System.IObservable<UniRx.Unit> OnReset { get; set; }
     public System.IObservable<UniRx.Unit> OnEasyCostumeChange { get; set; }
     public void Initialize(UniRx.IReadOnlyReactiveProperty<PRISM.Live.ILiveUnit> currentUnit);
+    public void UpdateUnitName(string text);
 }
 
 // Namespace: PRISM.Adapters
@@ -21378,7 +21379,7 @@ public class LiveUnitConfirmationPresenter : PRISM.IViewPresenter, PRISM.Adapter
     private Cysharp.Threading.Tasks.UniTask _onEditUnitListAsync(System.ValueTuple<PRISM.Adapters.LiveUnitEditFunction, int> value, System.Threading.CancellationToken ct);
     private void _invokeUpdateUnitListWindow(System.Threading.CancellationToken ct);
     private Cysharp.Threading.Tasks.UniTask _invokeCopyAsync(PRISM.Live.ILiveUnit unitFrom, PRISM.Live.ILiveUnit unitTo, bool isReverse, System.Threading.CancellationToken ct);
-    private Cysharp.Threading.Tasks.UniTask _invokeChangeUnitNameAsync(int unitId, string unitName, System.Threading.CancellationToken ct);
+    private Cysharp.Threading.Tasks.UniTask _invokeChangeUnitNameAsync(int unitId, string unitName, System.Action updateAction, System.Threading.CancellationToken ct);
     private Cysharp.Threading.Tasks.UniTask _showEasyCostumeChangeAsync(System.Threading.CancellationToken ct);
     public Cysharp.Threading.Tasks.UniTask BeginViewAsync();
     public Cysharp.Threading.Tasks.UniTask OnBeginIdleAsync(System.Func<Cysharp.Threading.Tasks.UniTask> baseTask);
@@ -21396,6 +21397,9 @@ public class LiveUnitConfirmationPresenter : PRISM.IViewPresenter, PRISM.Adapter
         public PRISM.Adapters.LiveUnitConfirmationPresenter <>4__this;
         public System.Threading.CancellationToken ct;
         public PRISM.Live.LiveIdolFactory liveIdolFactory;
+        public System.Action <>9__15;
+        public System.Action <>9__16;
+        public System.Action <>9__17;
         private Cysharp.Threading.Tasks.UniTask <_initializeUnitList>b__0(PRISM.Live.LiveUnit unit, int index1, int index2);
         private Cysharp.Threading.Tasks.UniTask <_initializeUnitList>b__1(PRISM.Live.LiveUnit unit, LiveUnitSupportMemberType index1, LiveUnitSupportMemberType index2);
         private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__2(System.ValueTuple<PRISM.Live.LiveUnit, int, PRISM.Adapters.LiveUnitEditCarouselClickEventType> data);
@@ -21405,23 +21409,15 @@ public class LiveUnitConfirmationPresenter : PRISM.IViewPresenter, PRISM.Adapter
         private void <_initializeUnitList>b__6(UniRx.Unit _);
         private void <_initializeUnitList>b__7(int index);
         private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__8(string unitName);
-        private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__9(System.ValueTuple<int, string> value);
+        private void <_initializeUnitList>b__15();
+        private void <_initializeUnitList>b__9(System.ValueTuple<int, string> value);
+        private void <_initializeUnitList>b__16();
         private void <_initializeUnitList>b__10(System.ValueTuple<PRISM.Adapters.LiveUnitEditFunction, int> value);
-        private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__11(string unitName);
+        private void <_initializeUnitList>b__11(string unitName);
+        private void <_initializeUnitList>b__17();
         private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__12(UniRx.Unit _);
         private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__13(UniRx.Unit _);
         private void <_initializeUnitList>b__14(UniRx.Unit _);
-
-        private struct <<_initializeUnitList>b__11>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
-        {
-            public int <>1__state;
-            public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder <>t__builder;
-            public <>c__DisplayClass10_0 <>4__this;
-            public string unitName;
-            private Awaiter <>u__1;
-            private void MoveNext();
-            private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
-        }
 
         private struct <<_initializeUnitList>b__12>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
         {
@@ -21488,17 +21484,6 @@ public class LiveUnitConfirmationPresenter : PRISM.IViewPresenter, PRISM.Adapter
             public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder <>t__builder;
             public <>c__DisplayClass10_0 <>4__this;
             public string unitName;
-            private Awaiter <>u__1;
-            private void MoveNext();
-            private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
-        }
-
-        private struct <<_initializeUnitList>b__9>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
-        {
-            public int <>1__state;
-            public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder <>t__builder;
-            public <>c__DisplayClass10_0 <>4__this;
-            public System.ValueTuple<int, string> value;
             private Awaiter <>u__1;
             private void MoveNext();
             private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
@@ -21592,6 +21577,7 @@ public class LiveUnitConfirmationPresenter : PRISM.IViewPresenter, PRISM.Adapter
         public string unitName;
         public System.Threading.CancellationToken ct;
         public PRISM.Adapters.LiveUnitConfirmationPresenter <>4__this;
+        public System.Action updateAction;
         private Awaiter<PRISM.Module.Networking.ISetLiveUnitNameReply> <>u__1;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
@@ -21775,7 +21761,7 @@ public class LiveMvUnitConfirmationPresenter : PRISM.IViewPresenter
     private void _initializeUnitList();
     private void _invokeUpdateUnitListWindow();
     private Cysharp.Threading.Tasks.UniTask _invokeCopyAsync(PRISM.Live.ILiveUnit unitFrom, PRISM.Live.ILiveUnit unitTo, bool isReverse, System.Threading.CancellationToken ct);
-    private Cysharp.Threading.Tasks.UniTask _invokeChangeUnitNameAsync(int unitId, string unitName, System.Threading.CancellationToken ct);
+    private Cysharp.Threading.Tasks.UniTask _invokeChangeUnitNameAsync(int unitId, string unitName, System.Action updateAction, System.Threading.CancellationToken ct);
     private Cysharp.Threading.Tasks.UniTask _invokeStartLiveAsync(System.Threading.CancellationToken ct);
     private Cysharp.Threading.Tasks.UniTask _resetAsync(int unitId, System.Threading.CancellationToken ct);
     private Cysharp.Threading.Tasks.UniTask _showEasyCostumeChangeAsync(System.Threading.CancellationToken ct);
@@ -21800,42 +21786,22 @@ public class LiveMvUnitConfirmationPresenter : PRISM.IViewPresenter
     {
         public PRISM.Adapters.LiveMvUnitConfirmationPresenter <>4__this;
         public System.Threading.CancellationToken ct;
-        public System.Action<PRISM.Adapters.ILiveMVUnitRecommendPopupView> <>9__13;
+        public System.Action <>9__13;
+        public System.Action<PRISM.Adapters.ILiveMVUnitRecommendPopupView> <>9__14;
         private Cysharp.Threading.Tasks.UniTask <_initializeUnitList>b__0(PRISM.Live.LiveMVUnit unit, int index1, int index2);
         private void <_initializeUnitList>b__1(System.ValueTuple<PRISM.Live.LiveMVUnit, int, PRISM.Adapters.LiveUnitEditCarouselClickEventType> data);
         private void <_initializeUnitList>b__2(int index);
         private void <_initializeUnitList>b__3(UniRx.Unit _);
         private void <_initializeUnitList>b__4(int index);
-        private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__5(string unitName);
-        private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__6(System.ValueTuple<int, string> value);
+        private void <_initializeUnitList>b__5(string unitName);
+        private void <_initializeUnitList>b__6(System.ValueTuple<int, string> value);
         private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__7(System.ValueTuple<PRISM.Adapters.LiveUnitEditFunction, int> value);
-        private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__8(string unitName);
+        private void <_initializeUnitList>b__8(string unitName);
+        private void <_initializeUnitList>b__13();
         private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__9(UniRx.Unit _);
-        private void <_initializeUnitList>b__13(PRISM.Adapters.ILiveMVUnitRecommendPopupView view);
+        private void <_initializeUnitList>b__14(PRISM.Adapters.ILiveMVUnitRecommendPopupView view);
         private void <_initializeUnitList>b__10(UniRx.Unit _);
         private void <_initializeUnitList>b__11(UniRx.Unit _);
-
-        private struct <<_initializeUnitList>b__5>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
-        {
-            public int <>1__state;
-            public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder <>t__builder;
-            public <>c__DisplayClass9_0 <>4__this;
-            public string unitName;
-            private Awaiter <>u__1;
-            private void MoveNext();
-            private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
-        }
-
-        private struct <<_initializeUnitList>b__6>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
-        {
-            public int <>1__state;
-            public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder <>t__builder;
-            public <>c__DisplayClass9_0 <>4__this;
-            public System.ValueTuple<int, string> value;
-            private Awaiter <>u__1;
-            private void MoveNext();
-            private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
-        }
 
         private struct <<_initializeUnitList>b__7>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
         {
@@ -21844,17 +21810,6 @@ public class LiveMvUnitConfirmationPresenter : PRISM.IViewPresenter
             public <>c__DisplayClass9_0 <>4__this;
             public System.ValueTuple<PRISM.Adapters.LiveUnitEditFunction, int> value;
             private Awaiter <>u__1;
-            private void MoveNext();
-            private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
-        }
-
-        private struct <<_initializeUnitList>b__8>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
-        {
-            public int <>1__state;
-            public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder <>t__builder;
-            public <>c__DisplayClass9_0 <>4__this;
-            public string unitName;
-            private Awaiter<PRISM.Module.Networking.ISetMvUnitNameReply> <>u__1;
             private void MoveNext();
             private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
         }
@@ -21897,6 +21852,7 @@ public class LiveMvUnitConfirmationPresenter : PRISM.IViewPresenter
         public string unitName;
         public System.Threading.CancellationToken ct;
         public PRISM.Adapters.LiveMvUnitConfirmationPresenter <>4__this;
+        public System.Action updateAction;
         private Awaiter<PRISM.Module.Networking.ISetMvUnitNameReply> <>u__1;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
@@ -22152,6 +22108,8 @@ public class MissionGroupViewModel : PRISM.Adapters.IMissionPanelViewModel, Syst
     private UniRx.ReactiveProperty<System.Collections.Generic.IReadOnlyList<PRISM.Adapters.MissionViewModel>> missions;
     private PRISM.Module.Networking.IMissionGaugeStatus <Gauge>k__BackingField;
     private PRISM.Module.Networking.IMissionGroupStatus status;
+    private PRISM.Adapters.MissionViewModelContext context;
+    private System.IDisposable disposable;
     public UniRx.IReadOnlyReactiveProperty<System.Collections.Generic.IReadOnlyList<PRISM.Adapters.MissionViewModel>> Missions { get; set; }
     public System.IObservable<int> ReceivableCount { get; set; }
     public System.IObservable<bool> IsNew { get; set; }
@@ -22164,6 +22122,8 @@ public class MissionGroupViewModel : PRISM.Adapters.IMissionPanelViewModel, Syst
     public Cysharp.Threading.Tasks.UniTask ReceiveGaugeRewardAsync(System.Threading.CancellationToken ct);
     public void SaveReadMissionIds();
     public void Dispose();
+    private void <.ctor>b__25_0(PRISM.Module.Networking.IUpdateMissionStatus data);
+    private bool <.ctor>b__25_1(PRISM.Module.Networking.IMissionGroupStatus x);
 
     private class <>c
     {
@@ -22172,26 +22132,26 @@ public class MissionGroupViewModel : PRISM.Adapters.IMissionPanelViewModel, Syst
         public static System.Func<System.Collections.Generic.IReadOnlyList<PRISM.Adapters.MissionViewModel>, int> <>9__9_0;
         public static System.Func<PRISM.Adapters.MissionViewModel, bool> <>9__11_1;
         public static System.Func<System.Collections.Generic.IReadOnlyList<PRISM.Adapters.MissionViewModel>, bool> <>9__11_0;
-        public static System.Func<PRISM.Module.Networking.IMissionStatus, int> <>9__24_0;
-        public static System.Func<PRISM.Module.Networking.IRewardProductStatus, bool> <>9__25_0;
-        public static System.Func<PRISM.Module.Networking.IMissionGaugeRewardStatus, bool> <>9__26_0;
+        public static System.Func<PRISM.Module.Networking.IMissionStatus, int> <>9__26_0;
+        public static System.Func<PRISM.Module.Networking.IRewardProductStatus, bool> <>9__27_0;
+        public static System.Func<PRISM.Module.Networking.IMissionGaugeRewardStatus, bool> <>9__28_0;
         private int <get_ReceivableCount>b__9_0(System.Collections.Generic.IReadOnlyList<PRISM.Adapters.MissionViewModel> v);
         private bool <get_ReceivableCount>b__9_1(PRISM.Adapters.MissionViewModel x);
         private bool <get_IsNew>b__11_0(System.Collections.Generic.IReadOnlyList<PRISM.Adapters.MissionViewModel> v);
         private bool <get_IsNew>b__11_1(PRISM.Adapters.MissionViewModel x);
-        private int <_update>b__24_0(PRISM.Module.Networking.IMissionStatus x);
-        private bool <ReceiveAsync>b__25_0(PRISM.Module.Networking.IRewardProductStatus x);
-        private bool <ReceiveGaugeRewardAsync>b__26_0(PRISM.Module.Networking.IMissionGaugeRewardStatus x);
+        private int <_update>b__26_0(PRISM.Module.Networking.IMissionStatus x);
+        private bool <ReceiveAsync>b__27_0(PRISM.Module.Networking.IRewardProductStatus x);
+        private bool <ReceiveGaugeRewardAsync>b__28_0(PRISM.Module.Networking.IMissionGaugeRewardStatus x);
     }
 
-    private class <>c__DisplayClass24_0
+    private class <>c__DisplayClass26_0
     {
         public PRISM.Adapters.MissionGroupViewModel <>4__this;
         public System.Collections.Generic.HashSet<int> readMissionIds;
         private PRISM.Adapters.MissionViewModel <_update>b__1(PRISM.Module.Networking.IMissionStatus x);
     }
 
-    private struct <ReceiveAsync>d__25 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <ReceiveAsync>d__27 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -22206,7 +22166,7 @@ public class MissionGroupViewModel : PRISM.Adapters.IMissionPanelViewModel, Syst
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <ReceiveGaugeRewardAsync>d__26 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <ReceiveGaugeRewardAsync>d__28 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -22380,37 +22340,44 @@ public class MissionOverlayViewModel : System.IDisposable
     public PRISM.Adapters.SeasonMissionViewModel SeasonMissionViewModel;
     private UniRx.CompositeDisposable disposables;
     private System.Collections.Generic.HashSet<PRISM.Adapters.MissionGroupViewModel> displayedGroups;
+    private PRISM.Adapters.MissionViewModelContext context;
     public void MarkDisplayed(PRISM.Adapters.MissionGroupViewModel missionGroup);
     public void SelectMissionGroup(System.Func<PRISM.Adapters.MissionGroupViewModel, bool> predicate);
     public void SelectSeasonMission();
     public static Cysharp.Threading.Tasks.UniTask<PRISM.Adapters.MissionOverlayViewModel> CreateAsync(System.Threading.CancellationToken ct);
     public void Dispose();
-    private PRISM.Adapters.MissionGroupViewModel <.ctor>b__7_3(PRISM.Module.Networking.IMissionGroupStatus x);
+    private PRISM.Adapters.MissionGroupViewModel <.ctor>b__8_3(PRISM.Module.Networking.IMissionGroupStatus x);
 
     private class <>c
     {
         public static <>c <>9;
-        public static System.Func<PRISM.Module.Networking.IMissionGroupStatus, bool> <>9__7_2;
-        public static System.Func<PRISM.Module.Networking.IMissionGroupStatus, bool> <>9__7_0;
-        private bool <.ctor>b__7_2(PRISM.Module.Networking.IMissionGroupStatus x);
-        private bool <.ctor>b__7_0(PRISM.Module.Networking.IMissionGroupStatus x);
+        public static System.Func<PRISM.Module.Networking.IMissionGroupStatus, bool> <>9__8_2;
+        public static System.Func<PRISM.Module.Networking.IMissionGroupStatus, bool> <>9__8_0;
+        private bool <.ctor>b__8_2(PRISM.Module.Networking.IMissionGroupStatus x);
+        private bool <.ctor>b__8_0(PRISM.Module.Networking.IMissionGroupStatus x);
     }
 
-    private class <>c__DisplayClass7_0
+    private class <>c__DisplayClass8_0
     {
         public PRISM.Adapters.Data.SortFilterSettingsSession sessionData;
         private void <.ctor>b__1(PRISM.Definitions.SortFilterSettings settings);
     }
 
-    private struct <CreateAsync>d__11 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <CreateAsync>d__12 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<PRISM.Adapters.MissionOverlayViewModel> <>t__builder;
         public System.Threading.CancellationToken ct;
-        private Awaiter<System.ValueTuple<PRISM.Module.Networking.IGetMissionListReply, PRISM.Module.Networking.IGetSeasonMissionReply>> <>u__1;
+        private Awaiter<PRISM.Module.Networking.IGetMissionListReply> <>u__1;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
+}
+
+// Namespace: PRISM.Adapters
+public class MissionViewModelContext
+{
+    public UniRx.Subject<PRISM.Module.Networking.IUpdateMissionStatus> OnUpdate;
 }
 
 // Namespace: PRISM.Adapters
@@ -22558,6 +22525,7 @@ public class SeasonMissionViewModel : PRISM.Adapters.IMissionPanelViewModel, Sys
     public System.Collections.Generic.IReadOnlyList<PRISM.Adapters.SeasonMissionRewardViewModel> RewardList;
     private UniRx.ReactiveProperty<PRISM.Adapters.SeasonMissionRankViewModel> rank;
     private UniRx.ReactiveProperty<int> receivableCount;
+    private PRISM.Adapters.MissionViewModelContext context;
     private PRISM.Adapters.SeasonMissionMissionSortFilterModel missionSortFilterModel;
     private System.IDisposable disposable;
     private PRISM.Module.Networking.ISeasonMissionStatus status;
@@ -22582,31 +22550,38 @@ public class SeasonMissionViewModel : PRISM.Adapters.IMissionPanelViewModel, Sys
     private class <>c
     {
         public static <>c <>9;
-        public static System.Func<PRISM.Module.Networking.ISeasonRewardStatus, int> <>9__31_1;
-        public static System.Func<System.Linq.IGrouping<int, PRISM.Module.Networking.ISeasonRewardStatus>, PRISM.Adapters.SeasonMissionRewardViewModel> <>9__31_2;
-        public static System.Func<PRISM.Adapters.SeasonMissionRewardViewModel, int> <>9__31_3;
-        public static System.Func<PRISM.Module.Networking.ISeasonMissionMissionStatus, int> <>9__32_0;
-        public static System.Func<PRISM.Module.Networking.ISeasonMissionMissionStatus, bool> <>9__32_1;
-        private int <.ctor>b__31_1(PRISM.Module.Networking.ISeasonRewardStatus x);
-        private PRISM.Adapters.SeasonMissionRewardViewModel <.ctor>b__31_2(System.Linq.IGrouping<int, PRISM.Module.Networking.ISeasonRewardStatus> x);
-        private int <.ctor>b__31_3(PRISM.Adapters.SeasonMissionRewardViewModel x);
-        private int <_update>b__32_0(PRISM.Module.Networking.ISeasonMissionMissionStatus x);
-        private bool <_update>b__32_1(PRISM.Module.Networking.ISeasonMissionMissionStatus x);
-    }
-
-    private class <>c__DisplayClass31_0
-    {
-        public PRISM.Adapters.Data.SortFilterSettingsSession sortFilterSession;
-        private void <.ctor>b__0(PRISM.Definitions.SortFilterSettings settings);
+        public static System.Func<PRISM.Module.Networking.ISeasonRewardStatus, int> <>9__32_1;
+        public static System.Func<System.Linq.IGrouping<int, PRISM.Module.Networking.ISeasonRewardStatus>, PRISM.Adapters.SeasonMissionRewardViewModel> <>9__32_2;
+        public static System.Func<PRISM.Adapters.SeasonMissionRewardViewModel, int> <>9__32_3;
+        public static System.Func<PRISM.Module.Networking.ISeasonMissionMissionStatus, int> <>9__33_0;
+        public static System.Func<PRISM.Module.Networking.ISeasonMissionMissionStatus, bool> <>9__33_1;
+        private int <.ctor>b__32_1(PRISM.Module.Networking.ISeasonRewardStatus x);
+        private PRISM.Adapters.SeasonMissionRewardViewModel <.ctor>b__32_2(System.Linq.IGrouping<int, PRISM.Module.Networking.ISeasonRewardStatus> x);
+        private int <.ctor>b__32_3(PRISM.Adapters.SeasonMissionRewardViewModel x);
+        private int <_update>b__33_0(PRISM.Module.Networking.ISeasonMissionMissionStatus x);
+        private bool <_update>b__33_1(PRISM.Module.Networking.ISeasonMissionMissionStatus x);
     }
 
     private class <>c__DisplayClass32_0
     {
         public PRISM.Module.Networking.ISeasonMissionStatus status;
+        public PRISM.Adapters.SeasonMissionViewModel <>4__this;
+        private void <.ctor>b__4(PRISM.Module.Networking.IUpdateMissionStatus data);
+    }
+
+    private class <>c__DisplayClass32_1
+    {
+        public PRISM.Adapters.Data.SortFilterSettingsSession sortFilterSession;
+        private void <.ctor>b__0(PRISM.Definitions.SortFilterSettings settings);
+    }
+
+    private class <>c__DisplayClass33_0
+    {
+        public PRISM.Module.Networking.ISeasonMissionStatus status;
         private bool <_update>b__2(PRISM.Module.Networking.ISeasonRewardStatus x);
     }
 
-    private struct <ReceiveMissionRewardAsync>d__33 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <ReceiveMissionRewardAsync>d__34 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -22618,13 +22593,14 @@ public class SeasonMissionViewModel : PRISM.Adapters.IMissionPanelViewModel, Sys
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <ReceiveRankRewardAsync>d__34 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <ReceiveRankRewardAsync>d__35 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
         public PRISM.Adapters.SeasonMissionViewModel <>4__this;
         public System.Threading.CancellationToken ct;
         private PRISM.Adapters.IAdapterLocator <locator>5__2;
+        private PRISM.Module.Networking.IReceiveSeasonMissionRankRewardReply <reply>5__3;
         private Awaiter<PRISM.Module.Networking.IReceiveSeasonMissionRankRewardReply> <>u__1;
         private Awaiter <>u__2;
         private void MoveNext();
@@ -23058,7 +23034,7 @@ public interface IClosablePopupFrame`1<T> : PRISM.Adapters.IPopupFrame, PRISM.Ad
 public interface ICommonSequencerContainer : PRISM.ICommonSequencerContainerForLegacy
 {
     public PRISM.Adapters.IAnnounceSequencer Announce { get; set; }
-    public Cysharp.Threading.Tasks.UniTask<UniRx.Unit> ShowExchangeTopOverlayAsync(PRISM.Adapters.ExchangeTopViewModel viewModel, System.Threading.CancellationToken cancellationToken);
+    public Cysharp.Threading.Tasks.UniTask ShowExchangeTopOverlayAsync(PRISM.Adapters.ExchangeTopViewModel viewModel, System.Threading.CancellationToken cancellationToken);
     public Cysharp.Threading.Tasks.UniTask ShowExchangeConfirmPopupAsync(PRISM.Domain.ProductKey productKey, ExchangeTabType tabType, System.Threading.CancellationToken ct);
     public Cysharp.Threading.Tasks.UniTask ShowCostumeLineupPopupAsync(PRISM.Domain.ProductKey status, System.Threading.CancellationToken ct);
     public Cysharp.Threading.Tasks.UniTask ShowSelectionTicketLineupPopupAsync(PRISM.Domain.ProductKey status, System.Threading.CancellationToken ct);
@@ -25743,7 +25719,7 @@ public interface IShinyCompetitionBonusOverlayView : PRISM.Adapters.IClosableOve
 // Namespace: PRISM.Adapters
 public class ShinyCompetitionBonusOverlaySequencer
 {
-    public static Cysharp.Threading.Tasks.UniTask ShowAsync(int mstShinyCompetitionId, bool isShowClearState, System.Threading.CancellationToken ct);
+    public static Cysharp.Threading.Tasks.UniTask ShowAsync(int mstShinyCompetitionId, bool isShowClearState, bool canUpgrading, System.Threading.CancellationToken ct);
 
     private class <>c
     {
@@ -25756,6 +25732,7 @@ public class ShinyCompetitionBonusOverlaySequencer
     {
         public int mstShinyCompetitionId;
         public PRISM.Domain.ICachedProduceIdolService service;
+        public bool canUpgrading;
         public bool isShowClearState;
         public System.Collections.Generic.List<PRISM.Service.ShinyCompetitionProduceBonusData> saveData;
         public System.Linq.IOrderedEnumerable<PRISM.Adapters.ShinyCompetitionPIdolBonusListViewModel> pIdolBonusCellViewModelList;
@@ -25779,6 +25756,7 @@ public class ShinyCompetitionBonusOverlaySequencer
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
         public int mstShinyCompetitionId;
+        public bool canUpgrading;
         public bool isShowClearState;
         public System.Threading.CancellationToken ct;
         private <>c__DisplayClass0_0 <>8__1;
@@ -25798,11 +25776,13 @@ public class ShinyCompetitionPIdolBonusListViewModel
     private PRISM.Module.Networking.IProduceIdolStatus <PIdolStatus>k__BackingField;
     private PRISM.Common.Model.PIdolIcon <IconData>k__BackingField;
     private bool <IsPossession>k__BackingField;
+    private bool <CanUpgrading>k__BackingField;
     public PRISM.Definitions.MstShinyCompetitionIdol MstShinyCompetitionIdol { get; set; }
     public PRISM.Definitions.MstProduceIdol MstProduceIdol { get; set; }
     public PRISM.Module.Networking.IProduceIdolStatus PIdolStatus { get; set; }
     public PRISM.Common.Model.PIdolIcon IconData { get; set; }
     public bool IsPossession { get; set; }
+    public bool CanUpgrading { get; set; }
 }
 
 // Namespace: PRISM.Adapters
@@ -31958,6 +31938,13 @@ public class ProfileAchievementSelectPopupSequencer
     private bool _checkIsSetting(int achievementId);
     private Cysharp.Threading.Tasks.UniTask _requestUpdateProfileUserSelfAsync(PRISM.Adapters.IProfileAchievementSelectPopupView view, System.Action onUpdateView, int[] achievementIds, System.Threading.CancellationToken ct);
 
+    private class <>c
+    {
+        public static <>c <>9;
+        public static System.Func<PRISM.Adapters.AchievementIconViewModel, int> <>9__4_1;
+        private int <ShowAsync>b__4_1(PRISM.Adapters.AchievementIconViewModel x);
+    }
+
     private class <>c__DisplayClass4_0
     {
         public PRISM.Adapters.ProfileAchievementSelectPopupSequencer <>4__this;
@@ -31966,24 +31953,24 @@ public class ProfileAchievementSelectPopupSequencer
         public System.Action onUpdateView;
         public PRISM.Adapters.ProfileAchievementSortFilterModel sortFilterModel;
         public PRISM.Adapters.Data.SortFilterSettingsSession sortFilterSession;
-        public System.Action<int> <>9__4;
         public System.Action<int> <>9__5;
-        public System.Action<PRISM.Definitions.SortFilterSettings> <>9__7;
+        public System.Action<int> <>9__6;
+        public System.Action<PRISM.Definitions.SortFilterSettings> <>9__8;
         private PRISM.Adapters.AchievementIconViewModel <ShowAsync>b__0(PRISM.Module.Networking.IAchievementStatus x);
-        private System.IDisposable <ShowAsync>b__1(PRISM.Adapters.IProfileAchievementSelectPopupView view, PRISM.ResourceManagement.IResourceLoader loader);
-        private void <ShowAsync>b__4(int achievementId);
-        private void <ShowAsync>b__5(int index);
-        private void <ShowAsync>b__7(PRISM.Definitions.SortFilterSettings settings);
+        private System.IDisposable <ShowAsync>b__2(PRISM.Adapters.IProfileAchievementSelectPopupView view, PRISM.ResourceManagement.IResourceLoader loader);
+        private void <ShowAsync>b__5(int achievementId);
+        private void <ShowAsync>b__6(int index);
+        private void <ShowAsync>b__8(PRISM.Definitions.SortFilterSettings settings);
     }
 
     private class <>c__DisplayClass4_1
     {
         public PRISM.Adapters.IProfileAchievementSelectPopupView view;
         public <>c__DisplayClass4_0 CS$<>8__locals1;
-        private void <ShowAsync>b__2(int tabType);
-        private void <ShowAsync>b__3(int achievementId);
-        private void <ShowAsync>b__6(UniRx.Unit _);
-        private void <ShowAsync>b__8(System.Collections.Generic.IReadOnlyList<PRISM.Adapters.AchievementIconViewModel> _);
+        private void <ShowAsync>b__3(int tabType);
+        private void <ShowAsync>b__4(int achievementId);
+        private void <ShowAsync>b__7(UniRx.Unit _);
+        private void <ShowAsync>b__9(System.Collections.Generic.IReadOnlyList<PRISM.Adapters.AchievementIconViewModel> _);
     }
 
     private struct <ShowAsync>d__4 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
@@ -33189,6 +33176,7 @@ public interface IRunwayUnitConfirmationView
     public System.IObservable<UniRx.Unit> OnStart { get; set; }
     public Cysharp.Threading.Tasks.UniTask InitializeAsync(PRISM.Adapters.RunwayUnitConfirmationModel model, string backgroundImagePath, PRISM.ResourceManagement.IResourceLoader resourceLoader, System.Threading.CancellationToken ct);
     public void PlayMemberChangeEffect();
+    public void UpdateUnitName(string unitName);
     public void Terminate();
 }
 
@@ -33412,7 +33400,7 @@ public class RunwayUnitConfirmationPresenter : PRISM.IViewPresenter
     private void _initializeUnitList(System.Threading.CancellationToken ct);
     private void _invokeUpdateUnitListWindow();
     private Cysharp.Threading.Tasks.UniTask _invokeCopyAsync(PRISM.Adapters.RunwayUnit unitFrom, PRISM.Adapters.RunwayUnit unitTo, bool isReverse, System.Threading.CancellationToken ct);
-    private Cysharp.Threading.Tasks.UniTask _invokeChangeUnitNameAsync(PRISM.Adapters.RunwayUnit unit, string unitName, System.Threading.CancellationToken ct);
+    private Cysharp.Threading.Tasks.UniTask _invokeChangeUnitNameAsync(PRISM.Adapters.RunwayUnit unit, string unitName, System.Action updateAction, System.Threading.CancellationToken ct);
     private Cysharp.Threading.Tasks.UniTask _resetAsync(PRISM.Adapters.RunwayUnit unit, System.Threading.CancellationToken ct);
     private Cysharp.Threading.Tasks.UniTask _showEasyCostumeChangeAsync(System.Threading.CancellationToken ct);
     private Cysharp.Threading.Tasks.UniTask _invokeStarShowAsync(System.Threading.CancellationToken ct);
@@ -33448,15 +33436,17 @@ public class RunwayUnitConfirmationPresenter : PRISM.IViewPresenter
     {
         public PRISM.Adapters.RunwayUnitConfirmationPresenter <>4__this;
         public System.Threading.CancellationToken ct;
+        public System.Action <>9__14;
         private Cysharp.Threading.Tasks.UniTask <_initializeUnitList>b__0(PRISM.Adapters.RunwayUnit unit, int index1, int index2);
         private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__1(System.ValueTuple<PRISM.Adapters.RunwayUnit, int, PRISM.Adapters.RunwayUnitEditCarouselClickEventType> data);
         private void <_initializeUnitList>b__2(int index);
         private void <_initializeUnitList>b__3(UniRx.Unit _);
         private void <_initializeUnitList>b__4(int index);
-        private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__5(string unitName);
-        private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__6(System.ValueTuple<int, string> value);
+        private void <_initializeUnitList>b__5(string unitName);
+        private void <_initializeUnitList>b__6(System.ValueTuple<int, string> value);
         private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__7(System.ValueTuple<PRISM.Adapters.LiveUnitEditFunction, int> value);
         private void <_initializeUnitList>b__8(string unitName);
+        private void <_initializeUnitList>b__14();
         private Cysharp.Threading.Tasks.UniTaskVoid <_initializeUnitList>b__9(UniRx.Unit _);
         private void <_initializeUnitList>b__10(UniRx.Unit _);
         private void <_initializeUnitList>b__11(UniRx.Unit _);
@@ -33470,28 +33460,6 @@ public class RunwayUnitConfirmationPresenter : PRISM.IViewPresenter
             private <>c__DisplayClass9_1 <>8__1;
             private Awaiter<System.Nullable<UnityEngine.Color>> <>u__1;
             private Awaiter <>u__2;
-            private void MoveNext();
-            private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
-        }
-
-        private struct <<_initializeUnitList>b__5>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
-        {
-            public int <>1__state;
-            public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder <>t__builder;
-            public <>c__DisplayClass9_0 <>4__this;
-            public string unitName;
-            private Awaiter <>u__1;
-            private void MoveNext();
-            private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
-        }
-
-        private struct <<_initializeUnitList>b__6>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
-        {
-            public int <>1__state;
-            public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder <>t__builder;
-            public <>c__DisplayClass9_0 <>4__this;
-            public System.ValueTuple<int, string> value;
-            private Awaiter <>u__1;
             private void MoveNext();
             private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
         }
@@ -33541,6 +33509,20 @@ public class RunwayUnitConfirmationPresenter : PRISM.IViewPresenter
         private <>c__DisplayClass8_0 <>8__1;
         private Awaiter<System.ValueTuple<PRISM.Module.Networking.IGetEventRunwayUnitListReply, PRISM.Domain.ICachedCostumeService>> <>u__1;
         private Awaiter <>u__2;
+        private void MoveNext();
+        private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
+    }
+
+    private struct <_invokeChangeUnitNameAsync>d__12 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    {
+        public int <>1__state;
+        public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
+        public PRISM.Adapters.RunwayUnitConfirmationPresenter <>4__this;
+        public PRISM.Adapters.RunwayUnit unit;
+        public string unitName;
+        public System.Threading.CancellationToken ct;
+        public System.Action updateAction;
+        private Awaiter <>u__1;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
@@ -33688,14 +33670,14 @@ public interface IShopPassPurchaseCompletePopupView : PRISM.Adapters.IClosablePo
 public class ShopPassPurchaseCompletePopupViewModel
 {
     private int <MstItemId>k__BackingField;
-    private PRISM.Module.Networking.IProductStatus <Product>k__BackingField;
+    private PRISM.Domain.ProductKeyWithAmount <Product>k__BackingField;
     private string <ProductName>k__BackingField;
     private string <ProductNameMultiLine>k__BackingField;
     private string <CautionText>k__BackingField;
     private string <MessageText>k__BackingField;
     private bool <IsMultiProduct>k__BackingField;
     public int MstItemId { get; set; }
-    public PRISM.Module.Networking.IProductStatus Product { get; set; }
+    public PRISM.Domain.ProductKeyWithAmount Product { get; set; }
     public string ProductName { get; set; }
     public string ProductNameMultiLine { get; set; }
     public string CautionText { get; set; }
@@ -44393,6 +44375,7 @@ public interface IGlobalMenuOverlayView : PRISM.Adapters.IClosableOverlayView<Un
     public PRISM.Adapters.IGlobalMenuBannerGroupView BannerGroupView { get; set; }
     public PRISM.Adapters.GlobalMenu.IGlobalMenuButtonGroupView MenuButtonGroupView { get; set; }
     public PRISM.Adapters.IMainFooterButtonGroupView FooterButtonGroupView { get; set; }
+    public PRISM.Adapters.IGlobalMenuSubFooterView SubFooterView { get; set; }
     public void CloseOverlay();
 }
 
@@ -44432,6 +44415,52 @@ public interface IGlobalMenuSeasonMissionBannerView
     public void Hide();
     public void UpdateBadge(PRISM.Adapters.IBadgeModel badgeModel);
     public void ShowSellingBadge(bool isActive);
+}
+
+// Namespace: PRISM.Adapters.GlobalMenu
+public class GlobalMenuSubFooterPresenter
+{
+    public static System.IDisposable Initialize(PRISM.Adapters.IGlobalMenuSubFooterView view, PRISM.Adapters.IHomeNotificationModelContainer notificationModelContainer, System.Threading.CancellationToken ct);
+
+    private class <>c__DisplayClass0_0
+    {
+        public System.Threading.CancellationToken ct;
+        public PRISM.Adapters.IHomeNotificationModelContainer notificationModelContainer;
+        private Cysharp.Threading.Tasks.UniTaskVoid <Initialize>b__0(UniRx.Unit _);
+        private Cysharp.Threading.Tasks.UniTaskVoid <Initialize>b__1(UniRx.Unit _);
+        private Cysharp.Threading.Tasks.UniTaskVoid <Initialize>b__2(UniRx.Unit _);
+
+        private struct <<Initialize>b__0>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+        {
+            public int <>1__state;
+            public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder <>t__builder;
+            public <>c__DisplayClass0_0 <>4__this;
+            private Awaiter <>u__1;
+            private void MoveNext();
+            private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
+        }
+
+        private struct <<Initialize>b__1>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+        {
+            public int <>1__state;
+            public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder <>t__builder;
+            public <>c__DisplayClass0_0 <>4__this;
+            private Awaiter<PRISM.Adapters.PresentBoxViewModel> <>u__1;
+            private Awaiter <>u__2;
+            private void MoveNext();
+            private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
+        }
+
+        private struct <<Initialize>b__2>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+        {
+            public int <>1__state;
+            public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder <>t__builder;
+            public <>c__DisplayClass0_0 <>4__this;
+            private Awaiter <>u__1;
+            private void MoveNext();
+            private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
+        }
+    }
 }
 
 // Namespace: PRISM.Adapters.Friend
@@ -45262,6 +45291,7 @@ public interface IDramaSceneOperationHandler
     public void JumpByTimelineTime(double time, bool clearCrossFade);
     public void SetPlaySpeed(PRISM.Definitions.Drama.UI.DramaPlaySpeedType speedType);
     public System.Collections.Generic.IEnumerable<PRISM.Adapters.Drama.UI.DramaLogCellViewModel> CreateDramaLogCellViewModels();
+    public void OnSeekBarDrag(bool beginDrag);
 }
 
 // Namespace: PRISM.Adapters.Drama
@@ -45389,6 +45419,7 @@ public interface IDramaMenuView
     public System.IObservable<UniRx.Unit> OnClickTogglePauseButton { get; set; }
     public System.IObservable<UniRx.Unit> OnClickHideMenuButton { get; set; }
     public System.IObservable<float> OnSeekBarValueChanged { get; set; }
+    public UniRx.IReactiveProperty<bool> OnSeekBarDragging { get; set; }
     public System.IObservable<UniRx.Unit> OnClickTurnPageButtonForward { get; set; }
     public System.IObservable<UniRx.Unit> OnClickTurnPageButtonBackward { get; set; }
     public System.IObservable<UniRx.Unit> OnClickShareButton { get; set; }
@@ -46192,7 +46223,7 @@ public class HomeSubFooterButtonGroupPresenter
             public int <>1__state;
             public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder <>t__builder;
             public <>c__DisplayClass0_0 <>4__this;
-            private Awaiter<UniRx.Unit> <>u__1;
+            private Awaiter <>u__1;
             private void MoveNext();
             private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
         }
@@ -47416,12 +47447,15 @@ public class ShopCostumeListPopupSequencer
     public static Cysharp.Threading.Tasks.UniTask RunAsync(PRISM.Adapters.Shop.ShopCostumeListPopupViewModel viewModel, PRISM.Adapters.Shop.ShopContext context, System.Threading.CancellationToken cancellationToken);
     private static Cysharp.Threading.Tasks.UniTask _showTryOnCostumePopupAsync(PRISM.Adapters.Shop.IShopProductModel productModel, System.Threading.CancellationToken ct);
     private static Cysharp.Threading.Tasks.UniTask<bool> _purchaseAsync(PRISM.Adapters.Shop.ShopContext context, PRISM.Adapters.Shop.IShopProductModel productModel, System.Threading.CancellationToken ct);
+    private static System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKey> _getCostumeTryProducts(PRISM.Adapters.Shop.IShopProductModel productModel);
 
     private class <>c
     {
         public static <>c <>9;
-        public static System.Func<PRISM.Module.Networking.IProductWithAmountStatus, PRISM.Domain.ProductKey> <>9__1_0;
-        private PRISM.Domain.ProductKey <_showTryOnCostumePopupAsync>b__1_0(PRISM.Module.Networking.IProductWithAmountStatus product);
+        public static System.Func<PRISM.Module.Networking.IProductWithAmountStatus, PRISM.Domain.ProductKey> <>9__3_0;
+        public static System.Func<PRISM.Module.Networking.IProductWithAmountStatus, PRISM.Domain.ProductKey> <>9__3_1;
+        private PRISM.Domain.ProductKey <_getCostumeTryProducts>b__3_0(PRISM.Module.Networking.IProductWithAmountStatus product);
+        private PRISM.Domain.ProductKey <_getCostumeTryProducts>b__3_1(PRISM.Module.Networking.IProductWithAmountStatus product);
     }
 
     private class <>c__DisplayClass0_0
@@ -47491,8 +47525,8 @@ public class ShopGoodsDetailPopupSequencer
         public PRISM.Domain.ProductKeyWithAmount[] detailBonusContents;
         public System.Threading.CancellationToken ct;
         public System.Func<PRISM.Domain.ProductKey, Cysharp.Threading.Tasks.UniTaskVoid> <>9__3;
-        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <RunAsync>b__0(PRISM.Module.Networking.IProductWithAmountStatus x);
-        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <RunAsync>b__1(PRISM.Module.Networking.IProductWithAmountStatus x);
+        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <RunAsync>b__0(PRISM.Domain.ProductKeyWithAmount x);
+        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <RunAsync>b__1(PRISM.Domain.ProductKeyWithAmount x);
         private System.IDisposable <RunAsync>b__2(PRISM.Adapters.Shop.IShopGoodsDetailPopupView view, PRISM.ResourceManagement.IResourceLoader loader);
         private Cysharp.Threading.Tasks.UniTaskVoid <RunAsync>b__3(PRISM.Domain.ProductKey product);
 
@@ -47722,7 +47756,7 @@ public class ShopPassPurchaseConfirmContentViewModel
     private int <MstItemId>k__BackingField;
     private string <CautionStr>k__BackingField;
     private PRISM.Module.Networking.IStoreItemStatus <StoreItem>k__BackingField;
-    private PRISM.Module.Networking.IProductStatus <Product>k__BackingField;
+    private PRISM.Domain.ProductKeyWithAmount <Product>k__BackingField;
     private PRISM.Domain.ProductKey <ProductKey>k__BackingField;
     private bool <IsExpireDate>k__BackingField;
     public PRISM.Adapters.Shop.IShopPassProductModel ProductModel { get; set; }
@@ -47733,7 +47767,7 @@ public class ShopPassPurchaseConfirmContentViewModel
     public int MstItemId { get; set; }
     public string CautionStr { get; set; }
     public PRISM.Module.Networking.IStoreItemStatus StoreItem { get; set; }
-    public PRISM.Module.Networking.IProductStatus Product { get; set; }
+    public PRISM.Domain.ProductKeyWithAmount Product { get; set; }
     public PRISM.Domain.ProductKey ProductKey { get; set; }
     public bool IsExpireDate { get; set; }
     public bool IsMultiProduct { get; set; }
@@ -48029,13 +48063,13 @@ public interface IShopReceiveBonusPopupView : PRISM.Adapters.IClosablePopupFrame
 // Namespace: PRISM.Adapters.Shop
 public class ShopReceiveBonusPopupSequencer
 {
-    public static Cysharp.Threading.Tasks.UniTask RunAsync(System.Collections.Generic.IReadOnlyCollection<PRISM.Module.Networking.IProductWithAmountStatus> bonusProducts, int purchaseCount, System.Threading.CancellationToken ct);
+    public static Cysharp.Threading.Tasks.UniTask RunAsync(System.Collections.Generic.IReadOnlyCollection<PRISM.Domain.ProductKeyWithAmount> bonusProducts, int purchaseCount, System.Threading.CancellationToken ct);
 
     private class <>c
     {
         public static <>c <>9;
-        public static System.Func<PRISM.Module.Networking.IProductWithAmountStatus, System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount>> <>9__0_0;
-        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <RunAsync>b__0_0(PRISM.Module.Networking.IProductWithAmountStatus x);
+        public static System.Func<PRISM.Domain.ProductKeyWithAmount, System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount>> <>9__0_0;
+        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <RunAsync>b__0_0(PRISM.Domain.ProductKeyWithAmount x);
     }
 
     private class <>c__DisplayClass0_0
@@ -48319,6 +48353,13 @@ public class CompletePurchasePassSequence
     public static Cysharp.Threading.Tasks.UniTask ExecuteAsync(PRISM.Adapters.Shop.IShopPurchaseSequenceContext context, PRISM.Adapters.Shop.ShopPassPurchaseConfirmContentViewModel shopPassPurchaseConfirmContentViewModel, System.Threading.CancellationToken ct);
     private static Cysharp.Threading.Tasks.UniTask _showCompletePassPurchasePopupAsync(PRISM.Adapters.ShopPassPurchaseCompletePopupViewModel viewModel, System.Threading.CancellationToken ct);
     private static Cysharp.Threading.Tasks.UniTask <_showCompletePassPurchasePopupAsync>g___showPassDetailPopupAsync|1_1(PRISM.Adapters.ShopPassPurchaseCompletePopupViewModel viewModel, System.Threading.CancellationToken ct);
+
+    private class <>c
+    {
+        public static <>c <>9;
+        public static System.Func<PRISM.Module.Networking.IProductWithAmountStatus, PRISM.Domain.ProductKeyWithAmount> <>9__0_0;
+        private PRISM.Domain.ProductKeyWithAmount <ExecuteAsync>b__0_0(PRISM.Module.Networking.IProductWithAmountStatus bonus);
+    }
 
     private class <>c__DisplayClass1_0
     {
@@ -49746,7 +49787,7 @@ public class AdvMenuPresenter
     private void <Initialize>b__7_2(UniRx.Unit _);
     private void <Initialize>b__7_3(UniRx.Unit _);
     private void <Initialize>b__7_4(UniRx.Unit _);
-    private void <Initialize>b__7_5(bool _);
+    private void <Initialize>b__7_5(UniRx.Unit _);
     private void <Initialize>b__7_6(UniRx.Unit _);
     private void <ExecuteSkipAdvSequenceAsync>b__9_0();
 
@@ -49782,7 +49823,7 @@ public interface IAdvMenuButtonContainer
     public System.IObservable<UniRx.Unit> OnClickHideButton { get; set; }
     public System.IObservable<UniRx.Unit> OnClickShowLogButton { get; set; }
     public System.IObservable<UniRx.Unit> OnClickSkipButton { get; set; }
-    public System.IObservable<bool> OnClickFavoriteButton { get; set; }
+    public System.IObservable<UniRx.Unit> OnClickFavoriteButton { get; set; }
     public void Initialize(PRISM.Adapters.Adv.AdvMenuOptionButtonContainerViewModel viewModel);
     public Cysharp.Threading.Tasks.UniTask ShowAdvLogAsync(PRISM.Adv.IAdvScenarioInfo advScenarioInfo, System.Threading.CancellationToken ct);
     public Cysharp.Threading.Tasks.UniTask<bool> ShowAdvSkipConfirmationPopupAsync(PRISM.Adv.IAdvScenarioInfo advScenarioInfo, System.Threading.CancellationToken ct);
@@ -49957,13 +49998,21 @@ public interface IAdvTextLogOverlayView : PRISM.Adapters.IClosableOverlayView<Un
 
 private class <PrivateImplementationDetails>
 {
-    private static __StaticArrayInitTypeSize=166969 2691C7F77501525D4EE0E1EC5097817D485102B06389AEC0A93228F92F2BDB18;
+    private static __StaticArrayInitTypeSize=20 4610582EB950EBED391BF6A0FDE70C1949468F58C3920E09599C1200925AE45E;
     private static __StaticArrayInitTypeSize=28 4B83AA8A74F05B97602A90AA975EBA57B0D04A076A9562BAEB7E886E15E53480;
     private static __StaticArrayInitTypeSize=24 5D4F365F9E0563926E349FD265ECB27A031A9787368FDA9DCB8FD3176909E8F3;
-    private static __StaticArrayInitTypeSize=88169 6ADE175CC0B60B70286BD90D4EB5AAD7953AE62278B5AE99CE25BF692DC3CA1B;
-    private static __StaticArrayInitTypeSize=16 9EE19BDC04B55FAE388863C182AC4A93CAA01FFF0346B9D9759DD5FE810D0074;
+    private static __StaticArrayInitTypeSize=167165 60ABBAE2BBF6C7357E9EC6DC65FF435E6A599FDD427A6737BE1BE8EC70B4C371;
+    private static __StaticArrayInitTypeSize=88315 C36C124DAB58F5D13011EC52B6FB5745ECF85551F51C1299FAC09230A2CAB923;
+    private static __StaticArrayInitTypeSize=24 CA688BD5E8F3C788B5ACD61A7097B17C67C32292C727461C901AA0AD9853123E;
+    private static __StaticArrayInitTypeSize=12 DDADED0783253EFA094EFCB76EC710D669C84EBEEF77F2B0AE84B04AD4E6ED33;
+    private static __StaticArrayInitTypeSize=12 E4CD78ACCEF47B9D7D5ECE6AC573FF871B31A86B00A672A20C5B21C1C6717E12;
+    private static __StaticArrayInitTypeSize=12 E7930728FD9095E60114125694B73AEE464EF24A1D439713A5600FCAF4F11F99;
 
-    private struct __StaticArrayInitTypeSize=16 : System.ValueType
+    private struct __StaticArrayInitTypeSize=12 : System.ValueType
+    {
+    }
+
+    private struct __StaticArrayInitTypeSize=20 : System.ValueType
     {
     }
 
@@ -49975,11 +50024,11 @@ private class <PrivateImplementationDetails>
     {
     }
 
-    private struct __StaticArrayInitTypeSize=88169 : System.ValueType
+    private struct __StaticArrayInitTypeSize=88315 : System.ValueType
     {
     }
 
-    private struct __StaticArrayInitTypeSize=166969 : System.ValueType
+    private struct __StaticArrayInitTypeSize=167165 : System.ValueType
     {
     }
 }

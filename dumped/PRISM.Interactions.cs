@@ -160,6 +160,7 @@ public class NativeShareExtensions
     public static Cysharp.Threading.Tasks.UniTask AddScreenshotAsync(NativeShare self, UnityEngine.MonoBehaviour coroutineRunner, System.Threading.CancellationToken cancellationToken, System.Nullable<float> aspectRatio, bool isTransparent);
     public static NativeShare AddFile(NativeShare self, byte[] data, string fileName);
     public static Cysharp.Threading.Tasks.UniTask<System.ValueTuple<ShareResult, string>> ShareAsync(NativeShare self);
+    public static NativeShare SetTextWithUrl(NativeShare self, string text);
 
     private class <>c__DisplayClass2_0
     {
@@ -2878,6 +2879,7 @@ public class NumberFluctuateButtonView : UnityEngine.MonoBehaviour
     private int diff;
     public System.IObservable<int> OnClick { get; set; }
     public void UpdateView(int currentValue, int minValue, int maxValue);
+    public void DisableView();
     private int <get_OnClick>b__4_0(UniRx.Unit _);
     private int <get_OnClick>b__4_1(UniRx.Unit _);
 }
@@ -2928,6 +2930,7 @@ public class ToggleGroupView : UnityEngine.MonoBehaviour
     public void Initialize(UniRx.IReactiveProperty<int> selectedIndex, System.Threading.CancellationToken cancellationToken);
     public static System.IDisposable Create(System.Collections.Generic.IEnumerable<PRISM.Interactions.ButtonView> toggleButtons, UniRx.IReactiveProperty<int> selectedId, System.Func<int, int> indexToId);
     public void Initialize(int firstSelectedIndex, System.Action<int> onChange);
+    public void SetClickSe(PRISM.Definitions.SoundKey se);
 
     private class <>c
     {
@@ -4555,6 +4558,7 @@ public class DramaSceneCharacter : UnityEngine.MonoBehaviour
     private void _copyMagicaParameters();
     private static void _setupMagicaColliders(string editCharacterPath, System.Collections.Generic.IReadOnlyList<MagicaCloth2.ColliderComponent> edits, UnityEngine.Transform playingCharacterTransform, System.Collections.Generic.List<MagicaCloth2.ColliderComponent> playings);
     private static void _setupMagicaColliders(string editCharacterPath, MagicaCloth2.ColliderComponent edit, UnityEngine.Transform playingCharacterTransform, System.Collections.Generic.List<MagicaCloth2.ColliderComponent> playings);
+    private void _setupForMirror(PRISM.Character character);
     private static void _swapBindingObjectRecursively(UnityEngine.Playables.PlayableDirector director, UnityEngine.Transform sourceTransform, UnityEngine.Transform targetTransform);
     private static void _swapBindingObjectRecursively(UnityEngine.Playables.PlayableDirector director, System.Collections.Generic.IEnumerable<UnityEngine.Timeline.TrackAsset> tracks, UnityEngine.Transform sourceTransform, UnityEngine.Transform targetTransform);
     private static void _swapBindingObject(UnityEngine.Playables.PlayableDirector director, UnityEngine.Timeline.TrackAsset track, UnityEngine.Transform sourceTransform, UnityEngine.Transform targetTransform);

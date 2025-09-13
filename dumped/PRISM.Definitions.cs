@@ -968,6 +968,13 @@ public enum VocalSeparatedSoundEffectMode : System.Enum
 }
 
 // Namespace: PRISM.Definitions
+public interface IMstCostumeDifference
+{
+    public int MstOriginalId { get; set; }
+    public int MstDifferenceId { get; set; }
+}
+
+// Namespace: PRISM.Definitions
 public interface IMstCostumePart
 {
     public int Id { get; set; }
@@ -1013,6 +1020,7 @@ public struct LocalizationKey : System.ValueType, System.IEquatable<PRISM.Defini
 public class MasterData
 {
     public PRISM.Definitions.SortedMasterTable<int, PRISM.Definitions.MstAccessory> Accessories;
+    public PRISM.Definitions.MasterTable<PRISM.Definitions.MstAccessoryDifferent> AccessoryDifferents;
     public PRISM.Definitions.SortedMasterTable<int, PRISM.Definitions.MstAccessoryResource> AccessoryResources;
     public PRISM.Definitions.SortedMasterTable<int, PRISM.Definitions.MstAchievement> Achievements;
     public PRISM.Definitions.SortedMasterTable<string, PRISM.Definitions.MstAdvInfo> AdvInfos;
@@ -1029,6 +1037,7 @@ public class MasterData
     public PRISM.Definitions.MasterTable<PRISM.Definitions.MstCharacterBirthdayAdv> CharacterBirthdayAdvs;
     public PRISM.Definitions.SortedMasterTable<int, PRISM.Definitions.MstCharacterInfo> CharacterInfos;
     public PRISM.Definitions.SortedMasterTable<int, PRISM.Definitions.MstCostume> Costumes;
+    public PRISM.Definitions.MasterTable<PRISM.Definitions.MstCostumeDifferent> CostumeDifferents;
     public PRISM.Definitions.SortedMasterTable<int, PRISM.Definitions.MstCostumeResource> CostumeResources;
     public PRISM.Definitions.SortedMasterTable<int, PRISM.Definitions.MstCostumeSet> CostumeSets;
     public PRISM.Definitions.MasterTable<PRISM.Definitions.MstCostumeShopItemGroup> CostumeShopItemGroups;
@@ -1058,6 +1067,7 @@ public class MasterData
     public PRISM.Definitions.MasterTable<PRISM.Definitions.MstGiftEventReward> GiftEventRewards;
     public PRISM.Definitions.SortedMasterTable<int, PRISM.Definitions.MstGiftEventTokenRelation> GiftEventTokenRelations;
     public PRISM.Definitions.SortedMasterTable<int, PRISM.Definitions.MstHairstyle> Hairstyles;
+    public PRISM.Definitions.MasterTable<PRISM.Definitions.MstHairstyleDifferent> HairstyleDifferents;
     public PRISM.Definitions.SortedMasterTable<System.ValueTuple<int, int>, PRISM.Definitions.MstHairstyleResource> HairstyleResources;
     public PRISM.Definitions.MasterTable<PRISM.Definitions.MstHelp> Helps;
     public PRISM.Definitions.MasterTable<PRISM.Definitions.MstHelpGroup> HelpGroups;
@@ -1250,6 +1260,26 @@ public class MstAccessory : PRISM.Definitions.IMstCostumePart, System.IComparabl
 }
 
 // Namespace: PRISM.Definitions
+public class MstAccessoryDifferent : PRISM.Definitions.IMstCostumeDifference, MemoryPack.IMemoryPackable<PRISM.Definitions.MstAccessoryDifferent>, MemoryPack.IMemoryPackFormatterRegister
+{
+    private int <MstOriginalAccessoryId>k__BackingField;
+    private int <MstAccessoryId>k__BackingField;
+    public int MstOriginalAccessoryId { get; set; }
+    public int MstAccessoryId { get; set; }
+    public int MstOriginalId { get; set; }
+    public int MstDifferenceId { get; set; }
+    public static void RegisterFormatter();
+    public static void Serialize(MemoryPack.MemoryPackWriter& writer, PRISM.Definitions.MstAccessoryDifferent& value);
+    public static void Deserialize(MemoryPack.MemoryPackReader& reader, PRISM.Definitions.MstAccessoryDifferent& value);
+
+    private class MstAccessoryDifferentFormatter : MemoryPack.MemoryPackFormatter<PRISM.Definitions.MstAccessoryDifferent>
+    {
+        public void Serialize(MemoryPack.MemoryPackWriter& writer, PRISM.Definitions.MstAccessoryDifferent& value);
+        public void Deserialize(MemoryPack.MemoryPackReader& reader, PRISM.Definitions.MstAccessoryDifferent& value);
+    }
+}
+
+// Namespace: PRISM.Definitions
 public class MstAccessoryResource : System.IComparable<PRISM.Definitions.MstAccessoryResource>, System.IComparable<int>, MemoryPack.IMemoryPackable<PRISM.Definitions.MstAccessoryResource>, MemoryPack.IMemoryPackFormatterRegister
 {
     private int <Id>k__BackingField;
@@ -1273,10 +1303,12 @@ public class MstAccessoryResource : System.IComparable<PRISM.Definitions.MstAcce
 public class MstAchievement : System.IComparable<PRISM.Definitions.MstAchievement>, System.IComparable<int>, MemoryPack.IMemoryPackable<PRISM.Definitions.MstAchievement>, MemoryPack.IMemoryPackFormatterRegister
 {
     private int <Id>k__BackingField;
+    private int <SortId>k__BackingField;
     public int Id { get; set; }
     public PRISM.Definitions.LocalizationKey Name { get; set; }
     public PRISM.Definitions.LocalizationKey Description { get; set; }
     public PRISM.Definitions.LocalizationKey Condition { get; set; }
+    public int SortId { get; set; }
     public string ImagePath { get; set; }
     public int CompareTo(PRISM.Definitions.MstAchievement other);
     public int CompareTo(int key);
@@ -1737,6 +1769,26 @@ public class MstCostume : PRISM.Definitions.IMstCostumePart, System.IComparable<
     {
         public void Serialize(MemoryPack.MemoryPackWriter& writer, PRISM.Definitions.MstCostume& value);
         public void Deserialize(MemoryPack.MemoryPackReader& reader, PRISM.Definitions.MstCostume& value);
+    }
+}
+
+// Namespace: PRISM.Definitions
+public class MstCostumeDifferent : PRISM.Definitions.IMstCostumeDifference, MemoryPack.IMemoryPackable<PRISM.Definitions.MstCostumeDifferent>, MemoryPack.IMemoryPackFormatterRegister
+{
+    private int <MstOriginalCostumeId>k__BackingField;
+    private int <MstCostumeId>k__BackingField;
+    public int MstOriginalCostumeId { get; set; }
+    public int MstCostumeId { get; set; }
+    public int MstOriginalId { get; set; }
+    public int MstDifferenceId { get; set; }
+    public static void RegisterFormatter();
+    public static void Serialize(MemoryPack.MemoryPackWriter& writer, PRISM.Definitions.MstCostumeDifferent& value);
+    public static void Deserialize(MemoryPack.MemoryPackReader& reader, PRISM.Definitions.MstCostumeDifferent& value);
+
+    private class MstCostumeDifferentFormatter : MemoryPack.MemoryPackFormatter<PRISM.Definitions.MstCostumeDifferent>
+    {
+        public void Serialize(MemoryPack.MemoryPackWriter& writer, PRISM.Definitions.MstCostumeDifferent& value);
+        public void Deserialize(MemoryPack.MemoryPackReader& reader, PRISM.Definitions.MstCostumeDifferent& value);
     }
 }
 
@@ -2533,6 +2585,26 @@ public class MstHairstyle : PRISM.Definitions.IMstCostumePart, System.IComparabl
         public static <>c <>9;
         public static System.Func<PRISM.Definitions.MstAccessoryResource, bool> <>9__44_0;
         private bool <BindReferences>b__44_0(PRISM.Definitions.MstAccessoryResource x);
+    }
+}
+
+// Namespace: PRISM.Definitions
+public class MstHairstyleDifferent : PRISM.Definitions.IMstCostumeDifference, MemoryPack.IMemoryPackable<PRISM.Definitions.MstHairstyleDifferent>, MemoryPack.IMemoryPackFormatterRegister
+{
+    private int <MstOriginalHairstyleId>k__BackingField;
+    private int <MstHairstyleId>k__BackingField;
+    public int MstOriginalHairstyleId { get; set; }
+    public int MstHairstyleId { get; set; }
+    public int MstOriginalId { get; set; }
+    public int MstDifferenceId { get; set; }
+    public static void RegisterFormatter();
+    public static void Serialize(MemoryPack.MemoryPackWriter& writer, PRISM.Definitions.MstHairstyleDifferent& value);
+    public static void Deserialize(MemoryPack.MemoryPackReader& reader, PRISM.Definitions.MstHairstyleDifferent& value);
+
+    private class MstHairstyleDifferentFormatter : MemoryPack.MemoryPackFormatter<PRISM.Definitions.MstHairstyleDifferent>
+    {
+        public void Serialize(MemoryPack.MemoryPackWriter& writer, PRISM.Definitions.MstHairstyleDifferent& value);
+        public void Deserialize(MemoryPack.MemoryPackReader& reader, PRISM.Definitions.MstHairstyleDifferent& value);
     }
 }
 
@@ -6408,8 +6480,8 @@ public class AdvAssetKeyConst
 private class <PrivateImplementationDetails>
 {
     private static __StaticArrayInitTypeSize=20 3A795EE993DCFCD47AE2FD7282FAE2348DADC51429112235F8375626F9439A0B;
-    private static __StaticArrayInitTypeSize=16861 4E79343E149A5A7027AF3A007EDFF1D4B5BBBCF4F12E8DAA977AFB56532511DE;
-    private static __StaticArrayInitTypeSize=10351 67DE85180B940CBCC90913ED27B1DF620F1D26D46869B47D1588077AD23C34E3;
+    private static __StaticArrayInitTypeSize=10525 47480A7354F85EE0FAE87082D2BC2D4F8F545BD10CB7B81D8D106827E75EE9AD;
+    private static __StaticArrayInitTypeSize=17166 7E291D3FE2137CE37AFA633C4999F040C2BE4D7C90CF2D843F8A353734650409;
     private static __StaticArrayInitTypeSize=12 BD62D5246F9FCBE9B2173ED98AA4CB2946971DFFC4B05F7647C09C7B889FF44F;
     private static __StaticArrayInitTypeSize=48 E65577224EAF52384715036A7C44E5D26EDD02CA5E9AB88C8F313AF80E66A646;
 
@@ -6425,11 +6497,11 @@ private class <PrivateImplementationDetails>
     {
     }
 
-    private struct __StaticArrayInitTypeSize=10351 : System.ValueType
+    private struct __StaticArrayInitTypeSize=10525 : System.ValueType
     {
     }
 
-    private struct __StaticArrayInitTypeSize=16861 : System.ValueType
+    private struct __StaticArrayInitTypeSize=17166 : System.ValueType
     {
     }
 }

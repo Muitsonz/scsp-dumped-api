@@ -828,7 +828,7 @@ public class CommonSequencerContainer : PRISM.Adapters.ICommonSequencerContainer
     public Cysharp.Threading.Tasks.UniTask ShowItemDetailAsync(PRISM.Domain.ProductKey productKey, System.Threading.CancellationToken ct);
     public Cysharp.Threading.Tasks.UniTask ShowGlobalMenuAsync(System.Threading.CancellationToken cancellationToken);
     public Cysharp.Threading.Tasks.UniTask ShowReceiveRewardPopupAsync(PRISM.Adapters.Common.ReceiveRewardPopupViewModel viewModel, System.Threading.CancellationToken cancellationToken);
-    public Cysharp.Threading.Tasks.UniTask<UniRx.Unit> ShowExchangeTopOverlayAsync(PRISM.Adapters.ExchangeTopViewModel viewModel, System.Threading.CancellationToken cancellationToken);
+    public Cysharp.Threading.Tasks.UniTask ShowExchangeTopOverlayAsync(PRISM.Adapters.ExchangeTopViewModel viewModel, System.Threading.CancellationToken cancellationToken);
     public Cysharp.Threading.Tasks.UniTask ShowExchangeConfirmPopupAsync(PRISM.Domain.ProductKey productKey, ExchangeTabType tabType, System.Threading.CancellationToken ct);
     public Cysharp.Threading.Tasks.UniTask ShowCostumeLineupPopupAsync(PRISM.Domain.ProductKey ticketKey, System.Threading.CancellationToken ct);
     public Cysharp.Threading.Tasks.UniTask ShowSelectionTicketLineupPopupAsync(PRISM.Domain.ProductKey ticketKey, System.Threading.CancellationToken ct);

@@ -201,7 +201,7 @@ public class CameraWorkEvent : UnityEngine.MonoBehaviour
     public bool[] onoff;
     private bool isPresetMode;
     private static float CameraMoveLimitYAxis;
-    private UnityEngine.Vector3 cameraStartPosition;
+    private float cameraStartPositionY;
     private static string commonCameraMoveFile;
     private System.Collections.Generic.Dictionary<string, int> moveIDTable;
     private UnityEngine.Vector3 adjustForUI;
@@ -259,7 +259,7 @@ public class CameraWorkEvent : UnityEngine.MonoBehaviour
     public void SetCameraAngleX(float x);
     public void SetCameraPositionY(float positionY);
     public void SetManualCameraTarget(ShootingType shootingType);
-    private void ResetCameraStartPosition();
+    private void _resetCameraStartPositionY();
     public void DisablePresetMode();
     public CameraWorkData AddCameraWorkEvent(CameraWorkData cd);
     public void RemoveCameraWorkEvent(CameraWorkData cd);
@@ -1579,53 +1579,6 @@ public class IngestServiceReflection
 }
 
 // Namespace: Prism
-public class Container : Google.Protobuf.IMessage<Prism.Container>, Google.Protobuf.IMessage, System.IEquatable<Prism.Container>, Google.Protobuf.IDeepCloneable<Prism.Container>
-{
-    private static Google.Protobuf.MessageParser<Prism.Container> _parser;
-    private Google.Protobuf.UnknownFieldSet _unknownFields;
-    public static int ChunkFieldNumber;
-    private static Google.Protobuf.FieldCodec<Google.Protobuf.ByteString> _repeated_chunk_codec;
-    private Google.Protobuf.Collections.RepeatedField<Google.Protobuf.ByteString> chunk_;
-    public static int StreamingIdFieldNumber;
-    private string streamingId_;
-    public static int TitleFieldNumber;
-    private string title_;
-    public static int SequenceNumberFieldNumber;
-    private int sequenceNumber_;
-    public static int StartAtFieldNumber;
-    private Google.Protobuf.WellKnownTypes.Timestamp startAt_;
-    public static int EndAtFieldNumber;
-    private Google.Protobuf.WellKnownTypes.Timestamp endAt_;
-    public static int ServerReceivedAtFieldNumber;
-    private Google.Protobuf.WellKnownTypes.Timestamp serverReceivedAt_;
-    public Google.Protobuf.MessageParser<Prism.Container> Parser { get; set; }
-    public Google.Protobuf.Reflection.MessageDescriptor Descriptor { get; set; }
-    private Google.Protobuf.Reflection.MessageDescriptor pb::Google.Protobuf.IMessage.Descriptor { get; set; }
-    public Google.Protobuf.Collections.RepeatedField<Google.Protobuf.ByteString> Chunk { get; set; }
-    public string StreamingId { get; set; }
-    public string Title { get; set; }
-    public int SequenceNumber { get; set; }
-    public Google.Protobuf.WellKnownTypes.Timestamp StartAt { get; set; }
-    public Google.Protobuf.WellKnownTypes.Timestamp EndAt { get; set; }
-    public Google.Protobuf.WellKnownTypes.Timestamp ServerReceivedAt { get; set; }
-    public Prism.Container Clone();
-    public bool Equals(object other);
-    public bool Equals(Prism.Container other);
-    public int GetHashCode();
-    public string ToString();
-    public void WriteTo(Google.Protobuf.CodedOutputStream output);
-    public int CalculateSize();
-    public void MergeFrom(Prism.Container other);
-    public void MergeFrom(Google.Protobuf.CodedInputStream input);
-
-    private class <>c
-    {
-        public static <>c <>9;
-        private Prism.Container <.cctor>b__55_0();
-    }
-}
-
-// Namespace: Prism
 public class ArchiveIndex : Google.Protobuf.IMessage<Prism.ArchiveIndex>, Google.Protobuf.IMessage, System.IEquatable<Prism.ArchiveIndex>, Google.Protobuf.IDeepCloneable<Prism.ArchiveIndex>
 {
     private static Google.Protobuf.MessageParser<Prism.ArchiveIndex> _parser;
@@ -1729,6 +1682,7 @@ public class IngestService
     private static Grpc.Core.Method<Google.Protobuf.WellKnownTypes.Empty, Prism.ListArchiveIndexResponse> __Method_ListArchiveIndex;
     public Google.Protobuf.Reflection.ServiceDescriptor Descriptor { get; set; }
     public static Grpc.Core.ServerServiceDefinition BindService(IngestServiceBase serviceImpl);
+    public static void BindService(Grpc.Core.ServiceBinderBase serviceBinder, IngestServiceBase serviceImpl);
 
     public class IngestServiceBase
     {
@@ -1757,10 +1711,10 @@ public class IngestService
     private class <>c
     {
         public static <>c <>9;
-        private byte[] <.cctor>b__13_0(Prism.Container arg);
-        private byte[] <.cctor>b__13_1(Google.Protobuf.WellKnownTypes.Empty arg);
-        private byte[] <.cctor>b__13_2(Prism.CreateArchiveIndexRequest arg);
-        private byte[] <.cctor>b__13_3(Prism.ListArchiveIndexResponse arg);
+        private byte[] <.cctor>b__14_0(Prism.Container arg);
+        private byte[] <.cctor>b__14_1(Google.Protobuf.WellKnownTypes.Empty arg);
+        private byte[] <.cctor>b__14_2(Prism.CreateArchiveIndexRequest arg);
+        private byte[] <.cctor>b__14_3(Prism.ListArchiveIndexResponse arg);
     }
 }
 
@@ -1769,6 +1723,53 @@ public class OutgestServiceReflection
 {
     private static Google.Protobuf.Reflection.FileDescriptor descriptor;
     public Google.Protobuf.Reflection.FileDescriptor Descriptor { get; set; }
+}
+
+// Namespace: Prism
+public class Container : Google.Protobuf.IMessage<Prism.Container>, Google.Protobuf.IMessage, System.IEquatable<Prism.Container>, Google.Protobuf.IDeepCloneable<Prism.Container>
+{
+    private static Google.Protobuf.MessageParser<Prism.Container> _parser;
+    private Google.Protobuf.UnknownFieldSet _unknownFields;
+    public static int ChunkFieldNumber;
+    private static Google.Protobuf.FieldCodec<Google.Protobuf.ByteString> _repeated_chunk_codec;
+    private Google.Protobuf.Collections.RepeatedField<Google.Protobuf.ByteString> chunk_;
+    public static int StreamingIdFieldNumber;
+    private string streamingId_;
+    public static int TitleFieldNumber;
+    private string title_;
+    public static int SequenceNumberFieldNumber;
+    private int sequenceNumber_;
+    public static int StartAtFieldNumber;
+    private Google.Protobuf.WellKnownTypes.Timestamp startAt_;
+    public static int EndAtFieldNumber;
+    private Google.Protobuf.WellKnownTypes.Timestamp endAt_;
+    public static int ServerReceivedAtFieldNumber;
+    private Google.Protobuf.WellKnownTypes.Timestamp serverReceivedAt_;
+    public Google.Protobuf.MessageParser<Prism.Container> Parser { get; set; }
+    public Google.Protobuf.Reflection.MessageDescriptor Descriptor { get; set; }
+    private Google.Protobuf.Reflection.MessageDescriptor pb::Google.Protobuf.IMessage.Descriptor { get; set; }
+    public Google.Protobuf.Collections.RepeatedField<Google.Protobuf.ByteString> Chunk { get; set; }
+    public string StreamingId { get; set; }
+    public string Title { get; set; }
+    public int SequenceNumber { get; set; }
+    public Google.Protobuf.WellKnownTypes.Timestamp StartAt { get; set; }
+    public Google.Protobuf.WellKnownTypes.Timestamp EndAt { get; set; }
+    public Google.Protobuf.WellKnownTypes.Timestamp ServerReceivedAt { get; set; }
+    public Prism.Container Clone();
+    public bool Equals(object other);
+    public bool Equals(Prism.Container other);
+    public int GetHashCode();
+    public string ToString();
+    public void WriteTo(Google.Protobuf.CodedOutputStream output);
+    public int CalculateSize();
+    public void MergeFrom(Prism.Container other);
+    public void MergeFrom(Google.Protobuf.CodedInputStream input);
+
+    private class <>c
+    {
+        public static <>c <>9;
+        private Prism.Container <.cctor>b__55_0();
+    }
 }
 
 // Namespace: Prism
@@ -1811,6 +1812,7 @@ public class OutgestService
     private static Grpc.Core.Method<Prism.GetContainerChunkRequest, Prism.Container> __Method_GetContainerChunk;
     public Google.Protobuf.Reflection.ServiceDescriptor Descriptor { get; set; }
     public static Grpc.Core.ServerServiceDefinition BindService(OutgestServiceBase serviceImpl);
+    public static void BindService(Grpc.Core.ServiceBinderBase serviceBinder, OutgestServiceBase serviceImpl);
 
     public class OutgestServiceBase
     {
@@ -1827,8 +1829,8 @@ public class OutgestService
     private class <>c
     {
         public static <>c <>9;
-        private byte[] <.cctor>b__9_0(Prism.GetContainerChunkRequest arg);
-        private byte[] <.cctor>b__9_1(Prism.Container arg);
+        private byte[] <.cctor>b__10_0(Prism.GetContainerChunkRequest arg);
+        private byte[] <.cctor>b__10_1(Prism.Container arg);
     }
 }
 
@@ -4129,8 +4131,8 @@ public class UnitIdolDataIO
     public static PRISM.UnitIdol[] LoadAndPreLoad(PRISM.DownloadKeyContainer downloadKeyContainer, string unitPath, bool sd);
     public static void PreLoad(PRISM.DownloadKeyContainer downloadKeyContainer, System.Collections.Generic.IEnumerable<PRISM.UnitIdol> unitIdolData, bool sd);
     public static void AddChangeCloth(PRISM.UnitIdol from, PRISM.UnitIdol to);
-    public static int[] GetDefaultAccessory(int charaId, int clothId);
-    public static int GetDefaultHair(int charaId, int clothId);
+    private static int[] GetDefaultAccessory(int charaId, int clothId);
+    private static int GetDefaultHair(int charaId, int clothId);
     private static int _getAccessoryType(int accessoryId);
     public static System.Collections.Generic.IEnumerable<int> ExceptTypeAccessories(int type, System.Collections.Generic.IEnumerable<int> toAcce, System.Collections.Generic.IEnumerable<int>& fromAcce);
     public static void SetChangeClothEnable(bool torf);
@@ -4315,14 +4317,6 @@ public enum ListViewAlignment : System.Enum
 public class ListViewAlignmentExtensions
 {
     public static float ToFloat(PRISM.ListViewAlignment alignment);
-}
-
-// Namespace: PRISM
-public class OneTimeSetUpDisplay`1<T> : UnityEngine.MonoBehaviour
-{
-    protected bool setUpCompleted;
-    public void SetUp(T data, bool forceRefresh);
-    protected void _setUp(T data);
 }
 
 // Namespace: PRISM
@@ -6691,9 +6685,11 @@ public class AssembleCharacter
         public static System.Func<UnityEngine.SkinnedMeshRenderer, string, bool> <>9__15_0;
         public static System.Func<UnityEngine.SkinnedMeshRenderer, string, bool> <>9__15_1;
         public static System.Func<PRISM.AccessoryMetaComponent, bool> <>9__17_0;
+        public static System.Comparison<PRISM.ApplyMaterialData> <>9__38_0;
         private bool <OrganizeHierarchy>b__15_0(UnityEngine.SkinnedMeshRenderer e, string state);
         private bool <OrganizeHierarchy>b__15_1(UnityEngine.SkinnedMeshRenderer e, string state);
         private bool <_initializeMagicaCloth>b__17_0(PRISM.AccessoryMetaComponent e);
+        private int <ApplyMaterial>b__38_0(PRISM.ApplyMaterialData a, PRISM.ApplyMaterialData b);
     }
 
     private struct <>c__DisplayClass32_0 : System.ValueType
@@ -6902,6 +6898,24 @@ public class HumanoidIKEvent : UnityEngine.MonoBehaviour
     private void _onAnimatorIkLookAt();
     private void _onAnimatorIkHands();
     private void _onAnimatorIkSet(UnityEngine.AvatarIKGoal goal, float weight, UnityEngine.Transform t, UnityEngine.Quaternion rot);
+}
+
+// Namespace: PRISM
+public class ApplyMaterialData
+{
+    private string id;
+    private System.Collections.Generic.List<UnityEngine.Material> materials;
+    private int applyOrder;
+    public string Id { get; set; }
+    public System.Collections.Generic.IReadOnlyList<UnityEngine.Material> Materials { get; set; }
+    public int ApplyOrder { get; set; }
+}
+
+// Namespace: PRISM
+public class MaterialHolderComponent : UnityEngine.MonoBehaviour
+{
+    private System.Collections.Generic.List<PRISM.ApplyMaterialData> applyMaterialDataList;
+    public System.Collections.Generic.IReadOnlyList<PRISM.ApplyMaterialData> ApplyMaterialDataList { get; set; }
 }
 
 // Namespace: PRISM
@@ -7142,10 +7156,12 @@ public class AccessoryMetaComponent : UnityEngine.MonoBehaviour, PRISM.IPartsMet
     private UnityEngine.MeshRenderer[] materialHolderMeshRenderers;
     private PRISM.SwayBone swayBone;
     private PRISM.Module.CustomMagicaCloth.MagicaClothGroup magicaClothGroup;
+    private PRISM.MaterialHolderComponent materialHolderComponent;
+    private System.Collections.Generic.IReadOnlyList<PRISM.ApplyMaterialData> applyMaterialDataList;
     public System.Collections.Generic.IReadOnlyList<UnityEngine.SkinnedMeshRenderer> MeshRenderers { get; set; }
-    public System.Collections.Generic.IReadOnlyList<UnityEngine.MeshRenderer> MaterialHolderMeshRenderers { get; set; }
     public PRISM.SwayBone SwayBone { get; set; }
     public PRISM.Module.CustomMagicaCloth.MagicaClothGroup MagicaClothGroup { get; set; }
+    public System.Collections.Generic.IReadOnlyList<PRISM.ApplyMaterialData> ApplyMaterialDataList { get; set; }
     public void LoadMeta(bool loadIfNeed);
     public UnityEngine.Transform SearchBone(string name);
     public UnityEngine.Transform SearchBoneStartsWith(string name);
@@ -7154,10 +7170,12 @@ public class AccessoryMetaComponent : UnityEngine.MonoBehaviour, PRISM.IPartsMet
     private class <>c
     {
         public static <>c <>9;
-        public static System.Func<UnityEngine.Transform, string, bool> <>9__14_0;
-        public static System.Func<UnityEngine.Transform, string, bool> <>9__15_0;
-        private bool <SearchBone>b__14_0(UnityEngine.Transform e, string state);
-        private bool <SearchBoneStartsWith>b__15_0(UnityEngine.Transform e, string state);
+        public static System.Func<UnityEngine.MeshRenderer, PRISM.ApplyMaterialData> <>9__14_0;
+        public static System.Func<UnityEngine.Transform, string, bool> <>9__16_0;
+        public static System.Func<UnityEngine.Transform, string, bool> <>9__17_0;
+        private PRISM.ApplyMaterialData <get_ApplyMaterialDataList>b__14_0(UnityEngine.MeshRenderer e);
+        private bool <SearchBone>b__16_0(UnityEngine.Transform e, string state);
+        private bool <SearchBoneStartsWith>b__17_0(UnityEngine.Transform e, string state);
     }
 }
 
@@ -7170,13 +7188,15 @@ public class DressMetaComponent : UnityEngine.MonoBehaviour, PRISM.IPartsMeta
     private PRISM.SwayBone swayBone;
     private PRISM.Module.CustomMagicaCloth.MagicaClothGroup magicaClothGroup;
     private PRISM.ConeConstrain coneConstrain;
-    private PRISM.Module.CustomMagicaCloth.SkirtConstraint.SkirtConstraint skirtConstraint;
+    private System.Collections.Generic.List<PRISM.Module.CustomMagicaCloth.SkirtConstraint.SkirtConstraint> skirtConstraints;
+    private PRISM.MaterialHolderComponent materialHolderComponent;
+    private System.Collections.Generic.IReadOnlyList<PRISM.ApplyMaterialData> applyMaterialDataList;
     public System.Collections.Generic.IReadOnlyList<UnityEngine.SkinnedMeshRenderer> MeshRenderers { get; set; }
-    public System.Collections.Generic.IReadOnlyList<UnityEngine.MeshRenderer> MaterialHolderMeshRenderers { get; set; }
     public PRISM.SwayBone SwayBone { get; set; }
     public PRISM.Module.CustomMagicaCloth.MagicaClothGroup MagicaClothGroup { get; set; }
     public PRISM.ConeConstrain ConeConstrain { get; set; }
-    public PRISM.Module.CustomMagicaCloth.SkirtConstraint.SkirtConstraint SkirtConstraint { get; set; }
+    public System.Collections.Generic.IReadOnlyList<PRISM.Module.CustomMagicaCloth.SkirtConstraint.SkirtConstraint> SkirtConstraints { get; set; }
+    public System.Collections.Generic.IReadOnlyList<PRISM.ApplyMaterialData> ApplyMaterialDataList { get; set; }
     public void LoadMeta(bool loadIfNeed);
     public UnityEngine.Transform SearchBone(string name);
     public UnityEngine.Transform SearchBoneStartsWith(string name);
@@ -7184,10 +7204,12 @@ public class DressMetaComponent : UnityEngine.MonoBehaviour, PRISM.IPartsMeta
     private class <>c
     {
         public static <>c <>9;
-        public static System.Func<UnityEngine.Transform, string, bool> <>9__20_0;
-        public static System.Func<UnityEngine.Transform, string, bool> <>9__21_0;
-        private bool <SearchBone>b__20_0(UnityEngine.Transform e, string state);
-        private bool <SearchBoneStartsWith>b__21_0(UnityEngine.Transform e, string state);
+        public static System.Func<UnityEngine.MeshRenderer, PRISM.ApplyMaterialData> <>9__20_0;
+        public static System.Func<UnityEngine.Transform, string, bool> <>9__22_0;
+        public static System.Func<UnityEngine.Transform, string, bool> <>9__23_0;
+        private PRISM.ApplyMaterialData <get_ApplyMaterialDataList>b__20_0(UnityEngine.MeshRenderer e);
+        private bool <SearchBone>b__22_0(UnityEngine.Transform e, string state);
+        private bool <SearchBoneStartsWith>b__23_0(UnityEngine.Transform e, string state);
     }
 }
 
@@ -7223,12 +7245,14 @@ public class HairMetaComponent : UnityEngine.MonoBehaviour, PRISM.IPartsMeta
     private PRISM.Module.CustomMagicaCloth.MagicaClothGroup magicaClothGroup;
     private PRISM.AngelRingController angelRingController;
     private PRISM.HairZBiasController zBiasController;
+    private PRISM.MaterialHolderComponent materialHolderComponent;
+    private System.Collections.Generic.IReadOnlyList<PRISM.ApplyMaterialData> applyMaterialDataList;
     public System.Collections.Generic.IReadOnlyList<UnityEngine.SkinnedMeshRenderer> MeshRenderers { get; set; }
-    public System.Collections.Generic.IReadOnlyList<UnityEngine.MeshRenderer> MaterialHolderMeshRenderers { get; set; }
     public PRISM.SwayBone SwayBone { get; set; }
     public PRISM.Module.CustomMagicaCloth.MagicaClothGroup MagicaClothGroup { get; set; }
     public PRISM.AngelRingController AngelRingController { get; set; }
     public PRISM.HairZBiasController ZBiasController { get; set; }
+    public System.Collections.Generic.IReadOnlyList<PRISM.ApplyMaterialData> ApplyMaterialDataList { get; set; }
     public void LoadMeta(bool loadIfNeed);
     public UnityEngine.Transform SearchBone(string name);
     public UnityEngine.Transform SearchBoneStartsWith(string name);
@@ -7236,10 +7260,12 @@ public class HairMetaComponent : UnityEngine.MonoBehaviour, PRISM.IPartsMeta
     private class <>c
     {
         public static <>c <>9;
-        public static System.Func<UnityEngine.Transform, string, bool> <>9__20_0;
-        public static System.Func<UnityEngine.Transform, string, bool> <>9__21_0;
-        private bool <SearchBone>b__20_0(UnityEngine.Transform e, string state);
-        private bool <SearchBoneStartsWith>b__21_0(UnityEngine.Transform e, string state);
+        public static System.Func<UnityEngine.MeshRenderer, PRISM.ApplyMaterialData> <>9__20_0;
+        public static System.Func<UnityEngine.Transform, string, bool> <>9__22_0;
+        public static System.Func<UnityEngine.Transform, string, bool> <>9__23_0;
+        private PRISM.ApplyMaterialData <get_ApplyMaterialDataList>b__20_0(UnityEngine.MeshRenderer e);
+        private bool <SearchBone>b__22_0(UnityEngine.Transform e, string state);
+        private bool <SearchBoneStartsWith>b__23_0(UnityEngine.Transform e, string state);
     }
 }
 
@@ -8632,6 +8658,7 @@ public class MoviePlayer : UnityEngine.MonoBehaviour
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
         public string path;
+        public System.Threading.CancellationToken token;
         public PRISM.MoviePlayer <>4__this;
         private Awaiter<string> <>u__1;
         private void MoveNext();
@@ -9352,7 +9379,6 @@ public class ScreenEffectEx : UnityEngine.MonoBehaviour, PRISM.IPausable, PRISM.
     private PRISM.ScreenEffectCapture frameBufferCapture;
     private float lastRatio;
     private int frameUpdate;
-    private bool isCameraDisable;
     private bool isExistSplitScreen;
     private bool isNeedFrameBuffer;
     private float fadeCount;
@@ -9389,7 +9415,6 @@ public class ScreenEffectEx : UnityEngine.MonoBehaviour, PRISM.IPausable, PRISM.
     public void FastForward();
     public void FastForward(float time);
     private void OnDestroy();
-    public void SetAutoCameraDisableOff(bool off);
     public void Pause(bool torf);
     public void ResizeCaptureScale(float scale);
     public void LastScreenEjectForUI(UnityEngine.Transform parentTransform);
@@ -9577,6 +9602,83 @@ public struct ShaderPropertyIDs : System.ValueType
     public static int _CutOffAmount;
     public static int _Threshold;
     public static int _Margin;
+    public static int _BaseMap;
+    public static int _BaseMap_ST;
+    public static int _RemoveTextureArtifact;
+    public static int _UsePreMultiplyAlpha;
+    public static int _LightSourceViewSpaceRadius;
+    public static int _DepthOcclusionTestZBias;
+    public static int _StartFadeinDistanceWorldUnit;
+    public static int _EndFadeinDistanceWorldUnit;
+    public static int _ShouldDoFlicker;
+    public static int _FlickerTimeDelay;
+    public static int _FlickResultIntensityLowestPoint;
+    public static int _SpeedM;
+    public static int _SpecularSettingGroup;
+    public static int _RoughnessMap_ST;
+    public static int _MetallicMap_ST;
+    public static int _UseNormalMap;
+    public static int _BumpMap;
+    public static int _SEPARATE_MAIN_AND_BUMP_UV;
+    public static int _LightScale;
+    public static int _SpeedMY;
+    public static int _SpeedLY;
+    public static int _BloomThreshold;
+    public static int _Overlay;
+    public static int _EmissionMap;
+    public static int _RenderSettingGroup;
+    public static int _AlphaTex;
+    public static int _AlphaTex_ST;
+    public static int _Cutoff;
+    public static int _LightmapTex;
+    public static int _LightmapTex_ST;
+    public static int _SpeedMainX;
+    public static int _SpeedMainY;
+    public static int _TextureColorInfluence;
+    public static int _Distortion;
+    public static int _Distortion_ST;
+    public static int _DistortionStrength;
+    public static int _DistortionSpeed;
+    public static int _ReflectionStrength;
+    public static int _RefrectionDistortionScale;
+    public static int _ScatteringSettingGroup;
+    public static int _ScatteringColor;
+    public static int _ScatteringDensity;
+    public static int _ScatteringIntensity;
+    public static int _DepthThreshold;
+    public static int _WaterSurfaceHeight;
+    public static int _WaveSettingGroup;
+    public static int _NoiseStrength;
+    public static int _Wave1Speed;
+    public static int _Wave1Size;
+    public static int _Wave1Height;
+    public static int _Wave1Direction;
+    public static int _Wave2Speed;
+    public static int _Wave2Size;
+    public static int _Wave2Height;
+    public static int _Wave2Direction;
+    public static int _Wave3Speed;
+    public static int _Wave3Size;
+    public static int _Wave3Height;
+    public static int _Wave3Direction;
+    public static int _SpecularRoughness;
+    public static int _SubTex;
+    public static int _ColInb;
+    public static int _LightRatio;
+    public static int _MainAutoScrollY;
+    public static int _MainAutoRotate;
+    public static int _SubAutoRotate;
+    public static int _SubRotate;
+    public static int _MaskAutoScrollY;
+    public static int _MaskAutoRotate;
+    public static int _MaskRotate;
+    public static int _CenterEditX;
+    public static int _CenterEditY;
+    public static int _Pow;
+    public static int _Con;
+    public static int _Off;
+    public static int _Inb;
+    public static int _Wofx;
 }
 
 // Namespace: PRISM
@@ -11719,7 +11821,7 @@ public class StageUtil
     public static void FindClosestPointsOnLines$BurstManaged(UnityEngine.Vector3& P1, UnityEngine.Vector3& v1, UnityEngine.Vector3& P2, UnityEngine.Vector3& v2, UnityEngine.Vector3& Q1, UnityEngine.Vector3& Q2);
 
 // Namespace: PRISM
-    public class FindClosestPointsOnLines_00001135$PostfixBurstDelegate : System.MulticastDelegate
+    public class FindClosestPointsOnLines_0000113F$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(UnityEngine.Vector3& P1, UnityEngine.Vector3& v1, UnityEngine.Vector3& P2, UnityEngine.Vector3& v2, UnityEngine.Vector3& Q1, UnityEngine.Vector3& Q2);
         public System.IAsyncResult BeginInvoke(UnityEngine.Vector3& P1, UnityEngine.Vector3& v1, UnityEngine.Vector3& P2, UnityEngine.Vector3& v2, UnityEngine.Vector3& Q1, UnityEngine.Vector3& Q2, System.AsyncCallback , object );
@@ -11727,7 +11829,7 @@ public class StageUtil
     }
 
 // Namespace: PRISM
-    class FindClosestPointsOnLines_00001135$BurstDirectCall
+    class FindClosestPointsOnLines_0000113F$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -12911,25 +13013,6 @@ public class UIGrayOutController : UnityEngine.MonoBehaviour
         public static System.Func<UnityEngine.Color, PRISM.UIGrayOutController, UnityEngine.Color> <>9__8_0;
         private UnityEngine.Color <_grayOut>b__7_0(UnityEngine.Color color, PRISM.UIGrayOutController state);
         private UnityEngine.Color <_restoreOriginalColors>b__8_0(UnityEngine.Color color, PRISM.UIGrayOutController _);
-    }
-}
-
-// Namespace: PRISM
-public class UITabGroupEx : UnityEngine.MonoBehaviour
-{
-    private ENTERPRISE.UI.UITabGroup tabGroup;
-    private State[] tabStates;
-    public int SelectedIndex { get; set; }
-    public ENTERPRISE.UI.UITabGroup Raw { get; set; }
-    public void SetOnTabSelected(System.Action<int, ENTERPRISE.UI.UITabGroup> action);
-    public void ForceSetTabIndex(int tabIndex);
-    private void UpdateTabs(int index);
-    private void <SetOnTabSelected>b__8_0(int index, ENTERPRISE.UI.UITabGroup _);
-
-    public struct State : System.ValueType
-    {
-        public UnityEngine.GameObject Selected;
-        public UnityEngine.GameObject Normal;
     }
 }
 
@@ -19877,6 +19960,7 @@ public enum LiveMvUnitRecommendPriority : System.Enum
     public static PRISM.Live.LiveMvUnitRecommendPriority None;
     public static PRISM.Live.LiveMvUnitRecommendPriority Unit;
     public static PRISM.Live.LiveMvUnitRecommendPriority MvOriginalMember;
+    public static PRISM.Live.LiveMvUnitRecommendPriority VoiceSeparated;
 }
 
 // Namespace: PRISM.Live
@@ -22652,6 +22736,8 @@ public struct ProductKeyWithAmount : System.ValueType, System.IEquatable<PRISM.D
     public PRISM.Domain.ProductKey Key { get; set; }
     public int Amount { get; set; }
     public System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> Extract(PRISM.Definitions.MasterData masterData);
+    public System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> WithDeferenceCostumes(PRISM.Definitions.MasterData masterData);
+    private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> _getProductKeyWithAmount(int mstOriginalId, System.Collections.Generic.IEnumerable<PRISM.Definitions.IMstCostumeDifference> mstDifferences, ProductType type);
     public string ToString();
     private bool PrintMembers(System.Text.StringBuilder builder);
     public static bool op_Inequality(PRISM.Domain.ProductKeyWithAmount left, PRISM.Domain.ProductKeyWithAmount right);
@@ -22660,6 +22746,12 @@ public struct ProductKeyWithAmount : System.ValueType, System.IEquatable<PRISM.D
     public bool Equals(object obj);
     public bool Equals(PRISM.Domain.ProductKeyWithAmount other);
     public void Deconstruct(PRISM.Domain.ProductKey& Key, int& Amount);
+
+    private class <>c__DisplayClass13_0
+    {
+        public int mstOriginalId;
+        private bool <_getProductKeyWithAmount>b__0(PRISM.Definitions.IMstCostumeDifference mst);
+    }
 
     private class <Extract>d__11 : System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount>, System.Collections.IEnumerable, System.Collections.Generic.IEnumerator<PRISM.Domain.ProductKeyWithAmount>, System.Collections.IEnumerator, System.IDisposable
     {
@@ -22679,6 +22771,52 @@ public struct ProductKeyWithAmount : System.ValueType, System.IEquatable<PRISM.D
         private bool MoveNext();
         private void <>m__Finally1();
         private void <>m__Finally2();
+        private void System.Collections.IEnumerator.Reset();
+        private System.Collections.Generic.IEnumerator<PRISM.Domain.ProductKeyWithAmount> System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount>.GetEnumerator();
+        private System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator();
+    }
+
+    private class <WithDeferenceCostumes>d__12 : System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount>, System.Collections.IEnumerable, System.Collections.Generic.IEnumerator<PRISM.Domain.ProductKeyWithAmount>, System.Collections.IEnumerator, System.IDisposable
+    {
+        private int <>1__state;
+        private PRISM.Domain.ProductKeyWithAmount <>2__current;
+        private int <>l__initialThreadId;
+        public PRISM.Domain.ProductKeyWithAmount <>4__this;
+        public PRISM.Domain.ProductKeyWithAmount <>3__<>4__this;
+        private PRISM.Definitions.MasterData masterData;
+        public PRISM.Definitions.MasterData <>3__masterData;
+        private System.Collections.Generic.IEnumerator<PRISM.Domain.ProductKeyWithAmount> <>7__wrap1;
+        private PRISM.Domain.ProductKeyWithAmount System.Collections.Generic.IEnumerator<PRISM.Domain.ProductKeyWithAmount>.Current { get; set; }
+        private object System.Collections.IEnumerator.Current { get; set; }
+        private void System.IDisposable.Dispose();
+        private bool MoveNext();
+        private void <>m__Finally1();
+        private void <>m__Finally2();
+        private void <>m__Finally3();
+        private void System.Collections.IEnumerator.Reset();
+        private System.Collections.Generic.IEnumerator<PRISM.Domain.ProductKeyWithAmount> System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount>.GetEnumerator();
+        private System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator();
+    }
+
+    private class <_getProductKeyWithAmount>d__13 : System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount>, System.Collections.IEnumerable, System.Collections.Generic.IEnumerator<PRISM.Domain.ProductKeyWithAmount>, System.Collections.IEnumerator, System.IDisposable
+    {
+        private int <>1__state;
+        private PRISM.Domain.ProductKeyWithAmount <>2__current;
+        private int <>l__initialThreadId;
+        private int mstOriginalId;
+        public int <>3__mstOriginalId;
+        private System.Collections.Generic.IEnumerable<PRISM.Definitions.IMstCostumeDifference> mstDifferences;
+        public System.Collections.Generic.IEnumerable<PRISM.Definitions.IMstCostumeDifference> <>3__mstDifferences;
+        private ProductType type;
+        public ProductType <>3__type;
+        public PRISM.Domain.ProductKeyWithAmount <>4__this;
+        public PRISM.Domain.ProductKeyWithAmount <>3__<>4__this;
+        private System.Collections.Generic.IEnumerator<PRISM.Definitions.IMstCostumeDifference> <>7__wrap1;
+        private PRISM.Domain.ProductKeyWithAmount System.Collections.Generic.IEnumerator<PRISM.Domain.ProductKeyWithAmount>.Current { get; set; }
+        private object System.Collections.IEnumerator.Current { get; set; }
+        private void System.IDisposable.Dispose();
+        private bool MoveNext();
+        private void <>m__Finally1();
         private void System.Collections.IEnumerator.Reset();
         private System.Collections.Generic.IEnumerator<PRISM.Domain.ProductKeyWithAmount> System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount>.GetEnumerator();
         private System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator();
@@ -40936,6 +41074,16 @@ public class ShopCostumeShopProductModel : PRISM.Adapters.Shop.IShopCostumeProdu
     public int MstCostumeShopItemCategoryId { get; set; }
     public int MstCostumeShopItemGroupId { get; set; }
     public PRISM.Adapters.Shop.IPurchaseProductModel ToPurchaseModel();
+    private System.Collections.Generic.IReadOnlyList<PRISM.Domain.ProductKeyWithAmount> _getContentListWithDifferenceCostume(System.Collections.Generic.IReadOnlyList<PRISM.Module.Networking.IProductWithAmountStatus> productList);
+
+    private class <>c
+    {
+        public static <>c <>9;
+        public static System.Func<PRISM.Domain.ProductKeyWithAmount, System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount>> <>9__13_1;
+        public static System.Func<PRISM.Module.Networking.IProductWithAmountStatus, System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount>> <>9__13_0;
+        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <_getContentListWithDifferenceCostume>b__13_0(PRISM.Module.Networking.IProductWithAmountStatus productWithAmountStatus);
+        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <_getContentListWithDifferenceCostume>b__13_1(PRISM.Domain.ProductKeyWithAmount product);
+    }
 }
 
 // Namespace: PRISM.Adapters.Shop
@@ -40949,6 +41097,16 @@ public class ShopCostumeStoreProductModel : PRISM.Adapters.Shop.IShopCostumeProd
     public int MstCostumeShopItemCategoryId { get; set; }
     public int MstCostumeShopItemGroupId { get; set; }
     public PRISM.Adapters.Shop.IPurchaseProductModel ToPurchaseModel();
+    private System.Collections.Generic.IReadOnlyList<PRISM.Domain.ProductKeyWithAmount> _getContentListWithDifferenceCostume(System.Collections.Generic.IReadOnlyList<PRISM.Module.Networking.IProductWithAmountStatus> productList);
+
+    private class <>c
+    {
+        public static <>c <>9;
+        public static System.Func<PRISM.Domain.ProductKeyWithAmount, System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount>> <>9__13_1;
+        public static System.Func<PRISM.Module.Networking.IProductWithAmountStatus, System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount>> <>9__13_0;
+        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <_getContentListWithDifferenceCostume>b__13_0(PRISM.Module.Networking.IProductWithAmountStatus productWithAmountStatus);
+        private System.Collections.Generic.IEnumerable<PRISM.Domain.ProductKeyWithAmount> <_getContentListWithDifferenceCostume>b__13_1(PRISM.Domain.ProductKeyWithAmount product);
+    }
 }
 
 // Namespace: PRISM.Adapters.Shop
@@ -41089,9 +41247,9 @@ public class ShopSeasonPassProductModel : PRISM.Adapters.Shop.IShopPassProductMo
 public class ShopProductModelCore
 {
     private int <MstItemId>k__BackingField;
-    private System.Collections.Generic.IReadOnlyList<PRISM.Module.Networking.IProductWithAmountStatus> <ContentProducts>k__BackingField;
-    private System.Collections.Generic.IReadOnlyList<PRISM.Module.Networking.IProductWithAmountStatus> <BonusProducts>k__BackingField;
-    private PRISM.Module.Networking.IProductWithAmountStatus <MainProduct>k__BackingField;
+    private System.Collections.Generic.IReadOnlyList<PRISM.Domain.ProductKeyWithAmount> <ContentProducts>k__BackingField;
+    private System.Collections.Generic.IReadOnlyList<PRISM.Domain.ProductKeyWithAmount> <BonusProducts>k__BackingField;
+    private PRISM.Domain.ProductKeyWithAmount <MainProduct>k__BackingField;
     private long <HavingMainProductAmount>k__BackingField;
     private ShopItemType <ShopItemType>k__BackingField;
     private ItemMasterType <ProductMasterType>k__BackingField;
@@ -41106,9 +41264,9 @@ public class ShopProductModelCore
     private string <ProductName>k__BackingField;
     private string <CautionText>k__BackingField;
     public int MstItemId { get; set; }
-    public System.Collections.Generic.IReadOnlyList<PRISM.Module.Networking.IProductWithAmountStatus> ContentProducts { get; set; }
-    public System.Collections.Generic.IReadOnlyList<PRISM.Module.Networking.IProductWithAmountStatus> BonusProducts { get; set; }
-    public PRISM.Module.Networking.IProductWithAmountStatus MainProduct { get; set; }
+    public System.Collections.Generic.IReadOnlyList<PRISM.Domain.ProductKeyWithAmount> ContentProducts { get; set; }
+    public System.Collections.Generic.IReadOnlyList<PRISM.Domain.ProductKeyWithAmount> BonusProducts { get; set; }
+    public PRISM.Domain.ProductKeyWithAmount MainProduct { get; set; }
     public long HavingMainProductAmount { get; set; }
     public ShopItemType ShopItemType { get; set; }
     public ItemMasterType ProductMasterType { get; set; }
@@ -41148,7 +41306,16 @@ public class ShopProductModelForShopItem : PRISM.Adapters.Shop.IShopProductModel
     public PRISM.Adapters.Shop.ShopProductModelCore Core { get; set; }
     public PRISM.Module.Networking.IShopItemStatus ShopItem { get; set; }
     public PRISM.Adapters.Shop.IPurchaseProductModel ToPurchaseModel();
-    private static PRISM.Adapters.Shop.ShopProductModelCore _createCore(PRISM.Module.Networking.IShopItemStatus shopItem, System.Collections.Generic.IEnumerable<PRISM.Module.Networking.IHavingProductStatus> havingProducts, string productName);
+    private static PRISM.Adapters.Shop.ShopProductModelCore _createCore(PRISM.Module.Networking.IShopItemStatus shopItem, System.Collections.Generic.IEnumerable<PRISM.Module.Networking.IHavingProductStatus> havingProducts, string productName, System.Collections.Generic.IReadOnlyList<PRISM.Domain.ProductKeyWithAmount> contentList, System.Collections.Generic.IReadOnlyList<PRISM.Domain.ProductKeyWithAmount> bonusList);
+
+    private class <>c
+    {
+        public static <>c <>9;
+        public static System.Func<PRISM.Module.Networking.IProductWithAmountStatus, PRISM.Domain.ProductKeyWithAmount> <>9__6_0;
+        public static System.Func<PRISM.Module.Networking.IProductWithAmountStatus, PRISM.Domain.ProductKeyWithAmount> <>9__6_1;
+        private PRISM.Domain.ProductKeyWithAmount <.ctor>b__6_0(PRISM.Module.Networking.IProductWithAmountStatus product);
+        private PRISM.Domain.ProductKeyWithAmount <.ctor>b__6_1(PRISM.Module.Networking.IProductWithAmountStatus product);
+    }
 }
 
 // Namespace: PRISM.Adapters.Shop
@@ -41160,7 +41327,16 @@ public class ShopProductModelForStoreItem : PRISM.Adapters.Shop.IShopProductMode
     public PRISM.Adapters.Shop.ShopProductModelCore Core { get; set; }
     public PRISM.Module.Networking.IStoreItemStatus StoreItem { get; set; }
     public PRISM.Adapters.Shop.IPurchaseProductModel ToPurchaseModel();
-    private static PRISM.Adapters.Shop.ShopProductModelCore _createCore(PRISM.Module.Networking.IStoreItemStatus storeItem, System.Collections.Generic.IEnumerable<PRISM.Module.Networking.IHavingProductStatus> havingProducts, string productName, string localizedPriceString);
+    private static PRISM.Adapters.Shop.ShopProductModelCore _createCore(PRISM.Module.Networking.IStoreItemStatus storeItem, System.Collections.Generic.IEnumerable<PRISM.Module.Networking.IHavingProductStatus> havingProducts, string productName, string localizedPriceString, System.Collections.Generic.IReadOnlyList<PRISM.Domain.ProductKeyWithAmount> contentList, System.Collections.Generic.IReadOnlyList<PRISM.Domain.ProductKeyWithAmount> bonusList);
+
+    private class <>c
+    {
+        public static <>c <>9;
+        public static System.Func<PRISM.Module.Networking.IProductWithAmountStatus, PRISM.Domain.ProductKeyWithAmount> <>9__7_0;
+        public static System.Func<PRISM.Module.Networking.IProductWithAmountStatus, PRISM.Domain.ProductKeyWithAmount> <>9__7_1;
+        private PRISM.Domain.ProductKeyWithAmount <.ctor>b__7_0(PRISM.Module.Networking.IProductWithAmountStatus product);
+        private PRISM.Domain.ProductKeyWithAmount <.ctor>b__7_1(PRISM.Module.Networking.IProductWithAmountStatus product);
+    }
 }
 
 // Namespace: PRISM.Adapters.Adv
@@ -41287,6 +41463,7 @@ public interface ISystemSettingsCaller : PRISM.Legacy.ILegacyCaller
     public void Save();
     public float CalculateCategoryVolume(PRISM.SoundCategory category);
     public void ApplySMAA();
+    public void ApplyGraphicProperty(GraphicProperty graphicProperty, bool isIngame, bool isRhythmGame);
 }
 
 // Namespace: PRISM.Legacy
@@ -41898,7 +42075,7 @@ public class ConstraintUtility
     public static void InverseConstrain$BurstManaged(float& x_inv, UnityEngine.Quaternion& localRotation, UnityEngine.Quaternion& angleRotation);
 
 // Namespace: PRISM.Legacy
-    public class RotationConstraint_00003E27$PostfixBurstDelegate : System.MulticastDelegate
+    public class RotationConstraint_00003E54$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(UnityEngine.Quaternion& transformRotation, UnityEngine.Quaternion& parentRotation, UnityEngine.Quaternion& targetRotation, float& weight, bool& constrainX, bool& constrainY, bool& constrainZ, UnityEngine.Vector3& offset);
         public System.IAsyncResult BeginInvoke(UnityEngine.Quaternion& transformRotation, UnityEngine.Quaternion& parentRotation, UnityEngine.Quaternion& targetRotation, float& weight, bool& constrainX, bool& constrainY, bool& constrainZ, UnityEngine.Vector3& offset, System.AsyncCallback , object );
@@ -41906,7 +42083,7 @@ public class ConstraintUtility
     }
 
 // Namespace: PRISM.Legacy
-    class RotationConstraint_00003E27$BurstDirectCall
+    class RotationConstraint_00003E54$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -41918,7 +42095,7 @@ public class ConstraintUtility
     }
 
 // Namespace: PRISM.Legacy
-    public class LookAtConstraint_00003E28$PostfixBurstDelegate : System.MulticastDelegate
+    public class LookAtConstraint_00003E55$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(UnityEngine.Quaternion& transformRotation, UnityEngine.Vector3& transformPosition, UnityEngine.Quaternion& parentRotation, UnityEngine.Vector3& targetPosition, UnityEngine.Vector3& upObjectPosition, float& weight, bool& useUpObject, bool& constrainX, bool& constrainY, bool& constrainZ, UnityEngine.Vector3& offset);
         public System.IAsyncResult BeginInvoke(UnityEngine.Quaternion& transformRotation, UnityEngine.Vector3& transformPosition, UnityEngine.Quaternion& parentRotation, UnityEngine.Vector3& targetPosition, UnityEngine.Vector3& upObjectPosition, float& weight, bool& useUpObject, bool& constrainX, bool& constrainY, bool& constrainZ, UnityEngine.Vector3& offset, System.AsyncCallback , object );
@@ -41926,7 +42103,7 @@ public class ConstraintUtility
     }
 
 // Namespace: PRISM.Legacy
-    class LookAtConstraint_00003E28$BurstDirectCall
+    class LookAtConstraint_00003E55$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -41938,7 +42115,7 @@ public class ConstraintUtility
     }
 
 // Namespace: PRISM.Legacy
-    public class XRotConstrain_00003E29$PostfixBurstDelegate : System.MulticastDelegate
+    public class XRotConstrain_00003E56$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(UnityEngine.Quaternion& localRotation, float& x_rot, float& rot_scale, float& center_rot, UnityEngine.Quaternion& angleRotation, float& scale);
         public System.IAsyncResult BeginInvoke(UnityEngine.Quaternion& localRotation, float& x_rot, float& rot_scale, float& center_rot, UnityEngine.Quaternion& angleRotation, float& scale, System.AsyncCallback , object );
@@ -41946,7 +42123,7 @@ public class ConstraintUtility
     }
 
 // Namespace: PRISM.Legacy
-    class XRotConstrain_00003E29$BurstDirectCall
+    class XRotConstrain_00003E56$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -41958,7 +42135,7 @@ public class ConstraintUtility
     }
 
 // Namespace: PRISM.Legacy
-    public class InverseConstrain_00003E2A$PostfixBurstDelegate : System.MulticastDelegate
+    public class InverseConstrain_00003E57$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float& x_inv, UnityEngine.Quaternion& localRotation, UnityEngine.Quaternion& angleRotation);
         public System.IAsyncResult BeginInvoke(float& x_inv, UnityEngine.Quaternion& localRotation, UnityEngine.Quaternion& angleRotation, System.AsyncCallback , object );
@@ -41966,7 +42143,7 @@ public class ConstraintUtility
     }
 
 // Namespace: PRISM.Legacy
-    class InverseConstrain_00003E2A$BurstDirectCall
+    class InverseConstrain_00003E57$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -42023,7 +42200,7 @@ public class BurstDirectCall
     public static void ReflectionPlane$BurstManaged(UnityEngine.Vector3& baseCameraPos, UnityEngine.Matrix4x4& baseCameraWorldToCameraMatrix, UnityEngine.Matrix4x4& baseCameraProjectionMatrix, UnityEngine.Vector3& pos, UnityEngine.Vector3& normal, float clipPlaneOffset, UnityEngine.Vector3& newPosition, UnityEngine.Matrix4x4& worldToCameraMatrix, UnityEngine.Matrix4x4& projectionMatrix);
 
 // Namespace: PRISM.Legacy
-    public class _bezier3_00003E2F$PostfixBurstDelegate : System.MulticastDelegate
+    public class _bezier3_00003E5C$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float t, Unity.Mathematics.float3& p0, Unity.Mathematics.float3& p1, Unity.Mathematics.float3& p2, Unity.Mathematics.float3& p3, Unity.Mathematics.float3& result);
         public System.IAsyncResult BeginInvoke(float t, Unity.Mathematics.float3& p0, Unity.Mathematics.float3& p1, Unity.Mathematics.float3& p2, Unity.Mathematics.float3& p3, Unity.Mathematics.float3& result, System.AsyncCallback , object );
@@ -42031,7 +42208,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class _bezier3_00003E2F$BurstDirectCall
+    class _bezier3_00003E5C$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -42043,7 +42220,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    public class _bezier3_00003E30$PostfixBurstDelegate : System.MulticastDelegate
+    public class _bezier3_00003E5D$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float t, float& p0, float& p1, float& p2, float& p3, float& result);
         public System.IAsyncResult BeginInvoke(float t, float& p0, float& p1, float& p2, float& p3, float& result, System.AsyncCallback , object );
@@ -42051,7 +42228,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class _bezier3_00003E30$BurstDirectCall
+    class _bezier3_00003E5D$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -42063,7 +42240,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    public class _bezierInterpolate_00003E32$PostfixBurstDelegate : System.MulticastDelegate
+    public class _bezierInterpolate_00003E5F$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float& t, System.Single* scaler, int length, float& result);
         public System.IAsyncResult BeginInvoke(float& t, System.Single* scaler, int length, float& result, System.AsyncCallback , object );
@@ -42071,7 +42248,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class _bezierInterpolate_00003E32$BurstDirectCall
+    class _bezierInterpolate_00003E5F$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -42083,7 +42260,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    public class _bezierInterpolate_00003E34$PostfixBurstDelegate : System.MulticastDelegate
+    public class _bezierInterpolate_00003E61$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float& t, Unity.Mathematics.float3* vec, int length, Unity.Mathematics.float3& result);
         public System.IAsyncResult BeginInvoke(float& t, Unity.Mathematics.float3* vec, int length, Unity.Mathematics.float3& result, System.AsyncCallback , object );
@@ -42091,7 +42268,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class _bezierInterpolate_00003E34$BurstDirectCall
+    class _bezierInterpolate_00003E61$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -42103,7 +42280,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    public class GetInterpolateVector_00003E37$PostfixBurstDelegate : System.MulticastDelegate
+    public class GetInterpolateVector_00003E64$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float& x, float& y, InterpolateValue& interpolateValue);
         public System.IAsyncResult BeginInvoke(float& x, float& y, InterpolateValue& interpolateValue, System.AsyncCallback , object );
@@ -42111,7 +42288,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class GetInterpolateVector_00003E37$BurstDirectCall
+    class GetInterpolateVector_00003E64$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -42123,7 +42300,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    public class GetPositionRotation_00003E38$PostfixBurstDelegate : System.MulticastDelegate
+    public class GetPositionRotation_00003E65$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(InterpolateValue& interpolateValue, PRISM.Legacy.FaceBonePostureNativeArray& posture, bool xflip, Unity.Mathematics.quaternion& rotationResult, Unity.Mathematics.float3& positionResult);
         public System.IAsyncResult BeginInvoke(InterpolateValue& interpolateValue, PRISM.Legacy.FaceBonePostureNativeArray& posture, bool xflip, Unity.Mathematics.quaternion& rotationResult, Unity.Mathematics.float3& positionResult, System.AsyncCallback , object );
@@ -42131,7 +42308,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class GetPositionRotation_00003E38$BurstDirectCall
+    class GetPositionRotation_00003E65$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -42143,7 +42320,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    public class Index2Rate_00003E3A$PostfixBurstDelegate : System.MulticastDelegate
+    public class Index2Rate_00003E67$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(InterpolateValue& interpolateValue, PRISM.Legacy.FaceBoneInterpolateFloatNativeArray& values, float& result);
         public System.IAsyncResult BeginInvoke(InterpolateValue& interpolateValue, PRISM.Legacy.FaceBoneInterpolateFloatNativeArray& values, float& result, System.AsyncCallback , object );
@@ -42151,7 +42328,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class Index2Rate_00003E3A$BurstDirectCall
+    class Index2Rate_00003E67$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -42163,7 +42340,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    public class GetPixelBilinear_00003E3D$PostfixBurstDelegate : System.MulticastDelegate
+    public class GetPixelBilinear_00003E6A$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float x, float y, int width, int height, Unity.Collections.NativeArray<UnityEngine.Color>& colors, UnityEngine.Color& result);
         public System.IAsyncResult BeginInvoke(float x, float y, int width, int height, Unity.Collections.NativeArray<UnityEngine.Color>& colors, UnityEngine.Color& result, System.AsyncCallback , object );
@@ -42171,7 +42348,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class GetPixelBilinear_00003E3D$BurstDirectCall
+    class GetPixelBilinear_00003E6A$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -42183,7 +42360,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    public class ConvertEulerToAxis_00003E3F$PostfixBurstDelegate : System.MulticastDelegate
+    public class ConvertEulerToAxis_00003E6C$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(UnityEngine.Vector3& e, UnityEngine.Vector3& forward, UnityEngine.Vector3& up);
         public System.IAsyncResult BeginInvoke(UnityEngine.Vector3& e, UnityEngine.Vector3& forward, UnityEngine.Vector3& up, System.AsyncCallback , object );
@@ -42191,7 +42368,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class ConvertEulerToAxis_00003E3F$BurstDirectCall
+    class ConvertEulerToAxis_00003E6C$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -42203,7 +42380,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    public class DeltaAngle_00003E40$PostfixBurstDelegate : System.MulticastDelegate
+    public class DeltaAngle_00003E6D$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(UnityEngine.Vector3& vec, UnityEngine.Vector3& result);
         public System.IAsyncResult BeginInvoke(UnityEngine.Vector3& vec, UnityEngine.Vector3& result, System.AsyncCallback , object );
@@ -42211,7 +42388,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class DeltaAngle_00003E40$BurstDirectCall
+    class DeltaAngle_00003E6D$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -42223,7 +42400,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    public class RangeDetection_00003E41$PostfixBurstDelegate : System.MulticastDelegate
+    public class RangeDetection_00003E6E$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(UnityEngine.Vector3& cameraPosition, float inRange, Unity.Collections.NativeArray<UnityEngine.Bounds>& bounds, Unity.Collections.NativeArray<bool>& result);
         public System.IAsyncResult BeginInvoke(UnityEngine.Vector3& cameraPosition, float inRange, Unity.Collections.NativeArray<UnityEngine.Bounds>& bounds, Unity.Collections.NativeArray<bool>& result, System.AsyncCallback , object );
@@ -42231,7 +42408,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class RangeDetection_00003E41$BurstDirectCall
+    class RangeDetection_00003E6E$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -42243,7 +42420,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    public class ReflectionPlane_00003E42$PostfixBurstDelegate : System.MulticastDelegate
+    public class ReflectionPlane_00003E6F$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(UnityEngine.Vector3& baseCameraPos, UnityEngine.Matrix4x4& baseCameraWorldToCameraMatrix, UnityEngine.Matrix4x4& baseCameraProjectionMatrix, UnityEngine.Vector3& pos, UnityEngine.Vector3& normal, float clipPlaneOffset, UnityEngine.Vector3& newPosition, UnityEngine.Matrix4x4& worldToCameraMatrix, UnityEngine.Matrix4x4& projectionMatrix);
         public System.IAsyncResult BeginInvoke(UnityEngine.Vector3& baseCameraPos, UnityEngine.Matrix4x4& baseCameraWorldToCameraMatrix, UnityEngine.Matrix4x4& baseCameraProjectionMatrix, UnityEngine.Vector3& pos, UnityEngine.Vector3& normal, float clipPlaneOffset, UnityEngine.Vector3& newPosition, UnityEngine.Matrix4x4& worldToCameraMatrix, UnityEngine.Matrix4x4& projectionMatrix, System.AsyncCallback , object );
@@ -42251,7 +42428,7 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class ReflectionPlane_00003E42$BurstDirectCall
+    class ReflectionPlane_00003E6F$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -43872,7 +44049,10 @@ public class ScenarioLoadUtility
 // Namespace: PRISM.Scenario
 public class ScenarioManager : UnityEngine.MonoBehaviour
 {
-    private static UnityEngine.GameObject scenario;
+    private static string CommonPreset;
+    private static int MaxCharacter;
+    private static int MaxPosition;
+    private static UnityEngine.GameObject ScenarioObject;
     private UnityEngine.Camera uiCamera;
     private PRISM.Scenario.TextArea textArea;
     private UnityEngine.UI.RawImage bgImage;
@@ -43901,10 +44081,6 @@ public class ScenarioManager : UnityEngine.MonoBehaviour
     private System.Action <TerminatedCallBack>k__BackingField;
     private System.Action<string> <ChangeTextCallBack>k__BackingField;
     private static System.Collections.Generic.Dictionary<string, string> tableDictionary;
-    private static string commonPreset;
-    private static int maxCharacter;
-    private static int maxPosition;
-    public static bool IsSkippingSound;
     private static bool isPreLoaded;
     public static string preLoadName;
     public static bool IsPause;
@@ -43928,7 +44104,7 @@ public class ScenarioManager : UnityEngine.MonoBehaviour
     private bool <IsAdjustZOn>k__BackingField;
     private bool isDirectVoice;
     private int directSpeakerIndex;
-    private System.Collections.Generic.List<System.Action> updateFuncTable;
+    private System.Action[] updateFuncTable;
     private string[] speakerTable;
     private string[] choicesTable;
     private int currentScript;
@@ -43965,7 +44141,6 @@ public class ScenarioManager : UnityEngine.MonoBehaviour
     private bool notFastForward;
     private static int CannotCancel;
     private static int CancelNoFF;
-    private bool terminateFlag;
     private UnityEngine.Light tempLight;
     private bool noChangeBG;
     private bool noChangeChara;
@@ -43993,12 +44168,13 @@ public class ScenarioManager : UnityEngine.MonoBehaviour
     private int lastScript;
     public System.Func<bool> onTapScreen;
     private AutoTapWaiter autoTapWaiter;
+    private bool terminateFlag;
     public static bool IsDisplayScenarioID;
+    private float CameraStopMarginTime { get; set; }
     public CameraWorkEvent CameraEvent { get; set; }
     public PRISM.Scenario.ScenarioCharacterActionManager CharaActionManager { get; set; }
     public System.Action TerminatedCallBack { get; set; }
     public System.Action<string> ChangeTextCallBack { get; set; }
-    private float CameraStopMarginTime { get; set; }
     public bool IsPreLoaded { get; set; }
     public bool Is2dBgSet { get; set; }
     public bool IsAdjustZOn { get; set; }
@@ -44010,31 +44186,30 @@ public class ScenarioManager : UnityEngine.MonoBehaviour
     private string GetScenarioText(string key);
     private void CheckFirstFade();
     public static void LoadTableData(System.Collections.Generic.Dictionary<string, string> dictionary);
-    private Cysharp.Threading.Tasks.UniTask Init(string scrName);
-    public void SetCameraPlayMode(PlayMode _playMode);
+    private Cysharp.Threading.Tasks.UniTask _initializeAsync(string scrName);
     private void Update();
     private void UpdateInner(bool loop);
     private void _lateUpdate();
     private void LateUpdateInner();
     private void OnDestroy();
     private void ReleaseAssets();
-    private void FuncTextWait();
-    private void FuncTextNoWait();
-    private void FuncWait();
-    private void FuncTapWait();
-    private void FuncJump();
-    private void FuncCondFlag();
-    private void FuncCondFlagNot();
-    private void FuncCondValueEqual();
-    private void FuncCondValueNotEqual();
-    private void FuncCondValueGreaterEqual();
-    private void FuncCondValueLessEqual();
-    private void FuncSetFlag();
-    private void FuncSetValue();
-    private void FuncAddValue();
-    private void FuncTerminate();
+    private void _funcTextWait();
+    private void _funcTextNoWait();
+    private void _funcWait();
+    private void _funcTapWait();
+    private void _funcJump();
+    private void _funcCondFlag();
+    private void _funcCondFlagNot();
+    private void _funcCondValueEqual();
+    private void _funcCondValueNotEqual();
+    private void _funcCondValueGreaterEqual();
+    private void _funcCondValueLessEqual();
+    private void _funcSetFlag();
+    private void _funcSetValue();
+    private void _funcAddValue();
+    private void _funcTerminate();
     public void Terminate();
-    private void FuncDummy();
+    private void _funcDummy();
     private void _funcPutChara();
     private void _funcActionChara();
     private void _funcExpressionChara();
@@ -44054,35 +44229,35 @@ public class ScenarioManager : UnityEngine.MonoBehaviour
     private void _setCameraTime(CommandQueue com);
     private void _funcWindowBegin();
     private void _funcWindowNega();
-    private void FuncWindowEnd();
-    private void FuncWindowOffset();
-    private void FuncSetActiveTextwindow();
-    private void FuncSoundKeyOn();
-    private void FuncSoundReplace();
+    private void _funcWindowEnd();
+    private void _funcWindowOffset();
+    private void _funcSetActiveTextwindow();
+    private void _funcSoundKeyOn();
+    private void _funcSoundReplace();
     private void SoundKeyOn(CommandQueue com);
-    private void FuncSoundVolume();
+    private void _funcSoundVolume();
     private void SoundVolume(CommandQueue com);
-    private void FuncSet2DBG();
-    private void FuncCallCutScene();
-    private void FuncReturnCutScene();
+    private void _funcSet2Dbg();
+    private void _funcCallCutScene();
+    private void _funcReturnCutScene();
     public Cysharp.Threading.Tasks.UniTask SetupCutSceneAsync(string tableString);
-    private void FuncCharaPreset();
-    private void FuncCameraPreset();
-    private void FuncCharaPresetPos();
-    private void FuncClearAllChara();
-    private void FuncChangeSpeakerText();
-    private void FuncChoicesSetNum();
-    private void FuncChoicesSetText();
-    private void FuncWindParam();
-    private void FuncAddPrefab();
-    private void FuncPlayPrefab();
+    private void _funcCharaPreset();
+    private void _funcCameraPreset();
+    private void _funcCharaPresetPos();
+    private void _funcClearAllChara();
+    private void _funcChangeSpeakerText();
+    private void _funcChoicesSetNum();
+    private void _funcChoicesSetText();
+    private void _funcWindParam();
+    private void _funcAddPrefab();
+    private void _funcPlayPrefab();
     private System.Collections.IEnumerator PlayPrefab(ScriptData scrSave);
-    private void FuncDeletePrefab();
-    private void FuncEnvParam();
-    private void FuncShakeParam();
+    private void _funcDeletePrefab();
+    private void _funcEnvParam();
+    private void _funcShakeParam();
     private void _shakeLateUpdateInner();
-    private void FuncTextPrefab();
-    private void FuncChangeUnit();
+    private void _funcTextPrefab();
+    private void _funcChangeUnit();
     private void JumpScript(int script);
     private void ChangeText(string id);
     private void PlayVoice();
@@ -44108,20 +44283,14 @@ public class ScenarioManager : UnityEngine.MonoBehaviour
     public bool ResetSubScript();
     public int SearchCharacterIDIndex(int charId);
     private void ScriptProc();
-    public void CheckScript();
-    public bool IsOn();
-    public static bool IsFadeOn();
-    public static bool IsWait();
-    public static bool IsEnd();
     public static bool IsSkit();
-    public static void ClearText();
     public static string SearchAnimationName(int charaID, int actID, string actName, string externalExtension);
     public static string SearchAnimationName(int charaID, int actID, string actName);
     public static string SearchAnimationName(int charaID, string actName);
     private static string ChangeAnimationName(int charaID, int actID, string actName);
     public static bool DefaultTapScreen();
     private bool AutoTap();
-    private void SetMotionSequence(string cueSheetName, PRISM.UnitIdol[] _unitIdol, bool isAllowShortName);
+    private void _setupMotionSequence(PRISM.UnitIdol[] _unitIdol);
     private static void _checkAndPreloadChangeUnitData(PRISM.DownloadKeyContainer downloadKeyContainer, string fileName);
     private static void _checkAndLoadChangeUnitData(string fileName);
     private static void _preloadChangeUnit(PRISM.DownloadKeyContainer downloadKeyContainer, PRISM.UnitIdol[] unitIdol, bool sdFlag);
@@ -44145,15 +44314,13 @@ public class ScenarioManager : UnityEngine.MonoBehaviour
     public void SetAdjustZ(bool _onoff);
     public Cysharp.Threading.Tasks.UniTask LoadVoiceCueSheetAsync(string cueSheetName, PRISM.UnitIdol[] unitIdol, string requiredMotionCueSheetName);
     public System.Collections.Generic.List<TextLogData> GetTextLogList();
-    public void SetVoiceOnlySound(string voiceID);
     public string GetCurrentTextKey();
     public Cysharp.Threading.Tasks.UniTask WaitSkipToChoiceAsync();
     public void SetEyeTargetNo(int i, int targetNo);
     public void PauseAllScenarioSounds();
     public void ResumeAllScenarioSounds();
-    public PRISM.LiveCharacterController GetLiveCharacterController();
     public UnityEngine.Canvas GetBgCanvas();
-    private bool <WaitSkipToChoiceAsync>b__297_0();
+    private bool <WaitSkipToChoiceAsync>b__288_0();
 
     private class MaterialPair
     {
@@ -44240,33 +44407,21 @@ public class ScenarioManager : UnityEngine.MonoBehaviour
     private class <>c
     {
         public static <>c <>9;
-        public static System.Func<bool> <>9__89_0;
-        public static System.Action<System.ValueTuple<string, int>> <>9__121_0;
-        public static System.Comparison<CommandQueue> <>9__233_0;
-        private bool <SetupAsync>b__89_0();
-        private void <LoadTableData>b__121_0(System.ValueTuple<string, int> x);
-        private int <ForwardToNextWait>b__233_0(CommandQueue a, CommandQueue b);
+        public static System.Func<bool> <>9__154_0;
+        public static System.Action<System.ValueTuple<string, int>> <>9__157_0;
+        public static System.Comparison<CommandQueue> <>9__238_0;
+        private bool <SetupAsync>b__154_0();
+        private void <LoadTableData>b__157_0(System.ValueTuple<string, int> x);
+        private int <ForwardToNextWait>b__238_0(CommandQueue a, CommandQueue b);
     }
 
-    private class <>c__DisplayClass244_0
+    private class <>c__DisplayClass249_0
     {
         public string trackName;
         private bool <GetTrackAsset>b__0(UnityEngine.Timeline.TrackAsset t);
     }
 
-    private struct <Init>d__122 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
-    {
-        public int <>1__state;
-        public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
-        public PRISM.Scenario.ScenarioManager <>4__this;
-        public string scrName;
-        private int <i>5__2;
-        private Awaiter <>u__1;
-        private void MoveNext();
-        private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
-    }
-
-    private struct <LoadVoiceCueSheetAsync>d__293 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <LoadVoiceCueSheetAsync>d__285 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -44281,7 +44436,7 @@ public class ScenarioManager : UnityEngine.MonoBehaviour
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private class <PlayPrefab>d__212 : System.Collections.Generic.IEnumerator<object>, System.Collections.IEnumerator, System.IDisposable
+    private class <PlayPrefab>d__224 : System.Collections.Generic.IEnumerator<object>, System.Collections.IEnumerator, System.IDisposable
     {
         private int <>1__state;
         private object <>2__current;
@@ -44295,7 +44450,7 @@ public class ScenarioManager : UnityEngine.MonoBehaviour
         private void System.Collections.IEnumerator.Reset();
     }
 
-    private struct <PreLoadAsync>d__280 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <PreLoadAsync>d__272 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -44314,7 +44469,7 @@ public class ScenarioManager : UnityEngine.MonoBehaviour
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <SetupAsync>d__89 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <SetupAsync>d__154 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -44330,7 +44485,7 @@ public class ScenarioManager : UnityEngine.MonoBehaviour
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <SetupCutSceneAsync>d__201 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <SetupCutSceneAsync>d__213 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -44342,7 +44497,7 @@ public class ScenarioManager : UnityEngine.MonoBehaviour
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <WaitSkipToChoiceAsync>d__297 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <WaitSkipToChoiceAsync>d__288 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -44352,7 +44507,19 @@ public class ScenarioManager : UnityEngine.MonoBehaviour
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <_preloadChangeUnitWaitAsync>d__275 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <_initializeAsync>d__158 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    {
+        public int <>1__state;
+        public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
+        public PRISM.Scenario.ScenarioManager <>4__this;
+        public string scrName;
+        private int <i>5__2;
+        private Awaiter <>u__1;
+        private void MoveNext();
+        private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
+    }
+
+    private struct <_preloadChangeUnitWaitAsync>d__267 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -44494,8 +44661,11 @@ public class ScenarioScene : UnityEngine.MonoBehaviour
 // Namespace: PRISM.Scenario
 public class ScenarioScriptParser
 {
+    public static string FlagTextFileName;
+    public static string TableTextFileName;
     public static System.ValueTuple<SceneData[], string[], string[], ScriptData[]> Parse(byte[] bytes);
-    public static void ParseTableData(byte[] bytes, System.Collections.Generic.Dictionary<string, string> dictionary, System.Action<System.ValueTuple<string, int>> onParseFlag);
+    public static void ParseFlagData(byte[] flagBytes, System.Action<System.ValueTuple<string, int>> onParseFlag);
+    public static void ParseTableData(byte[] tableBytes, System.Collections.Generic.Dictionary<string, string> dictionary);
     private static string _readString(System.IO.BinaryReader reader, int count);
 
     public struct SceneData : System.ValueType
@@ -44527,13 +44697,12 @@ public class ScenarioSound
     private bool noVoiceCueSheet;
     private string currentVoiceCueSheet;
     private System.Collections.Generic.List<string> cueSheetNameList;
-    private bool isAdv;
     private bool isContinueBGM;
     private System.Collections.Generic.HashSet<string> bgmCueSheetNameList;
     private System.Collections.Generic.List<SoundQueue> soundQueue;
     private System.Collections.Generic.Dictionary<string, SoundPlayback> dicSetVolume;
     private System.Collections.Generic.Dictionary<string, CriWare.CriAtomExPlayback> voicePlaybacks;
-    public Cysharp.Threading.Tasks.UniTask<Cysharp.Threading.Tasks.UniTask> InitAsync(string scenario_name, bool _isAdv, bool _isContinueBGM, bool isSkipSound);
+    public Cysharp.Threading.Tasks.UniTask<Cysharp.Threading.Tasks.UniTask> InitAsync(string scenario_name, bool isAdv, bool _isContinueBGM, bool isSkipSound);
     public Cysharp.Threading.Tasks.UniTask InitSoundCueSheetAsync(string scrName);
     public string GetVoiceCueSheet();
     public bool IsNoVoiceCueSheet();
@@ -44573,35 +44742,35 @@ public class ScenarioSound
     private class <>c
     {
         public static <>c <>9;
-        public static System.Func<SoundPlayback, CriWare.CriAtomExPlayback> <>9__28_0;
-        private CriWare.CriAtomExPlayback <_getSoundPlaybacks>b__28_0(SoundPlayback x);
+        public static System.Func<SoundPlayback, CriWare.CriAtomExPlayback> <>9__27_0;
+        private CriWare.CriAtomExPlayback <_getSoundPlaybacks>b__27_0(SoundPlayback x);
     }
 
-    private class <>c__DisplayClass21_0
+    private class <>c__DisplayClass20_0
     {
         public string cueName;
         private bool <GetPlayVoiceCueList>b__0(CueInfo x);
     }
 
-    private class <>c__DisplayClass22_0
+    private class <>c__DisplayClass21_0
     {
         public string cueName;
         private bool <PlayVoice>b__0(CueInfo x);
     }
 
-    private class <>c__DisplayClass25_0
+    private class <>c__DisplayClass24_0
     {
         public string cueName;
         private bool <IsExistVoice>b__0(CueInfo x);
     }
 
-    private struct <InitAsync>d__11 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <InitAsync>d__10 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<Cysharp.Threading.Tasks.UniTask> <>t__builder;
         public PRISM.Scenario.ScenarioSound <>4__this;
-        public bool _isAdv;
         public bool _isContinueBGM;
+        public bool isAdv;
         public bool isSkipSound;
         public string scenario_name;
         private Cysharp.Threading.Tasks.UniTask <bgmFadeOutTask>5__2;
@@ -44610,7 +44779,7 @@ public class ScenarioSound
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <InitSoundCueSheetAsync>d__12 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <InitSoundCueSheetAsync>d__11 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -44622,7 +44791,7 @@ public class ScenarioSound
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
 
-    private struct <LoadCueSheetAsync>d__26 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    private struct <LoadCueSheetAsync>d__25 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
     {
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
@@ -44649,8 +44818,6 @@ public class ScenarioStatus
     private static int[] value;
     private static bool isEnable;
     public static void Initialize();
-    public static void Load();
-    public static void Save();
     public static void Add(string id, int val);
     private static void CheckFirstTime(int idx);
     public static void SetFlag(string id, bool torf);
@@ -44663,7 +44830,7 @@ public class ScenarioStatus
     public static int GetValue(string id, int val);
     public static int GetValue(int idx);
     public static bool GetFlag(string id);
-    private static void ClearFlagAll();
+    public static void ClearFlagAll();
     public static void SetEnable(bool torf);
     public static bool IsEnable();
     public static int GetProgress();
@@ -45137,13 +45304,14 @@ public class MstAdvInfoExtensions
 
 private class <PrivateImplementationDetails>
 {
+    private static __StaticArrayInitTypeSize=164033 06B05CB23A835EC87D7BC6F00A66AA403E5B75AA5C6BC70BE75E61F871EB02E5;
     private static __StaticArrayInitTypeSize=24 0E5BBE3004972CD87328C53E2FB42E2A7BF2A821367E524BA1939BE0E921F616;
     private static __StaticArrayInitTypeSize=12 12076FB6F81F792AE8D8A7BD8019732631FD31E0989FEAF1AFB11C2888CC2603;
     private static __StaticArrayInitTypeSize=40 272BC3456B7CE85DE2CE18D1964316879E840A1201A4664E967EF42BA3F76B96;
+    private static __StaticArrayInitTypeSize=84154 3110E5389BF34782F5A43AD197BE0C658F614A412E7AE1FB1A3BBCA9A5B7F407;
     private static __StaticArrayInitTypeSize=5 377A23F52C6B357696238C3318F677A082DD3430BB6691042BD550A5CDA28EBB;
     private static __StaticArrayInitTypeSize=12 3909877581FC0513531077845C8A39A67C8B4A09178AA95F7921CC3E5A870CB9;
     private static __StaticArrayInitTypeSize=12 4636993D3E1DA4E9D6B8F87B79E8F7C6D018580D52661950EABC3845C5897A4D;
-    private static __StaticArrayInitTypeSize=84179 480F2A6C8BA2D5B0E367119AF1EC129BE5EBD2392F485971773CB17E9CD795BF;
     private static __StaticArrayInitTypeSize=40 4BADAECFE0316D15E6CE4F30B735C207C484607DB14BFE0099C531041D16B46D;
     private static __StaticArrayInitTypeSize=12 5E5CC89B94E7580D7CF2B2D44BC465F068981C585A3D53F7B29484F4639F8C47;
     private static __StaticArrayInitTypeSize=40 6ECD0F0BD7CF53C56D2129820911A26F815949EEE418CA46B4F3D7A80CD969A7;
@@ -45156,7 +45324,6 @@ private class <PrivateImplementationDetails>
     private static __StaticArrayInitTypeSize=12 ADE9755ECF4CE11DAC8C91CF67920F009EAEAC5B8C312241B0AD83295519EB11;
     private static __StaticArrayInitTypeSize=12 B01614700F3AB1E9A9AF2F97CEE80467211364B16CBC74097D2BCD3A7CC5E34D;
     private static __StaticArrayInitTypeSize=12 BAE9AA969922DE466A208A5197D8CD6B3ACD09240F3F06D8FAA67A5A0CB8B07E;
-    private static __StaticArrayInitTypeSize=163962 BB59D5BF2F6EA87E55336A8364B3298A01FF5939E69D698F862C18567072745D;
     private static __StaticArrayInitTypeSize=20 BCA6B79553D3170F44A05CC4AA2A8A50F7953EE292CCC2B210FA23AC9059F42A;
     private static __StaticArrayInitTypeSize=12 CB876DF0D6142E8AC8C4A402E209E5A735C30960C0C0B6A7422E17D55CDB7FBA;
     private static __StaticArrayInitTypeSize=44 CD4356A1A19B608F3A21A34B195921599C5660F055C4B2CB60A5C1B4466F7308;
@@ -45200,16 +45367,16 @@ private class <PrivateImplementationDetails>
     {
     }
 
-    private struct __StaticArrayInitTypeSize=84179 : System.ValueType
+    private struct __StaticArrayInitTypeSize=84154 : System.ValueType
     {
     }
 
-    private struct __StaticArrayInitTypeSize=163962 : System.ValueType
+    private struct __StaticArrayInitTypeSize=164033 : System.ValueType
     {
     }
 }
 
-private class __JobReflectionRegistrationOutput__1051893329
+private class __JobReflectionRegistrationOutput__1892493334
 {
     public static void CreateJobReflectionData();
     public static void EarlyInit();

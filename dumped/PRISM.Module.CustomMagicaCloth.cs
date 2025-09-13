@@ -377,6 +377,7 @@ public struct RootBoneCalcRotationJobData : System.ValueType
     public Unity.Mathematics.float3 LeftCenterToRootDirection;
     public Unity.Mathematics.float3 RightCenterToRootDirection;
     public int BoneCount;
+    public bool NotReachLowLegBone;
 }
 
 // Namespace: PRISM.Module.CustomMagicaCloth.SkirtConstraint
@@ -415,7 +416,6 @@ public class SkirtConstraint : UnityEngine.MonoBehaviour
     private Unity.Collections.NativeArray<PRISM.Module.CustomMagicaCloth.SkirtConstraint.RootBoneCalcRotationJobData> rootBoneDataNativeArray;
     private Unity.Collections.NativeArray<PRISM.Module.CustomMagicaCloth.SkirtConstraint.BoneCalcRotationJobData> boneDataNativeArray;
     private Unity.Collections.NativeArray<Unity.Mathematics.quaternion> boneResultRotationArray;
-    private PRISM.Module.CustomMagicaCloth.MagicaClothController ClothController { get; set; }
     public float Weight { get; set; }
     public float BorderMinAngle { get; set; }
     public float BorderMaxAngle { get; set; }
@@ -447,6 +447,7 @@ public struct RootBoneSerializeData : System.ValueType
     public UnityEngine.Vector3 LeftCenterToRootDirection;
     public UnityEngine.Vector3 RightCenterToRootDirection;
     public int BoneCount;
+    public bool NotReachLowLegBone;
 }
 
 // Namespace: PRISM.Module.CustomMagicaCloth.SkirtConstraint
@@ -467,7 +468,7 @@ public class SkirtConstraintUtility
     public static void _calcLegDirectionAndAngleWeight$BurstManaged(float& weight, Unity.Mathematics.quaternion& hipRotation, Unity.Mathematics.float3& hipAxis, Unity.Mathematics.quaternion& upLegRotation, Unity.Mathematics.float3& upLegAxis, Unity.Mathematics.quaternion& lowLegRotation, Unity.Mathematics.float3& lowLegAxis, float& minAngle, float& maxAngle, bool& constraintLowLegBone, PRISM.Module.CustomMagicaCloth.SkirtConstraint.LegConstraintData& legData);
 
 // Namespace: PRISM.Module.CustomMagicaCloth.SkirtConstraint
-    public class _calcLegDirectionAndAngleWeight_000000D4$PostfixBurstDelegate : System.MulticastDelegate
+    public class _calcLegDirectionAndAngleWeight_000000D3$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float& weight, Unity.Mathematics.quaternion& hipRotation, Unity.Mathematics.float3& hipAxis, Unity.Mathematics.quaternion& upLegRotation, Unity.Mathematics.float3& upLegAxis, Unity.Mathematics.quaternion& lowLegRotation, Unity.Mathematics.float3& lowLegAxis, float& minAngle, float& maxAngle, bool& constraintLowLegBone, PRISM.Module.CustomMagicaCloth.SkirtConstraint.LegConstraintData& legData);
         public System.IAsyncResult BeginInvoke(float& weight, Unity.Mathematics.quaternion& hipRotation, Unity.Mathematics.float3& hipAxis, Unity.Mathematics.quaternion& upLegRotation, Unity.Mathematics.float3& upLegAxis, Unity.Mathematics.quaternion& lowLegRotation, Unity.Mathematics.float3& lowLegAxis, float& minAngle, float& maxAngle, bool& constraintLowLegBone, PRISM.Module.CustomMagicaCloth.SkirtConstraint.LegConstraintData& legData, System.AsyncCallback , object );
@@ -475,7 +476,7 @@ public class SkirtConstraintUtility
     }
 
 // Namespace: PRISM.Module.CustomMagicaCloth.SkirtConstraint
-    class _calcLegDirectionAndAngleWeight_000000D4$BurstDirectCall
+    class _calcLegDirectionAndAngleWeight_000000D3$BurstDirectCall
     {
         private static System.IntPtr Pointer;
         private static System.IntPtr DeferredCompilation;
@@ -508,7 +509,7 @@ private class <PrivateImplementationDetails>
     }
 }
 
-private class __JobReflectionRegistrationOutput__1252660357
+private class __JobReflectionRegistrationOutput__2882173929
 {
     public static void CreateJobReflectionData();
     public static void EarlyInit();
