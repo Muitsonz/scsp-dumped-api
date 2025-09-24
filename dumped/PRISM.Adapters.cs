@@ -1738,6 +1738,17 @@ public interface IFullSizeImageOverlayView : PRISM.Adapters.IClosableOverlayView
 }
 
 // Namespace: PRISM.Adapters
+public interface IPhotoDetailOverlayView : PRISM.Adapters.IClosableOverlayView<UniRx.Unit>, PRISM.Adapters.IOverlayView, PRISM.Adapters.IClosable<UniRx.Unit>
+{
+    public System.IObservable<string> OnSelected { get; set; }
+    public System.IObservable<int> OnFavoriteMark { get; set; }
+    public System.IObservable<int> OnDelete { get; set; }
+    public System.IObservable<int> OnShare { get; set; }
+    public Cysharp.Threading.Tasks.UniTask AssignAsync(System.Collections.Generic.IList<PRISM.Adapters.PhotoCellData> cellDataList, int selectedDataIndex, PRISM.ResourceManagement.IResourceLoader resourceLoader, PRISM.Adapters.IPhotoCache photoCache, System.Threading.CancellationToken ct);
+    public void RemoveCell(int dataListIndex);
+}
+
+// Namespace: PRISM.Adapters
 public interface ISCharaFullImageOverlayView : PRISM.Adapters.IClosableOverlayView<UniRx.Unit>, PRISM.Adapters.IOverlayView, PRISM.Adapters.IClosable<UniRx.Unit>
 {
     public void Assign(int mstSupportCharacterId, PRISM.ResourceManagement.IResourceLoader resourceLoader);
@@ -14285,7 +14296,7 @@ public class GashaEffectPresenter : PRISM.IViewPresenter, PRISM.Adapters.IOnBegi
         public int <>1__state;
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
         public PRISM.Adapters.GashaEffectPresenter <>4__this;
-        private AsyncOperationAwaiter <>u__1;
+        private Awaiter <>u__1;
         private Awaiter <>u__2;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
@@ -23011,6 +23022,268 @@ private class OverlaySequencer`1<T>
 }
 
 // Namespace: PRISM.Adapters
+public interface IPhotoAlbumView
+{
+    public System.IObservable<UniRx.Unit> OnBack { get; set; }
+    public System.IObservable<int> OnPhotoDetail { get; set; }
+    public System.IObservable<System.ValueTuple<PRISM.Definitions.PhotoAlbumFooterType, int>> OnSelectCell { get; set; }
+    public void Initialize(PRISM.ResourceManagement.IResourceLoader resourceLoader, PRISM.Adapters.IPhotoCache photoCache);
+    public void Show(System.Collections.Generic.IList<PRISM.Adapters.PhotoCellData> dataList);
+    public void Hide();
+}
+
+// Namespace: PRISM.Adapters
+public interface IPhotoCache : System.IDisposable
+{
+    public UnityEngine.Texture2D Get(PRISM.Service.Photo.PhotoInfo info);
+}
+
+// Namespace: PRISM.Adapters
+public interface IPhotoView
+{
+    public System.IObservable<UniRx.Unit> OnSituationMode { get; set; }
+    public System.IObservable<UniRx.Unit> OnPhotoAlbum { get; set; }
+    public void Show();
+    public void Hide();
+    public void ShowCmnUI(bool isCustomBack);
+    public void HideCmnUI();
+}
+
+// Namespace: PRISM.Adapters
+public interface ISituationModeView
+{
+    public System.IObservable<UniRx.Unit> OnBack { get; set; }
+    public System.IObservable<UniRx.Unit> OnShooting { get; set; }
+    public System.IObservable<PRISM.Definitions.SituationModeFooterButtonType> OnFooterButton { get; set; }
+    public System.IObservable<UniRx.Unit> OnPhotoPreview { get; set; }
+    public void Initialize();
+    public void ShowPhotoPreview();
+    public void Show();
+    public void Hide();
+}
+
+// Namespace: PRISM.Adapters
+public class PhotoDetailOverlaySequencer
+{
+    public static Cysharp.Threading.Tasks.UniTask ShowAsync(System.Collections.Generic.IList<PRISM.Adapters.PhotoCellData> cellDataList, int selectedDataIndex, PRISM.Adapters.IPhotoCache photoCache, System.Threading.CancellationToken ct, System.Action onChangeFavoriteAction, System.Action<int> onDeletePhotoAction);
+    private static Cysharp.Threading.Tasks.UniTask _showSelectFavoriteMarkPUAsync(PRISM.Adapters.PhotoCellData photoCellData, System.Action onChangeFavoriteAction, System.Threading.CancellationToken ct);
+    private static Cysharp.Threading.Tasks.UniTask<bool> _showPhotoDeletionConfirmationPU(System.Threading.CancellationToken ct);
+    private static Cysharp.Threading.Tasks.UniTask _showPhotoDeletionCompletedPU(System.Threading.CancellationToken ct);
+
+    private class <>c
+    {
+        public static <>c <>9;
+        public static System.Action<string> <>9__0_1;
+        public static System.Action<int> <>9__0_4;
+        private void <ShowAsync>b__0_1(string filePath);
+        private void <ShowAsync>b__0_4(int index);
+    }
+
+    private class <>c__DisplayClass0_0
+    {
+        public System.Collections.Generic.IList<PRISM.Adapters.PhotoCellData> cellDataList;
+        public int selectedDataIndex;
+        public PRISM.Adapters.IPhotoCache photoCache;
+        public System.Threading.CancellationToken ct;
+        public System.Action onChangeFavoriteAction;
+        public System.Action<int> onDeletePhotoAction;
+        public System.Action<int> <>9__2;
+        private Cysharp.Threading.Tasks.UniTask<System.IDisposable> <ShowAsync>b__0(PRISM.Adapters.IPhotoDetailOverlayView view, PRISM.ResourceManagement.IResourceLoader loader);
+        private void <ShowAsync>b__2(int index);
+
+        private struct <<ShowAsync>b__0>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+        {
+            public int <>1__state;
+            public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<System.IDisposable> <>t__builder;
+            public <>c__DisplayClass0_0 <>4__this;
+            public PRISM.Adapters.IPhotoDetailOverlayView view;
+            public PRISM.ResourceManagement.IResourceLoader loader;
+            private <>c__DisplayClass0_1 <>8__1;
+            private Awaiter <>u__1;
+            private void MoveNext();
+            private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
+        }
+    }
+
+    private class <>c__DisplayClass0_1
+    {
+        public PRISM.Adapters.IPhotoDetailOverlayView view;
+        public <>c__DisplayClass0_0 CS$<>8__locals1;
+        private Cysharp.Threading.Tasks.UniTaskVoid <ShowAsync>b__3(int index);
+
+        private struct <<ShowAsync>b__3>d : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+        {
+            public int <>1__state;
+            public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder <>t__builder;
+            public <>c__DisplayClass0_1 <>4__this;
+            public int index;
+            private Awaiter<bool> <>u__1;
+            private void MoveNext();
+            private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
+        }
+    }
+
+    private struct <ShowAsync>d__0 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    {
+        public int <>1__state;
+        public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
+        public System.Collections.Generic.IList<PRISM.Adapters.PhotoCellData> cellDataList;
+        public int selectedDataIndex;
+        public PRISM.Adapters.IPhotoCache photoCache;
+        public System.Threading.CancellationToken ct;
+        public System.Action onChangeFavoriteAction;
+        public System.Action<int> onDeletePhotoAction;
+        private Awaiter<UniRx.Unit> <>u__1;
+        private void MoveNext();
+        private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
+    }
+
+    private struct <_showSelectFavoriteMarkPUAsync>d__1 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    {
+        public int <>1__state;
+        public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
+        public PRISM.Adapters.PhotoCellData photoCellData;
+        public System.Threading.CancellationToken ct;
+        public System.Action onChangeFavoriteAction;
+        private Awaiter<System.ValueTuple<bool, int>> <>u__1;
+        private void MoveNext();
+        private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
+    }
+}
+
+// Namespace: PRISM.Adapters
+public class PhotoCellData : System.IDisposable
+{
+    private UniRx.IntReactiveProperty onChangeFavoriteReactiveProperty;
+    private PRISM.Service.Photo.PhotoInfo <PhotoInfo>k__BackingField;
+    public PRISM.Service.Photo.PhotoInfo PhotoInfo { get; set; }
+    public int FavoriteId { get; set; }
+    public System.IObservable<int> OnChangeFavorite { get; set; }
+    public bool Used { get; set; }
+    public System.DateTime Date { get; set; }
+    public int MstCharacterInfoId { get; set; }
+    public void ChangeFavorite(int favoriteId);
+    public void Dispose();
+}
+
+// Namespace: PRISM.Adapters
+public class PhotoModel : System.IDisposable
+{
+    private System.Collections.Generic.List<PRISM.Adapters.PhotoCellData> photoCellDataList;
+    private Gleipnir.Savedata.SavableJsonObject<PRISM.Service.Photo.PhotoSaveData> saveData;
+    private PRISM.Adapters.DressUpRoomIdol idol;
+    private System.Collections.Generic.IReadOnlyList<PRISM.Module.Networking.ICostumeStatus> srcCostumeList;
+    private System.Collections.Generic.IReadOnlyList<PRISM.Module.Networking.IHairstyleStatus> srcHairstyleList;
+    private System.Collections.Generic.IReadOnlyList<PRISM.Module.Networking.IAccessoryStatus> srcAccessoryList;
+    private System.Collections.Generic.IReadOnlyList<PRISM.Module.Networking.ICostumeSetStatus> arcCostumeSetList;
+    private PRISM.Domain.CostumeSetData dressCostumeSet;
+    private PRISM.Domain.CostumeSetIds defaultDressCostumeSetIds;
+    private PRISM.Domain.CostumeSetData casualCostumeSet;
+    private PRISM.Domain.CostumeSetIds defaultCasualCostumeSetIds;
+    private int <LatestPhotoCellDataIndex>k__BackingField;
+    private CostumeType <CostumeType>k__BackingField;
+    public System.Collections.Generic.IList<PRISM.Adapters.PhotoCellData> PhotoCellDataList { get; set; }
+    public int LatestPhotoCellDataIndex { get; set; }
+    public CostumeType CostumeType { get; set; }
+    public PRISM.Live.IIdol Idol { get; set; }
+    private PRISM.Domain.CostumeSetData _getCharacterCostume(PRISM.Module.Networking.IDressUpRoomCostumeStatus iStatus, PRISM.Domain.CostumeSetIds defaultCostume);
+    public void FilterSortCellDataList();
+    public void SavePhotoData(PRISM.Service.Photo.PhotoInfo photoInfo);
+    public void ChangePhotoFavoriteMark();
+    public void RemovePhotoCell(int index);
+    public void Dispose();
+
+    private class <>c
+    {
+        public static <>c <>9;
+        public static System.Func<PRISM.Service.Photo.PhotoInfo, PRISM.Adapters.PhotoCellData> <>9__23_0;
+        private PRISM.Adapters.PhotoCellData <.ctor>b__23_0(PRISM.Service.Photo.PhotoInfo info);
+    }
+
+    private class <>c__DisplayClass24_0
+    {
+        public PRISM.Domain.CostumeSetIds defaultCostume;
+        public PRISM.Module.Networking.IDressUpRoomCostumeStatus iStatus;
+        public System.Collections.Generic.HashSet<int> accessoryIds;
+        private bool <_getCharacterCostume>b__0(PRISM.Module.Networking.ICostumeStatus x);
+        private bool <_getCharacterCostume>b__1(PRISM.Module.Networking.ICostumeStatus x);
+        private bool <_getCharacterCostume>b__2(PRISM.Module.Networking.IHairstyleStatus x);
+        private bool <_getCharacterCostume>b__3(PRISM.Module.Networking.IHairstyleStatus x);
+        private bool <_getCharacterCostume>b__4(PRISM.Module.Networking.IAccessoryStatus x);
+    }
+}
+
+// Namespace: PRISM.Adapters
+public class PhotoPresenter : PRISM.IViewPresenter
+{
+    private PRISM.Adapters.IPhotoView view;
+    private PRISM.Adapters.ISituationModeView situationModeView;
+    private PRISM.Adapters.IPhotoAlbumView photoAlbumView;
+    private PRISM.ResourceManagement.IResourceLoader resourceLoader;
+    private PRISM.Adapters.IPhotoCache photoCache;
+    private UniRx.CompositeDisposable disposables;
+    private PRISM.Adapters.PhotoModel model;
+    public Cysharp.Threading.Tasks.UniTask InitializeAsync();
+    private System.Collections.Generic.IReadOnlyList<PRISM.Service.Photo.PhotoInfo> _getPhotoInfoList();
+    private PRISM.Domain.CostumeSetIds _getDefaultDressCostumeSet(int mstCharacterInfoId);
+    private static PRISM.Domain.CostumeSetIds _getDefaultCasualCostumeSet(int mstCharacterInfoId);
+    public Cysharp.Threading.Tasks.UniTask TerminateAsync();
+    public Cysharp.Threading.Tasks.UniTask BeginViewAsync();
+    private void _beginView();
+    private Cysharp.Threading.Tasks.UniTask _showPhotoDetailOverlayAsync(int selectedDataIndex, bool isPhotoAlbumView);
+    private void _beginSituationMode();
+    private void _beginPhotoAlbum();
+    private void <_beginView>b__14_0(UniRx.Unit _);
+    private void <_beginView>b__14_1(UniRx.Unit _);
+    private void <_beginSituationMode>b__16_0(UniRx.Unit _);
+    private void <_beginSituationMode>b__16_1(UniRx.Unit _);
+    private void <_beginPhotoAlbum>b__17_0(UniRx.Unit _);
+    private void <_beginPhotoAlbum>b__17_1(int focusCellDataIndex);
+
+    private class <>c
+    {
+        public static <>c <>9;
+        public static System.Action<PRISM.Definitions.SituationModeFooterButtonType> <>9__16_2;
+        public static System.Action<UniRx.Unit> <>9__16_3;
+        public static System.Action<System.ValueTuple<PRISM.Definitions.PhotoAlbumFooterType, int>> <>9__17_2;
+        private void <_beginSituationMode>b__16_2(PRISM.Definitions.SituationModeFooterButtonType type);
+        private void <_beginSituationMode>b__16_3(UniRx.Unit _);
+        private void <_beginPhotoAlbum>b__17_2(System.ValueTuple<PRISM.Definitions.PhotoAlbumFooterType, int> t);
+    }
+
+    private class <>c__DisplayClass15_0
+    {
+        public PRISM.Adapters.PhotoPresenter <>4__this;
+        public bool isPhotoAlbumView;
+        private void <_showPhotoDetailOverlayAsync>b__0();
+        private void <_showPhotoDetailOverlayAsync>b__1(int index);
+    }
+
+    private struct <InitializeAsync>d__8 : System.ValueType, System.Runtime.CompilerServices.IAsyncStateMachine
+    {
+        public int <>1__state;
+        public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
+        public PRISM.Adapters.PhotoPresenter <>4__this;
+        private int <mstCharacterInfoId>5__2;
+        private CostumeType <costumeType>5__3;
+        private Awaiter<PRISM.Module.Networking.IGetCostumeListReply> <>u__1;
+        private void MoveNext();
+        private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
+    }
+}
+
+// Namespace: PRISM.Adapters
+public class PhotoUtility
+{
+    public static string GetSaveFilePath(string persistentDataPath, string nowTime);
+}
+
+// Namespace: PRISM.Adapters
+public class PhotoViewArgument : PRISM.Adapters.IViewArgument
+{
+}
+
+// Namespace: PRISM.Adapters
 public interface IPopupViewFactory
 {
     public PRISM.Definitions.ScopedReactiveProperty<PRISM.Adapters.PopupFrameType> FrameType { get; set; }
@@ -25680,7 +25953,7 @@ public class ProduceMvPresenter : PRISM.IViewPresenter
         public System.Threading.CancellationToken token;
         public PRISM.Adapters.ProduceMvPresenter <>4__this;
         private Awaiter <>u__1;
-        private AsyncOperationAwaiter <>u__2;
+        private Awaiter <>u__2;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
@@ -44920,6 +45193,7 @@ public interface ILiveMVOverlayView : PRISM.Adapters.IClosableOverlayView<UniRx.
     public Cysharp.Threading.Tasks.UniTask Initialize2DMVAsync(bool isPortrait);
     public Cysharp.Threading.Tasks.UniTask HideBackgroundBlockerAsync();
     public Cysharp.Threading.Tasks.UniTask PauseAsync(float time, PRISM.IPausable pausable);
+    public void ApplyKeepRenderScaleSettings();
     public void Resume();
     public System.IDisposable CreateHidePauseMenuScope();
     public void UpdateLyrics(string text);
@@ -46690,6 +46964,7 @@ public class SaveDataContainer : PRISM.Data.LegacySaveDataContainer
     public Gleipnir.Savedata.SavableJsonObject<PRISM.Service.NotificationSaveData> Notification;
     public Gleipnir.Savedata.SavableJsonObject<PRISM.Service.NotificationSettingsSaveData> NotificationSettings;
     public Gleipnir.Savedata.SavableJsonObject<PRISM.Service.Shop.ShopSaveData> Shop;
+    public Gleipnir.Savedata.SavableJsonObject<PRISM.Service.Photo.PhotoSaveData> PhotoSaveData;
     public Gleipnir.Savedata.SavableJsonObject<PRISM.Service.Story.TutorialSaveData> Tutorial;
     public Gleipnir.Savedata.SavableJsonObject<PRISM.Service.DownloadSaveData> Download;
     public Gleipnir.Savedata.SavableJsonObject<PRISM.Service.Drama.UI.DramaSettingsSaveData> DramaSettings;
@@ -49998,11 +50273,11 @@ public interface IAdvTextLogOverlayView : PRISM.Adapters.IClosableOverlayView<Un
 
 private class <PrivateImplementationDetails>
 {
+    private static __StaticArrayInitTypeSize=88705 2716B6A79ACBA08F0EE85C4BEF7CD6378DB9309BFB32369BD5ECADC81B7F337C;
     private static __StaticArrayInitTypeSize=20 4610582EB950EBED391BF6A0FDE70C1949468F58C3920E09599C1200925AE45E;
     private static __StaticArrayInitTypeSize=28 4B83AA8A74F05B97602A90AA975EBA57B0D04A076A9562BAEB7E886E15E53480;
     private static __StaticArrayInitTypeSize=24 5D4F365F9E0563926E349FD265ECB27A031A9787368FDA9DCB8FD3176909E8F3;
-    private static __StaticArrayInitTypeSize=167165 60ABBAE2BBF6C7357E9EC6DC65FF435E6A599FDD427A6737BE1BE8EC70B4C371;
-    private static __StaticArrayInitTypeSize=88315 C36C124DAB58F5D13011EC52B6FB5745ECF85551F51C1299FAC09230A2CAB923;
+    private static __StaticArrayInitTypeSize=167896 8E54441B59CD41C069D59F291C22C0FAD6E4FC939BC6DDB6C3E9A02FBAD569B1;
     private static __StaticArrayInitTypeSize=24 CA688BD5E8F3C788B5ACD61A7097B17C67C32292C727461C901AA0AD9853123E;
     private static __StaticArrayInitTypeSize=12 DDADED0783253EFA094EFCB76EC710D669C84EBEEF77F2B0AE84B04AD4E6ED33;
     private static __StaticArrayInitTypeSize=12 E4CD78ACCEF47B9D7D5ECE6AC573FF871B31A86B00A672A20C5B21C1C6717E12;
@@ -50024,11 +50299,11 @@ private class <PrivateImplementationDetails>
     {
     }
 
-    private struct __StaticArrayInitTypeSize=88315 : System.ValueType
+    private struct __StaticArrayInitTypeSize=88705 : System.ValueType
     {
     }
 
-    private struct __StaticArrayInitTypeSize=167165 : System.ValueType
+    private struct __StaticArrayInitTypeSize=167896 : System.ValueType
     {
     }
 }

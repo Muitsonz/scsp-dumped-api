@@ -465,10 +465,10 @@ public class SkirtConstraintUtility
     private static void _calcLegDirectionAndAngleWeight(float& weight, Unity.Mathematics.quaternion& hipRotation, Unity.Mathematics.float3& hipAxis, Unity.Mathematics.quaternion& upLegRotation, Unity.Mathematics.float3& upLegAxis, Unity.Mathematics.quaternion& lowLegRotation, Unity.Mathematics.float3& lowLegAxis, float& minAngle, float& maxAngle, bool& constraintLowLegBone, PRISM.Module.CustomMagicaCloth.SkirtConstraint.LegConstraintData& legData);
     private static float _getLegAngle(Unity.Mathematics.float3 hipDirection, Unity.Mathematics.float3 legDirection, float minAngle);
     private static float _getDot01(Unity.Mathematics.float3 x, Unity.Mathematics.float3 y);
-    public static void _calcLegDirectionAndAngleWeight$BurstManaged(float& weight, Unity.Mathematics.quaternion& hipRotation, Unity.Mathematics.float3& hipAxis, Unity.Mathematics.quaternion& upLegRotation, Unity.Mathematics.float3& upLegAxis, Unity.Mathematics.quaternion& lowLegRotation, Unity.Mathematics.float3& lowLegAxis, float& minAngle, float& maxAngle, bool& constraintLowLegBone, PRISM.Module.CustomMagicaCloth.SkirtConstraint.LegConstraintData& legData);
+    private static void _calcLegDirectionAndAngleWeight$BurstManaged(float& weight, Unity.Mathematics.quaternion& hipRotation, Unity.Mathematics.float3& hipAxis, Unity.Mathematics.quaternion& upLegRotation, Unity.Mathematics.float3& upLegAxis, Unity.Mathematics.quaternion& lowLegRotation, Unity.Mathematics.float3& lowLegAxis, float& minAngle, float& maxAngle, bool& constraintLowLegBone, PRISM.Module.CustomMagicaCloth.SkirtConstraint.LegConstraintData& legData);
 
 // Namespace: PRISM.Module.CustomMagicaCloth.SkirtConstraint
-    public class _calcLegDirectionAndAngleWeight_000000D3$PostfixBurstDelegate : System.MulticastDelegate
+    class _calcLegDirectionAndAngleWeight_000000CB$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float& weight, Unity.Mathematics.quaternion& hipRotation, Unity.Mathematics.float3& hipAxis, Unity.Mathematics.quaternion& upLegRotation, Unity.Mathematics.float3& upLegAxis, Unity.Mathematics.quaternion& lowLegRotation, Unity.Mathematics.float3& lowLegAxis, float& minAngle, float& maxAngle, bool& constraintLowLegBone, PRISM.Module.CustomMagicaCloth.SkirtConstraint.LegConstraintData& legData);
         public System.IAsyncResult BeginInvoke(float& weight, Unity.Mathematics.quaternion& hipRotation, Unity.Mathematics.float3& hipAxis, Unity.Mathematics.quaternion& upLegRotation, Unity.Mathematics.float3& upLegAxis, Unity.Mathematics.quaternion& lowLegRotation, Unity.Mathematics.float3& lowLegAxis, float& minAngle, float& maxAngle, bool& constraintLowLegBone, PRISM.Module.CustomMagicaCloth.SkirtConstraint.LegConstraintData& legData, System.AsyncCallback , object );
@@ -476,14 +476,11 @@ public class SkirtConstraintUtility
     }
 
 // Namespace: PRISM.Module.CustomMagicaCloth.SkirtConstraint
-    class _calcLegDirectionAndAngleWeight_000000D3$BurstDirectCall
+    class _calcLegDirectionAndAngleWeight_000000CB$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(float& weight, Unity.Mathematics.quaternion& hipRotation, Unity.Mathematics.float3& hipAxis, Unity.Mathematics.quaternion& upLegRotation, Unity.Mathematics.float3& upLegAxis, Unity.Mathematics.quaternion& lowLegRotation, Unity.Mathematics.float3& lowLegAxis, float& minAngle, float& maxAngle, bool& constraintLowLegBone, PRISM.Module.CustomMagicaCloth.SkirtConstraint.LegConstraintData& legData);
     }
 }
@@ -507,12 +504,6 @@ private class <PrivateImplementationDetails>
     private struct __StaticArrayInitTypeSize=2797 : System.ValueType
     {
     }
-}
-
-private class __JobReflectionRegistrationOutput__2882173929
-{
-    public static void CreateJobReflectionData();
-    public static void EarlyInit();
 }
 
 private class $BurstDirectCallInitializer

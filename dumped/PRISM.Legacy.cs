@@ -5269,6 +5269,11 @@ public class MstEventExtensions
 }
 
 // Namespace: PRISM
+public interface IPhotoViewConnector
+{
+}
+
+// Namespace: PRISM
 public class AuditionModel : PRISM.Produce.ProduceBaseModel
 {
     private float[] auditionUnitSkillExecuteTime;
@@ -6035,43 +6040,6 @@ public class LightBeam : UnityEngine.MonoBehaviour
     public UnityEngine.Color color { get; set; }
     public void Setup(UnityEngine.Camera cam);
     private void LateUpdate();
-}
-
-// Namespace: PRISM
-public class ReflectionPlane : UnityEngine.MonoBehaviour, PRISM.Rendering.IReflectionPlane
-{
-    private static UnityEngine.Plane HorizontalPlane;
-    private static UnityEngine.Vector3 ViewportPointBottomLeft;
-    private static UnityEngine.Vector3 ViewportPointBottomRight;
-    public float clipPlaneOffset;
-    private PRISM.SplitScreen[] splitScreens;
-    private bool <ForcedEnableReflection>k__BackingField;
-    private static Resolution <ForceResolution>k__BackingField;
-    private static Resolution keepForceResolution;
-    public bool ForcedEnableReflection { get; set; }
-    public Resolution ForceResolution { get; set; }
-    public void SetupReflectionCameraTargetTexture(UnityEngine.Camera baseCamera, UnityEngine.Camera refCamera, UnityEngine.Vector3& newPosition);
-    private void OnEnable();
-    private void OnDisable();
-    private static void _copyCameraModes(UnityEngine.Camera src, UnityEngine.Camera dest);
-    public UnityEngine.Camera CreateReflectionCamera();
-    public UnityEngine.Vector2Int GetNeedRenderTextureSize(UnityEngine.Camera currentCamera);
-    public bool IsValidReflection(UnityEngine.Camera targetCamera);
-    private bool _existsIgnoreDrawSplitScreen();
-    public void OnBeforeDrawing();
-    public void OnAfterDrawing();
-    private static bool _isHitStagePlaneToViewportBottomRay(UnityEngine.Camera baseCamera);
-    private static bool _isHitViewportRayToHorizontalPlane(UnityEngine.Vector3 viewportPoint, UnityEngine.Camera baseCamera);
-
-    public enum Resolution : System.Enum
-    {
-        public int value__;
-        public static Resolution Unknown;
-        public static Resolution x256;
-        public static Resolution x512;
-        public static Resolution x1024;
-        public static Resolution SameAsModelBuffer;
-    }
 }
 
 // Namespace: PRISM
@@ -9349,11 +9317,12 @@ public class PlaneDropShadow : UnityEngine.MonoBehaviour
 // Namespace: PRISM
 public class ScreenEffectCapture
 {
-    private ENTERPRISE.DisposableRenderTexture renderTexture;
+    private UnityEngine.Rendering.RTHandle renderTexture;
     private string captureName;
     private float scale;
     public void Setup(string _captureName, float _scale);
     public bool IsValid();
+    public UnityEngine.Rendering.RTHandle GetOrCreateRTHandle();
     public UnityEngine.RenderTexture GetOrCreateRenderTexture();
     public void Cleanup();
 }
@@ -9361,7 +9330,6 @@ public class ScreenEffectCapture
 // Namespace: PRISM
 public class ScreenEffectEx : UnityEngine.MonoBehaviour, PRISM.IPausable, PRISM.Rendering.IScreenEffectEx
 {
-    private int tmpRTId;
     private UnityEngine.Canvas canvas;
     private UnityEngine.UI.CanvasScaler canvasScale;
     private UnityEngine.Material[] fadeMat;
@@ -9400,7 +9368,7 @@ public class ScreenEffectEx : UnityEngine.MonoBehaviour, PRISM.IPausable, PRISM.
     private void _updateInner(float deltaTime);
     private void _updateLastScreen(FadeType _fadeType);
     private UnityEngine.Texture _getBaseScreen(FadeType _fadeType);
-    public UnityEngine.RenderTexture GetRenderTextureForCaptureFrameBuffer();
+    public UnityEngine.Rendering.RTHandle GetRenderTextureForCaptureFrameBuffer();
     private void _cleanup();
     private void _updateMaterial(EffectType _effectType);
     private void _adjustScreen(UnityEngine.Texture lastScreen);
@@ -11508,9 +11476,13 @@ public class Billboard : UnityEngine.MonoBehaviour
 public class CaptureDisplay : UnityEngine.MonoBehaviour
 {
     private UnityEngine.Renderer _renderer;
-    private UnityEngine.RenderTexture _keepReserveBuffer;
+    private System.IDisposable disposable;
+    private System.Action<UnityEngine.Rendering.ScriptableRenderContext, UnityEngine.Camera> registerAction;
     public void Setup();
-    private void Update();
+    private void OnEnable();
+    private void OnDisable();
+    private void _onBeginCameraRendering(UnityEngine.Rendering.ScriptableRenderContext context, UnityEngine.Camera camera);
+    private void OnDestroy();
 }
 
 // Namespace: PRISM
@@ -11570,19 +11542,9 @@ public class FloorMesh : UnityEngine.MonoBehaviour
     private UnityEngine.Vector4 fats;
     private bool ready;
     private bool isInitializeEnd;
-    public int index;
-    public Unity.Collections.NativeArray<PRISM.Legacy.CreateMeshData> cmData;
-    public Unity.Collections.NativeArray<PRISM.Legacy.MeshVertexData> mvCyaData;
-    public Unity.Collections.NativeArray<PRISM.Legacy.MeshVertexData> mvSil0Data;
-    public Unity.Collections.NativeArray<PRISM.Legacy.MeshVertexData> mvSil1Data;
-    public Unity.Collections.NativeArray<PRISM.Legacy.MeshVertexData> mvSil2Data;
-    public Unity.Collections.NativeArray<PRISM.Legacy.MeshVertexData> mvArmData;
-    public Unity.Collections.NativeArray<ushort> mvSil0Tri;
-    public Unity.Collections.NativeArray<ushort> mvSil1Tri;
-    public Unity.Collections.NativeArray<ushort> mvSil2Tri;
-    public Unity.Collections.NativeArray<ushort> mvArmTri;
-    public Unity.Collections.NativeArray<PRISM.Legacy.CyaSilData> csData;
-    public Unity.Collections.NativeArray<PRISM.Legacy.MeshOut> meshOut;
+    private PRISM.Rendering.NativeResourceTracker resourceTracker;
+    private PRISM.Rendering.UnityResourceTracker<UnityEngine.MeshFilter> meshFilterTracker;
+    private PRISM.Rendering.UnityResourceTracker<UnityEngine.Mesh> meshTracker;
     public System.Collections.Generic.List<PRISM.Legacy.MeshOutInner> meshOutInner;
     private UnityEngine.Vector3[] cyaVertsDummy;
     public static int TextureHeight;
@@ -11605,12 +11567,10 @@ public class FloorMesh : UnityEngine.MonoBehaviour
     public float ArmDrawInRange { get; set; }
     public float BodyDrawInRange { get; set; }
     public void Setup(PRISM.AudienceController audienceController, System.Collections.Generic.List<CyaQuad> cyaquads);
-    public void setFat(float fatSize, float fatStart, float fatEnd, bool fatTest);
     private void _updateFat();
     private void setupCyaTexture();
     public void initColor(bool fixedAssign);
     private static void _toMesh(UnityEngine.Mesh meshTo, Unity.Collections.NativeArray<PRISM.Legacy.VertexData> vertexData, Unity.Collections.NativeArray<ushort> indexData);
-    private void DisposeAll();
     public void SetSilRatio();
     public void SetCyaBri();
     public void SetUoRatio();
@@ -11623,14 +11583,13 @@ public class FloorMesh : UnityEngine.MonoBehaviour
     private static void _setColor(int propertyId, UnityEngine.Color value);
     private static void _setVectorArray(int propertyId, UnityEngine.Vector4[] value);
     private static void _setTexture(int propertyId, UnityEngine.Texture value);
-    private void EnableKeywordToCyalume(string keyword);
-    private void DisableKeywordToCyalume(string keyword);
     private void SetCyalumeVectors(int iPat, int iHand, UnityEngine.Vector3[] verts, UnityEngine.Vector2 towelOffset);
     private void set_sil_vectors(UnityEngine.Vector4[] verts);
     public void update_afterCam(UnityEngine.Vector3 camForward);
     private UnityEngine.Texture2D _convertTexture(bool allTiny, byte[] cyalumeTextureInByte);
     private void OnDestroy();
-    private static void Destroy(UnityEngine.Object obj);
+    private static void _cleanupMeshRendererList(System.Collections.Generic.List<UnityEngine.MeshRenderer> meshRenderers);
+    private static void _cleanupGameObjectList(System.Collections.Generic.List<UnityEngine.GameObject> gameObjects);
     private void Update();
     private void OnDrawGizmos();
 
@@ -11645,15 +11604,15 @@ public class FloorMesh : UnityEngine.MonoBehaviour
     private class <>c
     {
         public static <>c <>9;
-        public static System.Func<UnityEngine.MeshRenderer, UnityEngine.Bounds> <>9__33_0;
-        public static System.Func<UnityEngine.MeshRenderer, UnityEngine.Bounds> <>9__33_1;
-        private UnityEngine.Bounds <Setup>b__33_0(UnityEngine.MeshRenderer _);
-        private UnityEngine.Bounds <Setup>b__33_1(UnityEngine.MeshRenderer _);
+        public static System.Func<UnityEngine.MeshRenderer, UnityEngine.Bounds> <>9__35_0;
+        public static System.Func<UnityEngine.MeshRenderer, UnityEngine.Bounds> <>9__35_1;
+        private UnityEngine.Bounds <Setup>b__35_0(UnityEngine.MeshRenderer _);
+        private UnityEngine.Bounds <Setup>b__35_1(UnityEngine.MeshRenderer _);
     }
 }
 
 // Namespace: PRISM
-public class MeshNR
+public struct MeshNR : System.ValueType, System.IDisposable
 {
     private static int id_counter;
     public int id;
@@ -11669,7 +11628,7 @@ public class MeshNR
     private bool hasNR;
     public bool isReadable;
     public void update_afterCam(UnityEngine.Vector3 camForward);
-    public void Cleanup();
+    public void Dispose();
 }
 
 // Namespace: PRISM
@@ -11792,10 +11751,8 @@ public class StageController : PRISM.NotificationReceiverBase
     public void Setup(UnityEngine.Camera mainCamera);
     private void _setupScreen();
     private void _setupNeonAnimation();
-    private void _setupStageGround(UnityEngine.Camera mainCamera);
+    private void _setupStageMaterial();
     private void _setupStageEffect();
-    private void _setupRenderQueue();
-    private static void _setRenderQueue(UnityEngine.Material mat);
     public void SetLightColor(UnityEngine.Color lightColor);
     public void SetLightIntensity(float intensity);
     public void EnableDirectionalShadow(bool enable);
@@ -11805,11 +11762,6 @@ public class StageController : PRISM.NotificationReceiverBase
     public void OnNotify(UnityEngine.Playables.Playable origin, UnityEngine.Playables.INotification notification, object context);
     public void SetSpotLightColor(UnityEngine.Color color);
     public static void PreLoadStage(PRISM.DownloadKeyContainer downloadKeyContainer);
-
-    private class <>O
-    {
-        public static System.Action<UnityEngine.Material> <0>___setRenderQueue;
-    }
 }
 
 // Namespace: PRISM
@@ -11818,10 +11770,10 @@ public class StageUtil
     public static void Swap<T>(T& a, T& b);
     public static void FindClosestPointsOnLines(UnityEngine.Vector3& P1, UnityEngine.Vector3& v1, UnityEngine.Vector3& P2, UnityEngine.Vector3& v2, UnityEngine.Vector3& Q1, UnityEngine.Vector3& Q2);
     public static void ResetTransform(UnityEngine.Transform tra);
-    public static void FindClosestPointsOnLines$BurstManaged(UnityEngine.Vector3& P1, UnityEngine.Vector3& v1, UnityEngine.Vector3& P2, UnityEngine.Vector3& v2, UnityEngine.Vector3& Q1, UnityEngine.Vector3& Q2);
+    private static void FindClosestPointsOnLines$BurstManaged(UnityEngine.Vector3& P1, UnityEngine.Vector3& v1, UnityEngine.Vector3& P2, UnityEngine.Vector3& v2, UnityEngine.Vector3& Q1, UnityEngine.Vector3& Q2);
 
 // Namespace: PRISM
-    public class FindClosestPointsOnLines_0000113F$PostfixBurstDelegate : System.MulticastDelegate
+    class FindClosestPointsOnLines_00000D7E$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(UnityEngine.Vector3& P1, UnityEngine.Vector3& v1, UnityEngine.Vector3& P2, UnityEngine.Vector3& v2, UnityEngine.Vector3& Q1, UnityEngine.Vector3& Q2);
         public System.IAsyncResult BeginInvoke(UnityEngine.Vector3& P1, UnityEngine.Vector3& v1, UnityEngine.Vector3& P2, UnityEngine.Vector3& v2, UnityEngine.Vector3& Q1, UnityEngine.Vector3& Q2, System.AsyncCallback , object );
@@ -11829,14 +11781,11 @@ public class StageUtil
     }
 
 // Namespace: PRISM
-    class FindClosestPointsOnLines_0000113F$BurstDirectCall
+    class FindClosestPointsOnLines_00000D7E$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(UnityEngine.Vector3& P1, UnityEngine.Vector3& v1, UnityEngine.Vector3& P2, UnityEngine.Vector3& v2, UnityEngine.Vector3& Q1, UnityEngine.Vector3& Q2);
     }
 }
@@ -12214,7 +12163,7 @@ public class SceneLoader
             public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
             public <>c__DisplayClass7_0 <>4__this;
             private Awaiter<UnityEngine.AsyncOperation> <>u__1;
-            private AsyncOperationAwaiter <>u__2;
+            private Awaiter <>u__2;
             private void MoveNext();
             private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
         }
@@ -12226,7 +12175,7 @@ public class SceneLoader
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
         public PRISM.SceneLoader <>4__this;
         private Awaiter <>u__1;
-        private AsyncOperationAwaiter <>u__2;
+        private Awaiter <>u__2;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
@@ -15756,6 +15705,7 @@ public class NoteLine : UnityEngine.MonoBehaviour
     private UnityEngine.Color SuccessColor { get; set; }
     private UnityEngine.Color FailureColor { get; set; }
     private void Start();
+    private void OnDestroy();
     public NoteLineRenderResult Render(PRISM.RhythmGame.NoteLineState state, float renderTime, float musicTime, PRISM.RhythmGame.RhythmGameOption option, Context context);
     private void _setActive(bool isActive);
 
@@ -21113,6 +21063,7 @@ public enum SelectFavoriteMarkPopupType : System.Enum
     public static PRISM.UI.SelectFavoriteMarkPopupType SupportChara;
     public static PRISM.UI.SelectFavoriteMarkPopupType FesIdol;
     public static PRISM.UI.SelectFavoriteMarkPopupType FesUnit;
+    public static PRISM.UI.SelectFavoriteMarkPopupType PhotoDetail;
 }
 
 // Namespace: PRISM.UI
@@ -35586,7 +35537,7 @@ public class ProduceMVPreloader
         public int removingCSCount;
         public PRISM.UnitIdol[] dressList;
         private Awaiter <>u__1;
-        private AsyncOperationAwaiter <>u__2;
+        private Awaiter <>u__2;
         private Awaiter<SequenceData> <>u__3;
         private Awaiter<PRISM.UnitIdol[]> <>u__4;
         private void MoveNext();
@@ -35695,7 +35646,7 @@ public class ViewProduceMvDebug : ENTERPRISE.ViewBase
         public System.Threading.CancellationToken token;
         public PRISM.Produce.ViewProduceMvDebug <>4__this;
         private Awaiter <>u__1;
-        private AsyncOperationAwaiter <>u__2;
+        private Awaiter <>u__2;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
@@ -39911,7 +39862,7 @@ public class ViewProduceIngameBase`1<TModel> : ENTERPRISE.ViewBase
         public Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder <>t__builder;
         public PRISM.Produce.ViewProduceIngameBase<TModel> <>4__this;
         private Awaiter <>u__1;
-        private AsyncOperationAwaiter <>u__2;
+        private Awaiter <>u__2;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
     }
@@ -42069,13 +42020,13 @@ public class ConstraintUtility
     public static bool TryGetTargetRotation(System.Collections.Generic.IReadOnlyList<PRISM.IConstraintTarget> targets, float weightSum, UnityEngine.Quaternion& targetRotation);
     public static bool TryGetTargetLossyScale(System.Collections.Generic.IReadOnlyList<PRISM.IConstraintTarget> targets, float weightSum, UnityEngine.Vector3& targetLossyScale);
     public static bool TryGetTargetTransformData(System.Collections.Generic.IReadOnlyList<PRISM.IConstraintTarget> targets, float weightSum, UnityEngine.Vector3& targetPosition, UnityEngine.Quaternion& targetRotation, UnityEngine.Vector3& targetLossyScale);
-    public static void RotationConstraint$BurstManaged(UnityEngine.Quaternion& transformRotation, UnityEngine.Quaternion& parentRotation, UnityEngine.Quaternion& targetRotation, float& weight, bool& constrainX, bool& constrainY, bool& constrainZ, UnityEngine.Vector3& offset);
-    public static void LookAtConstraint$BurstManaged(UnityEngine.Quaternion& transformRotation, UnityEngine.Vector3& transformPosition, UnityEngine.Quaternion& parentRotation, UnityEngine.Vector3& targetPosition, UnityEngine.Vector3& upObjectPosition, float& weight, bool& useUpObject, bool& constrainX, bool& constrainY, bool& constrainZ, UnityEngine.Vector3& offset);
-    public static void XRotConstrain$BurstManaged(UnityEngine.Quaternion& localRotation, float& x_rot, float& rot_scale, float& center_rot, UnityEngine.Quaternion& angleRotation, float& scale);
-    public static void InverseConstrain$BurstManaged(float& x_inv, UnityEngine.Quaternion& localRotation, UnityEngine.Quaternion& angleRotation);
+    private static void RotationConstraint$BurstManaged(UnityEngine.Quaternion& transformRotation, UnityEngine.Quaternion& parentRotation, UnityEngine.Quaternion& targetRotation, float& weight, bool& constrainX, bool& constrainY, bool& constrainZ, UnityEngine.Vector3& offset);
+    private static void LookAtConstraint$BurstManaged(UnityEngine.Quaternion& transformRotation, UnityEngine.Vector3& transformPosition, UnityEngine.Quaternion& parentRotation, UnityEngine.Vector3& targetPosition, UnityEngine.Vector3& upObjectPosition, float& weight, bool& useUpObject, bool& constrainX, bool& constrainY, bool& constrainZ, UnityEngine.Vector3& offset);
+    private static void XRotConstrain$BurstManaged(UnityEngine.Quaternion& localRotation, float& x_rot, float& rot_scale, float& center_rot, UnityEngine.Quaternion& angleRotation, float& scale);
+    private static void InverseConstrain$BurstManaged(float& x_inv, UnityEngine.Quaternion& localRotation, UnityEngine.Quaternion& angleRotation);
 
 // Namespace: PRISM.Legacy
-    public class RotationConstraint_00003E54$PostfixBurstDelegate : System.MulticastDelegate
+    class RotationConstraint_00002DCD$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(UnityEngine.Quaternion& transformRotation, UnityEngine.Quaternion& parentRotation, UnityEngine.Quaternion& targetRotation, float& weight, bool& constrainX, bool& constrainY, bool& constrainZ, UnityEngine.Vector3& offset);
         public System.IAsyncResult BeginInvoke(UnityEngine.Quaternion& transformRotation, UnityEngine.Quaternion& parentRotation, UnityEngine.Quaternion& targetRotation, float& weight, bool& constrainX, bool& constrainY, bool& constrainZ, UnityEngine.Vector3& offset, System.AsyncCallback , object );
@@ -42083,19 +42034,16 @@ public class ConstraintUtility
     }
 
 // Namespace: PRISM.Legacy
-    class RotationConstraint_00003E54$BurstDirectCall
+    class RotationConstraint_00002DCD$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(UnityEngine.Quaternion& transformRotation, UnityEngine.Quaternion& parentRotation, UnityEngine.Quaternion& targetRotation, float& weight, bool& constrainX, bool& constrainY, bool& constrainZ, UnityEngine.Vector3& offset);
     }
 
 // Namespace: PRISM.Legacy
-    public class LookAtConstraint_00003E55$PostfixBurstDelegate : System.MulticastDelegate
+    class LookAtConstraint_00002DCE$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(UnityEngine.Quaternion& transformRotation, UnityEngine.Vector3& transformPosition, UnityEngine.Quaternion& parentRotation, UnityEngine.Vector3& targetPosition, UnityEngine.Vector3& upObjectPosition, float& weight, bool& useUpObject, bool& constrainX, bool& constrainY, bool& constrainZ, UnityEngine.Vector3& offset);
         public System.IAsyncResult BeginInvoke(UnityEngine.Quaternion& transformRotation, UnityEngine.Vector3& transformPosition, UnityEngine.Quaternion& parentRotation, UnityEngine.Vector3& targetPosition, UnityEngine.Vector3& upObjectPosition, float& weight, bool& useUpObject, bool& constrainX, bool& constrainY, bool& constrainZ, UnityEngine.Vector3& offset, System.AsyncCallback , object );
@@ -42103,19 +42051,16 @@ public class ConstraintUtility
     }
 
 // Namespace: PRISM.Legacy
-    class LookAtConstraint_00003E55$BurstDirectCall
+    class LookAtConstraint_00002DCE$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(UnityEngine.Quaternion& transformRotation, UnityEngine.Vector3& transformPosition, UnityEngine.Quaternion& parentRotation, UnityEngine.Vector3& targetPosition, UnityEngine.Vector3& upObjectPosition, float& weight, bool& useUpObject, bool& constrainX, bool& constrainY, bool& constrainZ, UnityEngine.Vector3& offset);
     }
 
 // Namespace: PRISM.Legacy
-    public class XRotConstrain_00003E56$PostfixBurstDelegate : System.MulticastDelegate
+    class XRotConstrain_00002DCF$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(UnityEngine.Quaternion& localRotation, float& x_rot, float& rot_scale, float& center_rot, UnityEngine.Quaternion& angleRotation, float& scale);
         public System.IAsyncResult BeginInvoke(UnityEngine.Quaternion& localRotation, float& x_rot, float& rot_scale, float& center_rot, UnityEngine.Quaternion& angleRotation, float& scale, System.AsyncCallback , object );
@@ -42123,19 +42068,16 @@ public class ConstraintUtility
     }
 
 // Namespace: PRISM.Legacy
-    class XRotConstrain_00003E56$BurstDirectCall
+    class XRotConstrain_00002DCF$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(UnityEngine.Quaternion& localRotation, float& x_rot, float& rot_scale, float& center_rot, UnityEngine.Quaternion& angleRotation, float& scale);
     }
 
 // Namespace: PRISM.Legacy
-    public class InverseConstrain_00003E57$PostfixBurstDelegate : System.MulticastDelegate
+    class InverseConstrain_00002DD0$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float& x_inv, UnityEngine.Quaternion& localRotation, UnityEngine.Quaternion& angleRotation);
         public System.IAsyncResult BeginInvoke(float& x_inv, UnityEngine.Quaternion& localRotation, UnityEngine.Quaternion& angleRotation, System.AsyncCallback , object );
@@ -42143,14 +42085,11 @@ public class ConstraintUtility
     }
 
 // Namespace: PRISM.Legacy
-    class InverseConstrain_00003E57$BurstDirectCall
+    class InverseConstrain_00002DD0$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(float& x_inv, UnityEngine.Quaternion& localRotation, UnityEngine.Quaternion& angleRotation);
     }
 }
@@ -42182,25 +42121,20 @@ public class BurstDirectCall
     public static void ConvertEulerToAxis(UnityEngine.Vector3& e, UnityEngine.Vector3& forward, UnityEngine.Vector3& up);
     public static void DeltaAngle(UnityEngine.Vector3& vec, UnityEngine.Vector3& result);
     public static void RangeDetection(UnityEngine.Vector3& cameraPosition, float inRange, Unity.Collections.NativeArray<UnityEngine.Bounds>& bounds, Unity.Collections.NativeArray<bool>& result);
-    public static void ReflectionPlane(UnityEngine.Vector3& baseCameraPos, UnityEngine.Matrix4x4& baseCameraWorldToCameraMatrix, UnityEngine.Matrix4x4& baseCameraProjectionMatrix, UnityEngine.Vector3& pos, UnityEngine.Vector3& normal, float clipPlaneOffset, UnityEngine.Vector3& newPosition, UnityEngine.Matrix4x4& worldToCameraMatrix, UnityEngine.Matrix4x4& projectionMatrix);
-    private static UnityEngine.Matrix4x4 _calculateReflectionMatrix(UnityEngine.Vector4 plane);
-    private static void _calculateObliqueMatrix(UnityEngine.Matrix4x4& projection, UnityEngine.Vector4& clipPlane);
-    private static void _cameraSpacePlane(UnityEngine.Vector4& result, UnityEngine.Matrix4x4& worldToCameraMatrix, UnityEngine.Vector3& pos, UnityEngine.Vector3& normal, float sideSign, float clipPlaneOffset);
-    public static void _bezier3$BurstManaged(float t, Unity.Mathematics.float3& p0, Unity.Mathematics.float3& p1, Unity.Mathematics.float3& p2, Unity.Mathematics.float3& p3, Unity.Mathematics.float3& result);
-    public static void _bezier3$BurstManaged(float t, float& p0, float& p1, float& p2, float& p3, float& result);
-    public static void _bezierInterpolate$BurstManaged(float& t, System.Single* scaler, int length, float& result);
-    public static void _bezierInterpolate$BurstManaged(float& t, Unity.Mathematics.float3* vec, int length, Unity.Mathematics.float3& result);
-    public static void GetInterpolateVector$BurstManaged(float& x, float& y, InterpolateValue& interpolateValue);
-    public static void GetPositionRotation$BurstManaged(InterpolateValue& interpolateValue, PRISM.Legacy.FaceBonePostureNativeArray& posture, bool xflip, Unity.Mathematics.quaternion& rotationResult, Unity.Mathematics.float3& positionResult);
-    public static void Index2Rate$BurstManaged(InterpolateValue& interpolateValue, PRISM.Legacy.FaceBoneInterpolateFloatNativeArray& values, float& result);
-    public static void GetPixelBilinear$BurstManaged(float x, float y, int width, int height, Unity.Collections.NativeArray<UnityEngine.Color>& colors, UnityEngine.Color& result);
-    public static void ConvertEulerToAxis$BurstManaged(UnityEngine.Vector3& e, UnityEngine.Vector3& forward, UnityEngine.Vector3& up);
-    public static void DeltaAngle$BurstManaged(UnityEngine.Vector3& vec, UnityEngine.Vector3& result);
-    public static void RangeDetection$BurstManaged(UnityEngine.Vector3& cameraPosition, float inRange, Unity.Collections.NativeArray<UnityEngine.Bounds>& bounds, Unity.Collections.NativeArray<bool>& result);
-    public static void ReflectionPlane$BurstManaged(UnityEngine.Vector3& baseCameraPos, UnityEngine.Matrix4x4& baseCameraWorldToCameraMatrix, UnityEngine.Matrix4x4& baseCameraProjectionMatrix, UnityEngine.Vector3& pos, UnityEngine.Vector3& normal, float clipPlaneOffset, UnityEngine.Vector3& newPosition, UnityEngine.Matrix4x4& worldToCameraMatrix, UnityEngine.Matrix4x4& projectionMatrix);
+    private static void _bezier3$BurstManaged(float t, Unity.Mathematics.float3& p0, Unity.Mathematics.float3& p1, Unity.Mathematics.float3& p2, Unity.Mathematics.float3& p3, Unity.Mathematics.float3& result);
+    private static void _bezier3$BurstManaged(float t, float& p0, float& p1, float& p2, float& p3, float& result);
+    private static void _bezierInterpolate$BurstManaged(float& t, System.Single* scaler, int length, float& result);
+    private static void _bezierInterpolate$BurstManaged(float& t, Unity.Mathematics.float3* vec, int length, Unity.Mathematics.float3& result);
+    private static void GetInterpolateVector$BurstManaged(float& x, float& y, InterpolateValue& interpolateValue);
+    private static void GetPositionRotation$BurstManaged(InterpolateValue& interpolateValue, PRISM.Legacy.FaceBonePostureNativeArray& posture, bool xflip, Unity.Mathematics.quaternion& rotationResult, Unity.Mathematics.float3& positionResult);
+    private static void Index2Rate$BurstManaged(InterpolateValue& interpolateValue, PRISM.Legacy.FaceBoneInterpolateFloatNativeArray& values, float& result);
+    private static void GetPixelBilinear$BurstManaged(float x, float y, int width, int height, Unity.Collections.NativeArray<UnityEngine.Color>& colors, UnityEngine.Color& result);
+    private static void ConvertEulerToAxis$BurstManaged(UnityEngine.Vector3& e, UnityEngine.Vector3& forward, UnityEngine.Vector3& up);
+    private static void DeltaAngle$BurstManaged(UnityEngine.Vector3& vec, UnityEngine.Vector3& result);
+    private static void RangeDetection$BurstManaged(UnityEngine.Vector3& cameraPosition, float inRange, Unity.Collections.NativeArray<UnityEngine.Bounds>& bounds, Unity.Collections.NativeArray<bool>& result);
 
 // Namespace: PRISM.Legacy
-    public class _bezier3_00003E5C$PostfixBurstDelegate : System.MulticastDelegate
+    class _bezier3_00002DD5$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float t, Unity.Mathematics.float3& p0, Unity.Mathematics.float3& p1, Unity.Mathematics.float3& p2, Unity.Mathematics.float3& p3, Unity.Mathematics.float3& result);
         public System.IAsyncResult BeginInvoke(float t, Unity.Mathematics.float3& p0, Unity.Mathematics.float3& p1, Unity.Mathematics.float3& p2, Unity.Mathematics.float3& p3, Unity.Mathematics.float3& result, System.AsyncCallback , object );
@@ -42208,19 +42142,16 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class _bezier3_00003E5C$BurstDirectCall
+    class _bezier3_00002DD5$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(float t, Unity.Mathematics.float3& p0, Unity.Mathematics.float3& p1, Unity.Mathematics.float3& p2, Unity.Mathematics.float3& p3, Unity.Mathematics.float3& result);
     }
 
 // Namespace: PRISM.Legacy
-    public class _bezier3_00003E5D$PostfixBurstDelegate : System.MulticastDelegate
+    class _bezier3_00002DD6$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float t, float& p0, float& p1, float& p2, float& p3, float& result);
         public System.IAsyncResult BeginInvoke(float t, float& p0, float& p1, float& p2, float& p3, float& result, System.AsyncCallback , object );
@@ -42228,19 +42159,16 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class _bezier3_00003E5D$BurstDirectCall
+    class _bezier3_00002DD6$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(float t, float& p0, float& p1, float& p2, float& p3, float& result);
     }
 
 // Namespace: PRISM.Legacy
-    public class _bezierInterpolate_00003E5F$PostfixBurstDelegate : System.MulticastDelegate
+    class _bezierInterpolate_00002DD8$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float& t, System.Single* scaler, int length, float& result);
         public System.IAsyncResult BeginInvoke(float& t, System.Single* scaler, int length, float& result, System.AsyncCallback , object );
@@ -42248,19 +42176,16 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class _bezierInterpolate_00003E5F$BurstDirectCall
+    class _bezierInterpolate_00002DD8$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(float& t, System.Single* scaler, int length, float& result);
     }
 
 // Namespace: PRISM.Legacy
-    public class _bezierInterpolate_00003E61$PostfixBurstDelegate : System.MulticastDelegate
+    class _bezierInterpolate_00002DDA$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float& t, Unity.Mathematics.float3* vec, int length, Unity.Mathematics.float3& result);
         public System.IAsyncResult BeginInvoke(float& t, Unity.Mathematics.float3* vec, int length, Unity.Mathematics.float3& result, System.AsyncCallback , object );
@@ -42268,19 +42193,16 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class _bezierInterpolate_00003E61$BurstDirectCall
+    class _bezierInterpolate_00002DDA$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(float& t, Unity.Mathematics.float3* vec, int length, Unity.Mathematics.float3& result);
     }
 
 // Namespace: PRISM.Legacy
-    public class GetInterpolateVector_00003E64$PostfixBurstDelegate : System.MulticastDelegate
+    class GetInterpolateVector_00002DDD$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float& x, float& y, InterpolateValue& interpolateValue);
         public System.IAsyncResult BeginInvoke(float& x, float& y, InterpolateValue& interpolateValue, System.AsyncCallback , object );
@@ -42288,19 +42210,16 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class GetInterpolateVector_00003E64$BurstDirectCall
+    class GetInterpolateVector_00002DDD$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(float& x, float& y, InterpolateValue& interpolateValue);
     }
 
 // Namespace: PRISM.Legacy
-    public class GetPositionRotation_00003E65$PostfixBurstDelegate : System.MulticastDelegate
+    class GetPositionRotation_00002DDE$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(InterpolateValue& interpolateValue, PRISM.Legacy.FaceBonePostureNativeArray& posture, bool xflip, Unity.Mathematics.quaternion& rotationResult, Unity.Mathematics.float3& positionResult);
         public System.IAsyncResult BeginInvoke(InterpolateValue& interpolateValue, PRISM.Legacy.FaceBonePostureNativeArray& posture, bool xflip, Unity.Mathematics.quaternion& rotationResult, Unity.Mathematics.float3& positionResult, System.AsyncCallback , object );
@@ -42308,19 +42227,16 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class GetPositionRotation_00003E65$BurstDirectCall
+    class GetPositionRotation_00002DDE$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(InterpolateValue& interpolateValue, PRISM.Legacy.FaceBonePostureNativeArray& posture, bool xflip, Unity.Mathematics.quaternion& rotationResult, Unity.Mathematics.float3& positionResult);
     }
 
 // Namespace: PRISM.Legacy
-    public class Index2Rate_00003E67$PostfixBurstDelegate : System.MulticastDelegate
+    class Index2Rate_00002DE0$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(InterpolateValue& interpolateValue, PRISM.Legacy.FaceBoneInterpolateFloatNativeArray& values, float& result);
         public System.IAsyncResult BeginInvoke(InterpolateValue& interpolateValue, PRISM.Legacy.FaceBoneInterpolateFloatNativeArray& values, float& result, System.AsyncCallback , object );
@@ -42328,19 +42244,16 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class Index2Rate_00003E67$BurstDirectCall
+    class Index2Rate_00002DE0$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(InterpolateValue& interpolateValue, PRISM.Legacy.FaceBoneInterpolateFloatNativeArray& values, float& result);
     }
 
 // Namespace: PRISM.Legacy
-    public class GetPixelBilinear_00003E6A$PostfixBurstDelegate : System.MulticastDelegate
+    class GetPixelBilinear_00002DE3$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(float x, float y, int width, int height, Unity.Collections.NativeArray<UnityEngine.Color>& colors, UnityEngine.Color& result);
         public System.IAsyncResult BeginInvoke(float x, float y, int width, int height, Unity.Collections.NativeArray<UnityEngine.Color>& colors, UnityEngine.Color& result, System.AsyncCallback , object );
@@ -42348,19 +42261,16 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class GetPixelBilinear_00003E6A$BurstDirectCall
+    class GetPixelBilinear_00002DE3$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(float x, float y, int width, int height, Unity.Collections.NativeArray<UnityEngine.Color>& colors, UnityEngine.Color& result);
     }
 
 // Namespace: PRISM.Legacy
-    public class ConvertEulerToAxis_00003E6C$PostfixBurstDelegate : System.MulticastDelegate
+    class ConvertEulerToAxis_00002DE5$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(UnityEngine.Vector3& e, UnityEngine.Vector3& forward, UnityEngine.Vector3& up);
         public System.IAsyncResult BeginInvoke(UnityEngine.Vector3& e, UnityEngine.Vector3& forward, UnityEngine.Vector3& up, System.AsyncCallback , object );
@@ -42368,19 +42278,16 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class ConvertEulerToAxis_00003E6C$BurstDirectCall
+    class ConvertEulerToAxis_00002DE5$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(UnityEngine.Vector3& e, UnityEngine.Vector3& forward, UnityEngine.Vector3& up);
     }
 
 // Namespace: PRISM.Legacy
-    public class DeltaAngle_00003E6D$PostfixBurstDelegate : System.MulticastDelegate
+    class DeltaAngle_00002DE6$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(UnityEngine.Vector3& vec, UnityEngine.Vector3& result);
         public System.IAsyncResult BeginInvoke(UnityEngine.Vector3& vec, UnityEngine.Vector3& result, System.AsyncCallback , object );
@@ -42388,19 +42295,16 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class DeltaAngle_00003E6D$BurstDirectCall
+    class DeltaAngle_00002DE6$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(UnityEngine.Vector3& vec, UnityEngine.Vector3& result);
     }
 
 // Namespace: PRISM.Legacy
-    public class RangeDetection_00003E6E$PostfixBurstDelegate : System.MulticastDelegate
+    class RangeDetection_00002DE7$PostfixBurstDelegate : System.MulticastDelegate
     {
         public void Invoke(UnityEngine.Vector3& cameraPosition, float inRange, Unity.Collections.NativeArray<UnityEngine.Bounds>& bounds, Unity.Collections.NativeArray<bool>& result);
         public System.IAsyncResult BeginInvoke(UnityEngine.Vector3& cameraPosition, float inRange, Unity.Collections.NativeArray<UnityEngine.Bounds>& bounds, Unity.Collections.NativeArray<bool>& result, System.AsyncCallback , object );
@@ -42408,35 +42312,12 @@ public class BurstDirectCall
     }
 
 // Namespace: PRISM.Legacy
-    class RangeDetection_00003E6E$BurstDirectCall
+    class RangeDetection_00002DE7$BurstDirectCall
     {
         private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
         private static void GetFunctionPointerDiscard(System.IntPtr& );
         private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
         public static void Invoke(UnityEngine.Vector3& cameraPosition, float inRange, Unity.Collections.NativeArray<UnityEngine.Bounds>& bounds, Unity.Collections.NativeArray<bool>& result);
-    }
-
-// Namespace: PRISM.Legacy
-    public class ReflectionPlane_00003E6F$PostfixBurstDelegate : System.MulticastDelegate
-    {
-        public void Invoke(UnityEngine.Vector3& baseCameraPos, UnityEngine.Matrix4x4& baseCameraWorldToCameraMatrix, UnityEngine.Matrix4x4& baseCameraProjectionMatrix, UnityEngine.Vector3& pos, UnityEngine.Vector3& normal, float clipPlaneOffset, UnityEngine.Vector3& newPosition, UnityEngine.Matrix4x4& worldToCameraMatrix, UnityEngine.Matrix4x4& projectionMatrix);
-        public System.IAsyncResult BeginInvoke(UnityEngine.Vector3& baseCameraPos, UnityEngine.Matrix4x4& baseCameraWorldToCameraMatrix, UnityEngine.Matrix4x4& baseCameraProjectionMatrix, UnityEngine.Vector3& pos, UnityEngine.Vector3& normal, float clipPlaneOffset, UnityEngine.Vector3& newPosition, UnityEngine.Matrix4x4& worldToCameraMatrix, UnityEngine.Matrix4x4& projectionMatrix, System.AsyncCallback , object );
-        public void EndInvoke(System.IAsyncResult );
-    }
-
-// Namespace: PRISM.Legacy
-    class ReflectionPlane_00003E6F$BurstDirectCall
-    {
-        private static System.IntPtr Pointer;
-        private static System.IntPtr DeferredCompilation;
-        private static void GetFunctionPointerDiscard(System.IntPtr& );
-        private static System.IntPtr GetFunctionPointer();
-        public static void Constructor();
-        public static void Initialize();
-        public static void Invoke(UnityEngine.Vector3& baseCameraPos, UnityEngine.Matrix4x4& baseCameraWorldToCameraMatrix, UnityEngine.Matrix4x4& baseCameraProjectionMatrix, UnityEngine.Vector3& pos, UnityEngine.Vector3& normal, float clipPlaneOffset, UnityEngine.Vector3& newPosition, UnityEngine.Matrix4x4& worldToCameraMatrix, UnityEngine.Matrix4x4& projectionMatrix);
     }
 }
 
@@ -42715,18 +42596,6 @@ public class CharacterLighting : UnityEngine.MonoBehaviour
     private void _updateShaderProperties();
     private void OnDrawGizmos();
     private static void _drawArrow(UnityEngine.Vector3 from, UnityEngine.Vector3 to, float arrowHeadLength, float arrowHeadAngle);
-}
-
-// Namespace: PRISM.Legacy
-public class ReflectionBillboardParticleController : UnityEngine.MonoBehaviour
-{
-    private static System.Collections.Generic.List<System.ValueTuple<UnityEngine.Material, int>> SharedMaterialList;
-    private System.Collections.Generic.List<UnityEngine.Material> materialList;
-    private void Reset();
-    private void OnEnable();
-    private void OnDisable();
-    public static void BeginReflectionPlane();
-    public static void EndReflectionPlane();
 }
 
 // Namespace: PRISM.Legacy
@@ -43294,7 +43163,7 @@ public class Model3dLoaderCore
         public System.Threading.CancellationToken cancellationToken;
         private System.IDisposable <_>5__2;
         private bool <isFirstTime>5__3;
-        private AsyncOperationAwaiter <>u__1;
+        private Awaiter <>u__1;
         private PRISM.Scenario.ScenarioId <scenarioID>5__4;
         private Awaiter <>u__2;
         private Awaiter<PRISM.UnitIdol[]> <>u__3;
@@ -45304,11 +45173,9 @@ public class MstAdvInfoExtensions
 
 private class <PrivateImplementationDetails>
 {
-    private static __StaticArrayInitTypeSize=164033 06B05CB23A835EC87D7BC6F00A66AA403E5B75AA5C6BC70BE75E61F871EB02E5;
     private static __StaticArrayInitTypeSize=24 0E5BBE3004972CD87328C53E2FB42E2A7BF2A821367E524BA1939BE0E921F616;
     private static __StaticArrayInitTypeSize=12 12076FB6F81F792AE8D8A7BD8019732631FD31E0989FEAF1AFB11C2888CC2603;
     private static __StaticArrayInitTypeSize=40 272BC3456B7CE85DE2CE18D1964316879E840A1201A4664E967EF42BA3F76B96;
-    private static __StaticArrayInitTypeSize=84154 3110E5389BF34782F5A43AD197BE0C658F614A412E7AE1FB1A3BBCA9A5B7F407;
     private static __StaticArrayInitTypeSize=5 377A23F52C6B357696238C3318F677A082DD3430BB6691042BD550A5CDA28EBB;
     private static __StaticArrayInitTypeSize=12 3909877581FC0513531077845C8A39A67C8B4A09178AA95F7921CC3E5A870CB9;
     private static __StaticArrayInitTypeSize=12 4636993D3E1DA4E9D6B8F87B79E8F7C6D018580D52661950EABC3845C5897A4D;
@@ -45321,10 +45188,12 @@ private class <PrivateImplementationDetails>
     private static __StaticArrayInitTypeSize=48 82CB42CB8477B26B7048CFC967B3BF2AE80A84508EB5D9F53A5575B471E0956A;
     private static long 958641630079318773AD7061D83CC14CCBB1B16054FFEEAEFE5FBF2D24AA828D;
     private static __StaticArrayInitTypeSize=32 9785BCE40FF2606A76EF26AC356E8FCD2FBCB0611B085782CF020C45384D41F2;
+    private static __StaticArrayInitTypeSize=163937 A05126B19FEF57ED5783E6FCD7F8C84B3F673AD85010AFD243FF42EF31BFC992;
     private static __StaticArrayInitTypeSize=12 ADE9755ECF4CE11DAC8C91CF67920F009EAEAC5B8C312241B0AD83295519EB11;
     private static __StaticArrayInitTypeSize=12 B01614700F3AB1E9A9AF2F97CEE80467211364B16CBC74097D2BCD3A7CC5E34D;
     private static __StaticArrayInitTypeSize=12 BAE9AA969922DE466A208A5197D8CD6B3ACD09240F3F06D8FAA67A5A0CB8B07E;
     private static __StaticArrayInitTypeSize=20 BCA6B79553D3170F44A05CC4AA2A8A50F7953EE292CCC2B210FA23AC9059F42A;
+    private static __StaticArrayInitTypeSize=84103 C8D4037AD91E114225D0DE35A00CE32F91F6FBB7F47C26243F0A2A495B62937C;
     private static __StaticArrayInitTypeSize=12 CB876DF0D6142E8AC8C4A402E209E5A735C30960C0C0B6A7422E17D55CDB7FBA;
     private static __StaticArrayInitTypeSize=44 CD4356A1A19B608F3A21A34B195921599C5660F055C4B2CB60A5C1B4466F7308;
     private static __StaticArrayInitTypeSize=16 E8845519DB154B41E620A98F949B9EDCEFB1F9060DC8290A9F7D2C3200ABD0CB;
@@ -45367,19 +45236,13 @@ private class <PrivateImplementationDetails>
     {
     }
 
-    private struct __StaticArrayInitTypeSize=84154 : System.ValueType
+    private struct __StaticArrayInitTypeSize=84103 : System.ValueType
     {
     }
 
-    private struct __StaticArrayInitTypeSize=164033 : System.ValueType
+    private struct __StaticArrayInitTypeSize=163937 : System.ValueType
     {
     }
-}
-
-private class __JobReflectionRegistrationOutput__1892493334
-{
-    public static void CreateJobReflectionData();
-    public static void EarlyInit();
 }
 
 private class $BurstDirectCallInitializer

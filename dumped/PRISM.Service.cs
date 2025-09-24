@@ -2285,6 +2285,46 @@ public class ProduceStaminaUsageSaveData
     public void Apply(bool isAlwaysMax, int usageValue);
 }
 
+// Namespace: PRISM.Service.Photo
+public class PhotoSaveData
+{
+    private System.Collections.Generic.List<PRISM.Service.Photo.PhotoInfo> photoInfos;
+    public System.Collections.Generic.IReadOnlyList<PRISM.Service.Photo.PhotoInfo> PhotoInfos { get; set; }
+    public bool ExistsMissingFile();
+    public void AddPhotoInfo(PRISM.Service.Photo.PhotoInfo photoInfo);
+    public void RemovePhotoInfo(PRISM.Service.Photo.PhotoInfo photoInfo);
+
+    private class <>c
+    {
+        public static <>c <>9;
+        public static System.Func<PRISM.Service.Photo.PhotoInfo, bool> <>9__3_0;
+        private bool <ExistsMissingFile>b__3_0(PRISM.Service.Photo.PhotoInfo info);
+    }
+}
+
+// Namespace: PRISM.Service.Photo
+public class PhotoInfo
+{
+    private string filePath;
+    private float width;
+    private float height;
+    private UnityEngine.TextureFormat format;
+    private int favoriteId;
+    private bool used;
+    private string date;
+    private int mstCharacterInfoId;
+    public string FilePath { get; set; }
+    public float Width { get; set; }
+    public float Height { get; set; }
+    public UnityEngine.TextureFormat TextureFormat { get; set; }
+    public int FavoriteId { get; set; }
+    public bool Used { get; set; }
+    public System.DateTime Date { get; set; }
+    public int MstCharacterInfoId { get; set; }
+    public void SetFavorite(int favoriteId);
+    public void SetUsed(bool used);
+}
+
 // Namespace: PRISM.Service.Notification
 private class BirthdayNotification
 {
@@ -3866,14 +3906,14 @@ public interface IADVLogNodeData
 private class <PrivateImplementationDetails>
 {
     private static __StaticArrayInitTypeSize=16 099AB87D2B7D3B5134F23826F70D8C7378F2857F139C14815ED42ECFB87BD075;
-    private static __StaticArrayInitTypeSize=11066 68A031F08E20B3E337E016BF02D5C739916DC3E4B7819ABC53D0F0A5A22E079A;
     private static __StaticArrayInitTypeSize=16 68DB723EF00BE4CE1E535CCDC9AE683EBA4DE39802688AD415E80DF37B43CB16;
     private static __StaticArrayInitTypeSize=16 6C98AD18A18E0E2C2D77D3204894466EDC0B64E0FF5FCF1A1C4240B0255F82C0;
     private static __StaticArrayInitTypeSize=44 73A34026F3B48F0EF4C4B3506D501180970D31FF4FFC03E02B9F1B95022C4831;
-    private static __StaticArrayInitTypeSize=7038 7D7FD16C312297A4A3FA024753135078C40A5885CC832B108730D42F14ABD139;
     private static __StaticArrayInitTypeSize=44 7DE3C63E518818BDEC6F3540E0A98247CF98D12FF04D4895754EAB71148610E7;
+    private static __StaticArrayInitTypeSize=7110 A0A2D917B611905F8B434421008AEEF2DA22BC9CCC1BB9654CF9A15BFC9BE0AD;
     private static __StaticArrayInitTypeSize=44 A7256E3A46EBC55CC6BC9E036E6C6FFE404C94068462DFF90BFF2EFAEADB959B;
     private static __StaticArrayInitTypeSize=44 F47362215AD061FD681C0EA9D3A9E2C1FFDB94395F10477DFE1B6D84D9D6E226;
+    private static __StaticArrayInitTypeSize=11125 FD1A76ABDE4BD4BE01D7BEBAFDFBD22390141D8CEBCB1D7ABEDD2A2925F00C49;
 
     private struct __StaticArrayInitTypeSize=16 : System.ValueType
     {
@@ -3883,11 +3923,11 @@ private class <PrivateImplementationDetails>
     {
     }
 
-    private struct __StaticArrayInitTypeSize=7038 : System.ValueType
+    private struct __StaticArrayInitTypeSize=7110 : System.ValueType
     {
     }
 
-    private struct __StaticArrayInitTypeSize=11066 : System.ValueType
+    private struct __StaticArrayInitTypeSize=11125 : System.ValueType
     {
     }
 }

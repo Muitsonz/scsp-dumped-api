@@ -5497,6 +5497,40 @@ public class SortedMasterTable`2<TKey, TValue> : PRISM.Definitions.MasterTable<T
 }
 
 // Namespace: PRISM.Definitions
+public class PhotoConst
+{
+    public static string SaveDateFormat;
+}
+
+// Namespace: PRISM.Definitions
+public enum ARModeFooterButtonType : System.Enum
+{
+    public int value__;
+    public static PRISM.Definitions.ARModeFooterButtonType Light;
+    public static PRISM.Definitions.ARModeFooterButtonType Idol;
+    public static PRISM.Definitions.ARModeFooterButtonType Costume;
+    public static PRISM.Definitions.ARModeFooterButtonType Pose;
+}
+
+// Namespace: PRISM.Definitions
+public enum SituationModeFooterButtonType : System.Enum
+{
+    public int value__;
+    public static PRISM.Definitions.SituationModeFooterButtonType Light;
+    public static PRISM.Definitions.SituationModeFooterButtonType Costume;
+    public static PRISM.Definitions.SituationModeFooterButtonType Situation;
+}
+
+// Namespace: PRISM.Definitions
+public enum PhotoAlbumFooterType : System.Enum
+{
+    public int value__;
+    public static PRISM.Definitions.PhotoAlbumFooterType Default;
+    public static PRISM.Definitions.PhotoAlbumFooterType Favorite;
+    public static PRISM.Definitions.PhotoAlbumFooterType Delete;
+}
+
+// Namespace: PRISM.Definitions
 public class PresentBoxConst
 {
     public static int OnceMaxItems;
@@ -6479,11 +6513,11 @@ public class AdvAssetKeyConst
 
 private class <PrivateImplementationDetails>
 {
+    private static __StaticArrayInitTypeSize=10558 20A804A27392C39E0FCFC3510DA0DDB12F1ABE3AA1BA9AB7194839A04F7AD168;
     private static __StaticArrayInitTypeSize=20 3A795EE993DCFCD47AE2FD7282FAE2348DADC51429112235F8375626F9439A0B;
-    private static __StaticArrayInitTypeSize=10525 47480A7354F85EE0FAE87082D2BC2D4F8F545BD10CB7B81D8D106827E75EE9AD;
-    private static __StaticArrayInitTypeSize=17166 7E291D3FE2137CE37AFA633C4999F040C2BE4D7C90CF2D843F8A353734650409;
     private static __StaticArrayInitTypeSize=12 BD62D5246F9FCBE9B2173ED98AA4CB2946971DFFC4B05F7647C09C7B889FF44F;
     private static __StaticArrayInitTypeSize=48 E65577224EAF52384715036A7C44E5D26EDD02CA5E9AB88C8F313AF80E66A646;
+    private static __StaticArrayInitTypeSize=17226 E9E3779F486318034600E845EDD40C90D66218910FF25D7A4AF264D07DA1BBEB;
 
     private struct __StaticArrayInitTypeSize=12 : System.ValueType
     {
@@ -6497,11 +6531,11 @@ private class <PrivateImplementationDetails>
     {
     }
 
-    private struct __StaticArrayInitTypeSize=10525 : System.ValueType
+    private struct __StaticArrayInitTypeSize=10558 : System.ValueType
     {
     }
 
-    private struct __StaticArrayInitTypeSize=17166 : System.ValueType
+    private struct __StaticArrayInitTypeSize=17226 : System.ValueType
     {
     }
 }

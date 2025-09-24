@@ -2134,7 +2134,7 @@ public class LiveMVOverlayView : UnityEngine.MonoBehaviour, PRISM.Adapters.Live.
     private void _togglePauseMenuActive(bool active);
     private void _playIconAnimation(UnityEngine.UI.Image icon);
     private void _saveRenderScaleSettings();
-    private void _applyKeepRenderScaleSettings();
+    public void ApplyKeepRenderScaleSettings();
     private void <CreateHidePauseMenuScope>b__60_0();
     private void <_initializeCommonAsync>b__63_0(UniRx.Unit _);
     private void <_initializeCommonAsync>b__63_1(UniRx.Unit _);

@@ -192,6 +192,15 @@ public class OurStreamLiveViewingBuilder : UnityEngine.MonoBehaviour, PRISM.Adap
 }
 
 // Namespace: PRISM
+public class PhotoViewBuilder : UnityEngine.MonoBehaviour, PRISM.Adapters.IViewBuilder, PRISM.Adapters.IViewBuilder<PRISM.Adapters.NullArgument>
+{
+    private PRISM.Interactions.PhotoView view;
+    private PRISM.Interactions.SituationModeView situationModeView;
+    private PRISM.Interactions.PhotoAlbumView photoAlbumView;
+    public Cysharp.Threading.Tasks.UniTask<PRISM.IViewPresenter> BuildAsync(PRISM.Adapters.NullArgument _, PRISM.ResourceManagement.IResourceLoader resourceLoader);
+}
+
+// Namespace: PRISM
 public class ProduceAutoModeBuilder : UnityEngine.MonoBehaviour, PRISM.Adapters.IViewBuilder<PRISM.Adapters.ProduceAutoModeArgument>
 {
     private PRISM.Interactions.ProduceAutoModeView view;
@@ -779,7 +788,7 @@ public class PRISMMain : UnityEngine.MonoBehaviour, PRISM.Legacy.IPRISMMainAcces
         public PRISM.Direction.PRISMMain <>4__this;
         public Locator locator;
         private bool <SetupAsync>b__0();
-        private void <SetupAsync>b__1(UnityEngine.Canvas canvas);
+        private void <SetupAsync>b__1(UnityEngine.Canvas sceneTransitionCanvas);
         private void <SetupAsync>b__2(bool isPortrait);
     }
 
@@ -1441,14 +1450,14 @@ public class AdvLauncherBuilder : UnityEngine.MonoBehaviour, PRISM.Adapters.IVie
 
 private class <PrivateImplementationDetails>
 {
-    private static __StaticArrayInitTypeSize=5555 05DCB3778D9551B2131034F1F47942910E86CC762667D57DD587C118EDF04FCC;
-    private static __StaticArrayInitTypeSize=9407 BC519C10A956FF7DCDA245FEEE2B14E8082C755A3D16D13F1DD1FE196D31FF7A;
+    private static __StaticArrayInitTypeSize=9471 063BB9911A0AFC006284E84D4B9299872E369CA8D091711B9CEDEA0CB477B1A5;
+    private static __StaticArrayInitTypeSize=5582 6813BAF6A8D23350697593077CBD9A6206D8D22BC46213AE6F25669492DAF6A5;
 
-    private struct __StaticArrayInitTypeSize=5555 : System.ValueType
+    private struct __StaticArrayInitTypeSize=5582 : System.ValueType
     {
     }
 
-    private struct __StaticArrayInitTypeSize=9407 : System.ValueType
+    private struct __StaticArrayInitTypeSize=9471 : System.ValueType
     {
     }
 }

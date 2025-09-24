@@ -2623,7 +2623,7 @@ public class GashaTopView : UnityEngine.MonoBehaviour, PRISM.Adapters.IGashaTopV
         public PRISM.ResourceManagement.IResourceLoader resourceLoader;
         private <>c__DisplayClass93_0 <>8__1;
         public int selectGashaIndex;
-        private AsyncOperationAwaiter <>u__1;
+        private Awaiter <>u__1;
         private Awaiter <>u__2;
         private void MoveNext();
         private void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine stateMachine);
